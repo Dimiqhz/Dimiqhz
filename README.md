@@ -1,5 +1,10 @@
-Hi, I'm a Wixarder! I am a programmer and an enthusiast, I create different software and modifications for anything. Sometimes it's just like a learning project, but sometimes it's worth OpenSource
-
-![Wixarder's GitHub Stats](https://github-readme-stats.vercel.app/api?username=Wixarder&show_icons=true&theme=radical)
-
-![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=anuraghazra&hide_progress=true&show_icons=true&theme=radical)
+<div align="center">
+<img herf="https://discord.com/users/1010238856437702656" src="https://lanyard-profile-readme.vercel.app/api/466260717629079563" alt="discord-profile">  
+<br>
+<br>
+Email: <a href="mailto:wixarder@outlook.com">wixarder@outlook.com</a><br> 
+Discord: <a href="https://discordapp.com/users/1010238856437702656)">Wixarder#0001</a><br>
+<br>
+<br>  
+<img src="https://raw.githubusercontent.com/Wixarder/main/github-metrics.svg" alt="github metrics">
+</div>
