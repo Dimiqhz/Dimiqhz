@@ -1,5 +1,5 @@
 <div align="center">
-[![Discord Presence](https://lanyard.cnrad.dev/api/1010238856437702656)](https://discord.com/users/1010238856437702656)
+<img herf="https://discord.com/users/1010238856437702656" src="https://lanyard.cnrad.dev/api/1010238856437702656" alt="discord-profile"> 
 <br>
 <br>
 Email: <a href="mailto:wixarder@outlook.com">wixarder@outlook.com</a><br> 
