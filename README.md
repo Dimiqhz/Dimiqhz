@@ -1,5 +1,5 @@
 <div align="center">
-<img herf="https://discord.com/users/1010238856437702656" src="https://lanyard-profile-readme.vercel.app/api/466260717629079563" alt="discord-profile">  
+<img herf="https://discord.com/users/1010238856437702656" src="https://lanyard-profile-readme.vercel.app/api/1010238856437702656" alt="discord-profile">  
 <br>
 <br>
 Email: <a href="mailto:wixarder@outlook.com">wixarder@outlook.com</a><br> 
