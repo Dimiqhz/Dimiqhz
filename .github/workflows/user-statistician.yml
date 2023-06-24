@@ -15,7 +15,7 @@ jobs:
           # Your GitHub token
           token: ${{ secrets.METRICS_TOKEN }}
           # Options
-          user: Wixarder
+          user: Dimiqhz
           template: classic
           base: header, activity, repositories, community
           config_timezone: Europe/Moscow
@@ -54,7 +54,7 @@ jobs:
           plugin_wakatime_sections: time, projects, projects-graphs, languages, languages-graphs, editors, editors-graph, os, os-graph
           plugin_wakatime_limit: 5
           plugin_wakatime_url: https://wakatime.com
-          plugin_wakatime_user: Wixarder
+          plugin_wakatime_user: Dimiqhz
           # plugin_stock: yes
           # plugin_stock_token: ${{ secrets.STOCK_TOKEN }} # RapidAPI Yahoo Finance token
           # plugin_stock_symbol: YNDX.ME # Display RUB to USD stock price
