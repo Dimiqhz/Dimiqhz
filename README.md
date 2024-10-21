@@ -1,9 +1,11 @@
+<link href="https://www.dropbox.com/scl/fi/b2qux6v68twr90p73a9a2/style.css" rel="stylesheet">
+
 <img src="dist/banner2.png" style="border-radius: 5px;"><br>
 <div style="">
 <h2 style=" font-size: 24px!important; font-weight: bold!important;">Hello, I'm Dimiqhz! 👋 <img align="right" style="float: right!important; flex: 1; max-width: 45%; text-align: right; margin-left: 20px;" src="https://komarev.com/ghpvc/?username=dimiqhz&style=flat-square&color=blueviolet" alt=""/></h2> </div>
 
 
-<img src="https://raw.githubusercontent.com/Dimiqhz/Dimiqhz/github-snake-dark.svg">
+<img src="https://github.com/Dimiqhz/Dimiqhz/blob/output/github-snake-dark.svg">
 
 <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-top: 20px;">
     <!-- Left Column: Metrics -->
@@ -22,7 +24,7 @@
         
   <h3>🧑‍💻 About Me</h3>
         <p>
-            I am a software developer with more than <span style="color: #667fff;">10 years</span> of experience under my belt in the areas of <span style="color: #ffb066;">Web Development</span>, <span style="color: #66ff87;">GameDev</span> and <span style="color: #c466ff;">Artificial Intelligence</span>. I love learning new technologies and developing existing ones, as well as creating different interesting things. I also love travelling, physical activity and watching films.
+            I am a software developer with more than <span style="color: #667fff;">10 years</span> of experience under my belt in the areas of <span style="color: #ffb066;">Web Development</span>, <span class="c-1" style="color: #66ff87;">GameDev</span> and <span class="c-2" color="#c466ff" class="c-3" style="color: #c466ff;">Artificial Intelligence</span>. I love learning new technologies and developing existing ones, as well as creating different interesting things. I also love travelling, physical activity and watching films.
         </p>
   <h3>✨ Fun Facts</h3>
         <ul style="list-style: none;">

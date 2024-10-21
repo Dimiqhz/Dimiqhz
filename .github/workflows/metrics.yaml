@@ -41,13 +41,13 @@ jobs:
       - name: Generate GitHub Metrics
         uses: lowlighter/metrics@v3.34  # Updated to the correct version
         with:
-          token: ${{ secrets.METRIC_TOKEN }}
+          token: ${{ secrets.METRICS_SECRET }}
           user: Dimiqhz
           template: classic
           base: header, activity, community, repositories, metadata
           base_indepth: true
           config_octicon: true
-          config_timezone: America/Chicago
+          config_timezone: Europe/Moscow
           config_twemoji: true
           plugin_languages: true
           plugin_languages_analysis_timeout: 15
@@ -68,7 +68,7 @@ jobs:
           plugin_leetcode_sections: solved
           plugin_leetcode_user: officialcodevoyage
         env:
-          GITHUB_TOKEN: ${{ secrets.METRIC_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.METRICS_SECRET }}
 
       - name: Commit and Push Metrics
         uses: stefanzweifel/git-auto-commit-action@v4
@@ -77,4 +77,4 @@ jobs:
           branch: metrics  # Specify the branch where metrics are stored
           file_pattern: './metrics/**'  # Adjust the path based on where metrics are generated
         env:
-          GITHUB_TOKEN: ${{ secrets.METRIC_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.METRICS_SECRET }}
