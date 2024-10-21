@@ -1,3 +1,5 @@
+<link href="https://www.dropbox.com/scl/fi/b2qux6v68twr90p73a9a2/style.css" rel="stylesheet">
+
 <img src="dist/banner2.png" style="border-radius: 5px;"><br>
 <div style="">
 <h2 style=" font-size: 24px!important; font-weight: bold!important;">Hello, I'm Dimiqhz! 👋 <img align="right" style="float: right!important; flex: 1; max-width: 45%; text-align: right; margin-left: 20px;" src="https://komarev.com/ghpvc/?username=dimiqhz&style=flat-square&color=blueviolet" alt=""/></h2> </div>
