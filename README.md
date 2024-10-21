@@ -28,6 +28,7 @@
         <ul style="list-style: none;">
             <li> I like to attend events and speak at them whenever possible.</li>
             <li> I started programming at the age of 6, and the first language I started learning was Java.</li>
+            <li> I like to travel the world in good company.</li>
             <li> I am interested in any field of activity, I like to develop myself and learn new things.</li>
         </ul>
     </div>
