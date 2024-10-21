@@ -1,4 +1,4 @@
-<link href="https://www.dropbox.com/scl/fi/b2qux6v68twr90p73a9a2/style.css" rel="stylesheet">
+<link href="dist/style.css" rel="stylesheet">
 
 <img src="dist/banner2.png" style="border-radius: 5px;"><br>
 <div style="">
