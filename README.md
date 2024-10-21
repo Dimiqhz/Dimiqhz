@@ -69,8 +69,8 @@
 [![My Skills](https://skillicons.dev/icons?i=windows,apple,linux,ubuntu,debian&perline=5)](https://skillicons.dev)
 
 </details>
-
-<div align="right">
+<hr>
+<div>
 <h3>📊 Stats</h3>
 
 <details style="">
@@ -87,7 +87,7 @@
 
 </details>
 </div>
-
+<hr>
 <h3>🔍 I'm currently learning</h3>
 <details>
     <summary>Click</summary>
