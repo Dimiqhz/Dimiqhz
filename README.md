@@ -1,6 +1,14 @@
 <img src="dist/banner2.png" style="border-radius: 5px;"><br>
 # Hello, I'm Dimiqhz! 👋 <div style="display: inline; float: right;"><img src="https://komarev.com/ghpvc/?username=dimiqhz&style=flat-square&color=blueviolet" alt=""/></div>
-<style>@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap'); ul{ list-style: none; } ul li::before{ content: '✦'; color: #ffbc57;}</style>
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap'); 
+
+ul{ list-style: none; } 
+
+ul li::before{ content: '✦'; color: #ffbc57;}
+
+</style>
 
 <img src="https://raw.githubusercontent.com/Dimiqhz/Dimiqhz/github-snake-dark.svg">
 
