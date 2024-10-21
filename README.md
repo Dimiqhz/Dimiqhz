@@ -3,7 +3,7 @@
 <h2 style=" font-size: 24px!important; font-weight: bold!important;">Hello, I'm Dimiqhz! 👋 <img align="right" style="float: right!important; flex: 1; max-width: 45%; text-align: right; margin-left: 20px;" src="https://komarev.com/ghpvc/?username=dimiqhz&style=flat-square&color=blueviolet" alt=""/></h2> </div>
 
 
-<img src="https://raw.githubusercontent.com/Dimiqhz/Dimiqhz/github-snake-dark.svg">
+<img src="https://github.com/Dimiqhz/Dimiqhz/blob/output/github-snake-dark.svg">
 
 <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-top: 20px;">
     <!-- Left Column: Metrics -->
