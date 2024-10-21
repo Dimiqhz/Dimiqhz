@@ -22,7 +22,7 @@ jobs:
           token: ${{ secrets.METRICS_SECRET }}
           user: Dimiqhz
           template: classic
-          base: header, activity, community, repositories, metadata
+          base: ""
           base_indepth: true
           config_timezone: Europe/Moscow
           config_twemoji: true
@@ -48,6 +48,6 @@ jobs:
         with:
           commit_message: "📈 Update GitHub metrics [skip ci]"
           branch: metrics  # Specify the branch where metrics are stored
-          file_pattern: './metrics/**'  # Adjust this based on where metrics are generated
+          file_pattern: './output/**'  # Adjust this based on where metrics are generated
         env:
           GITHUB_TOKEN: ${{ secrets.METRICS_SECRET }}
