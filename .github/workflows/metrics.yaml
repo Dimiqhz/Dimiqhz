@@ -22,12 +22,12 @@ jobs:
           token: ${{ secrets.METRICS_SECRET }}
           user: Dimiqhz
           template: classic
-          base: ""
+          base: "header, activity, community, repositories, metadata"
           base_indepth: true
           config_timezone: Europe/Moscow
           config_twemoji: true
           plugin_calendar: yes
-          plugin_calendar_limit: 0
+          plugin_calendar_limit: 1
           plugin_languages: true
           plugin_languages_indepth: true
           plugin_languages_categories: markup, programming
