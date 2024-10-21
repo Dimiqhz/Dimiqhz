@@ -1,4 +1,4 @@
-<link href="main.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="main.css">
 
 <img src="dist/banner2.png" style="border-radius: 5px;"><br>
 <div style="">
