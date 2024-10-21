@@ -22,7 +22,7 @@
         
   <h3>🧑‍💻 About Me</h3>
         <p>
-            I am a software developer with more than <font color="#667fff">10 years</font> of experience under my belt in the areas of <font color="#ffb066">**Web Development**</font>, <font color="#66ff87">**GameDev**</font> and <font color="#c466ff">**Artificial Intelligence**</font>. I love learning new technologies and developing existing ones, as well as creating different interesting things. I also love travelling, physical activity and watching films.
+            I am a software developer with more than <font color="#667fff">10 years</font> of experience under my belt in the areas of <font color="#ffb066"><strong>Web Development</strong></font>, <font color="#66ff87"><strong>GameDev</strong></font> and <font color="#c466ff"><strong>Artificial Intelligence</strong></font>. I love learning new technologies and developing existing ones, as well as creating different interesting things. I also love travelling, physical activity and watching films.
         </p>
   <h3>✨ Fun Facts</h3>
         <ul style="list-style: none;">
@@ -87,7 +87,7 @@
 
 </details>
 </div>
---- 
+
 <h3>🔍 I'm currently learning</h3>
 <details>
     <summary>Click</summary>
@@ -100,6 +100,8 @@
 <br>
 <center>
 <div align="center">
+    
 [![Readme Quotes](https://quotes-github-readme.vercel.app/api?quote=In%20a%20world%20full%20of%20obstacles%20and%20difficult%20paths%2C%20only%20the%20desire%20to%20change%20the%20future%2C%20like%20a%20fire%20burning%20in%20our%20hearts%2C%20lights%20the%20way%20to%20a%20better%20life.&type=horizontal&theme=dark")](https://github.com/piyushsuthar/github-readme-quotes)
+
 </div>
 </center>
