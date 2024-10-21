@@ -20,6 +20,10 @@ ul li::before{
   color: #c466ff;
 }
 
+.c-4{
+    color: #667fff;
+}
+
 #c-1{
     color: #ffb066;
   }
@@ -31,3 +35,7 @@ ul li::before{
 #c-3{
     color: #c466ff;
   }
+
+#c-4{
+    color: #667fff;
+}
