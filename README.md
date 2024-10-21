@@ -1,6 +1,6 @@
 <img src="dist/banner2.png" style="border-radius: 5px;"><br>
 <div style="display: inline;">
-<h1 style="display: inline-block;">Hello, I'm Dimiqhz!</h1> <img style="float: right;" src="https://komarev.com/ghpvc/?username=dimiqhz&style=flat-square&color=blueviolet" alt=""/></div>
+<span style="display: inline-block; font-size: 24px; font-weight: 600;">Hello, I'm Dimiqhz!</span> <img style="float: right;" src="https://komarev.com/ghpvc/?username=dimiqhz&style=flat-square&color=blueviolet" alt=""/></div>
 
 
 <img src="https://raw.githubusercontent.com/Dimiqhz/Dimiqhz/github-snake-dark.svg">
