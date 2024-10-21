@@ -1,18 +1,17 @@
 <img src="dist/banner2.png" style="border-radius: 5px;"><br>
-# Hello, I'm Dimiqhz! 👋 <div style="display: inline; float: right;"><img src="https://komarev.com/ghpvc/?username=dimiqhz&style=flat-square&color=blueviolet" alt=""/></div>
-<style>
+<div style="display: inline;">
+<div>
 
-@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap'); 
+# Hello, I'm Dimiqhz! 👋 
 
-ul{ list-style: none; } 
+</div>
+<div style=" float: right;"><img src="https://komarev.com/ghpvc/?username=dimiqhz&style=flat-square&color=blueviolet" alt=""/>
+</div>
+</div>
 
-ul li::before{ content: '✦'; color: #ffbc57;}
 
-</style>
 
 <img src="https://raw.githubusercontent.com/Dimiqhz/Dimiqhz/github-snake-dark.svg">
-
-
 
 <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-top: 20px;">
     <!-- Left Column: Metrics -->
@@ -34,7 +33,7 @@ ul li::before{ content: '✦'; color: #ffbc57;}
             I am a software developer with more than <span style="color: #667fff;">10 years</span> of experience under my belt in the areas of <span style="color: #ffb066;">Web Development</span>, <span style="color: #66ff87;">GameDev</span> and <span style="color: #c466ff;">Artificial Intelligence</span>. I love learning new technologies and developing existing ones, as well as creating different interesting things. I also love travelling, physical activity and watching films.
         </p>
   <h3>✨ Fun Facts</h3>
-        <ul>
+        <ul style="list-style: none;">
             <li> I like to attend events and speak at them whenever possible.</li>
             <li> I started programming at the age of 8, and the first language I started learning was Java.</li>
             <li> I am interested in any field of activity, I like to develop myself and learn new things.</li>
@@ -104,7 +103,7 @@ ul li::before{ content: '✦'; color: #ffbc57;}
 
 </details>
 
-<div style="text-alight: center;">
+<div style="">
 <br>
 
 [![Readme Quotes](https://quotes-github-readme.vercel.app/api?quote=In%20a%20world%20full%20of%20obstacles%20and%20difficult%20paths%2C%20only%20the%20desire%20to%20change%20the%20future%2C%20like%20a%20fire%20burning%20in%20our%20hearts%2C%20lights%20the%20way%20to%20a%20better%20life.&type=horizontal&theme=dark")](https://github.com/piyushsuthar/github-readme-quotes)
