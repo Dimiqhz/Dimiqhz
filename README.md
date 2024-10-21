@@ -1,5 +1,3 @@
-<link rel="stylesheet" type="text/css" href="main.css">
-
 <img src="dist/banner2.png" style="border-radius: 5px;"><br>
 <div style="">
 <h2 style=" font-size: 24px!important; font-weight: bold!important;">Hello, I'm Dimiqhz! 👋 <img align="right" style="float: right!important; flex: 1; max-width: 45%; text-align: right; margin-left: 20px;" src="https://komarev.com/ghpvc/?username=dimiqhz&style=flat-square&color=blueviolet" alt=""/></h2> </div>
@@ -18,13 +16,13 @@
         <h3>🌐 Let's Connect and Grow Together!</h3>
         <p>
             <a href="" target="_blank" style="text-decoration: none;">
-                <img src="https://img.shields.io/badge/DIMIQHZ-7289DA?style=for-the-badge&logo=discord&logoColor=white" alt="LinkedIn">
+                <img src="https://img.shields.io/badge/DIMIQHZ-7289DA?style=for-the-badge&logo=discord&logoColor=white" alt="Discord">
             </a>
         </p>
         
   <h3>🧑‍💻 About Me</h3>
         <p>
-            I am a software developer with more than <span class="c-4" id="c-4" style="color: #667fff;">10 years</span> of experience under my belt in the areas of <span class="c-1" id="c-1" style="color: #ffb066;">Web Development</span>, <span class="c-2" id="c-2" style="color: #66ff87;">GameDev</span> and <span class="c-3" id="c-3" color="#c466ff" style="color: #c466ff;">Artificial Intelligence</span>. I love learning new technologies and developing existing ones, as well as creating different interesting things. I also love travelling, physical activity and watching films.
+            I am a software developer with more than <font color="#667fff">10 years</font> of experience under my belt in the areas of <font color="#ffb066">Web Development</font>, <font color="#66ff87">GameDev</font> and <font color="#c466ff">Artificial Intelligence</font>. I love learning new technologies and developing existing ones, as well as creating different interesting things. I also love travelling, physical activity and watching films.
         </p>
   <h3>✨ Fun Facts</h3>
         <ul style="list-style: none;">
