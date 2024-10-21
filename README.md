@@ -1,6 +1,6 @@
 <img src="dist/banner2.png" style="border-radius: 5px;"><br>
 <div style="">
-<h3 style=" font-size: 24px!important; font-weight: bold!important;">Hello, I'm Dimiqhz! 👋 <img style="float: right!important; flex: 1; max-width: 45%; text-align: left; margin-left: 20px;" src="https://komarev.com/ghpvc/?username=dimiqhz&style=flat-square&color=blueviolet" alt=""/></h3> </div>
+<h2 style=" font-size: 24px!important; font-weight: bold!important;">Hello, I'm Dimiqhz! 👋 <img style="float: right!important; flex: 1; max-width: 45%; text-align: right; margin-left: 20px;" src="https://komarev.com/ghpvc/?username=dimiqhz&style=flat-square&color=blueviolet" alt=""/></h2> </div>
 
 
 <img src="https://raw.githubusercontent.com/Dimiqhz/Dimiqhz/github-snake-dark.svg">
