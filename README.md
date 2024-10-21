@@ -95,9 +95,10 @@
 
 </details>
 
-<div style="">
+
 <br>
+<center>
 
 [![Readme Quotes](https://quotes-github-readme.vercel.app/api?quote=In%20a%20world%20full%20of%20obstacles%20and%20difficult%20paths%2C%20only%20the%20desire%20to%20change%20the%20future%2C%20like%20a%20fire%20burning%20in%20our%20hearts%2C%20lights%20the%20way%20to%20a%20better%20life.&type=horizontal&theme=dark")](https://github.com/piyushsuthar/github-readme-quotes)
 
-</div>
+</center>
