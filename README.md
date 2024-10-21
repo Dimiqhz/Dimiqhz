@@ -24,7 +24,7 @@
         
   <h3>🧑‍💻 About Me</h3>
         <p>
-            I am a software developer with more than <span style="color: #667fff;">10 years</span> of experience under my belt in the areas of <span class="c-1" style="color: #ffb066;">Web Development</span>, <span class="c-2" style="color: #66ff87;">GameDev</span> and <span class="c-3" color="#c466ff" style="color: #c466ff;">Artificial Intelligence</span>. I love learning new technologies and developing existing ones, as well as creating different interesting things. I also love travelling, physical activity and watching films.
+            I am a software developer with more than <span class="c-4" id="c-4" style="color: #667fff;">10 years</span> of experience under my belt in the areas of <span class="c-1" id="c-1" style="color: #ffb066;">Web Development</span>, <span class="c-2" id="c-2" style="color: #66ff87;">GameDev</span> and <span class="c-3" id="c-3" color="#c466ff" style="color: #c466ff;">Artificial Intelligence</span>. I love learning new technologies and developing existing ones, as well as creating different interesting things. I also love travelling, physical activity and watching films.
         </p>
   <h3>✨ Fun Facts</h3>
         <ul style="list-style: none;">
