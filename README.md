@@ -2,14 +2,9 @@
 <div style="display: inline;">
 <div>
 
-# Hello, I'm Dimiqhz! 👋 
-
-</div>
-<div style=" float: right;"><img src="https://komarev.com/ghpvc/?username=dimiqhz&style=flat-square&color=blueviolet" alt=""/>
+<h1> Hello, I'm Dimiqhz! 👋</h1> </div><div style=" float: right;"><img src="https://komarev.com/ghpvc/?username=dimiqhz&style=flat-square&color=blueviolet" alt=""/>
 </div>
 </div>
-
-
 
 <img src="https://raw.githubusercontent.com/Dimiqhz/Dimiqhz/github-snake-dark.svg">
 
