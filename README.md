@@ -33,6 +33,8 @@
     </div>
 </div>
 
+</div>
+<br> <br> <br> <br> <br> <br>
 <h3>🛠 Languages and tools</h3>
 <details>
     <summary>Languages</summary>
@@ -69,7 +71,7 @@
 
 </details>
 
-<div style="text-align: right;">
+<div align="right">
 <h3>📊 Stats</h3>
 
 <details style="">
