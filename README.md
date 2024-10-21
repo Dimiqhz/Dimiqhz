@@ -1,4 +1,4 @@
-<link href="https://raw.githubusercontent.com/Dimiqhz/Dimiqhz/refs/heads/main/main.css" rel="stylesheet" type="text/css">
+<link href="main.css" rel="stylesheet" type="text/css">
 
 <img src="dist/banner2.png" style="border-radius: 5px;"><br>
 <div style="">
