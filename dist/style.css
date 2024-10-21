@@ -1,0 +1,21 @@
+
+ul {
+  list-style: none;
+}
+
+ul li::before{
+  content: '✦';
+  color: #ffcd4f;
+}
+
+.c-1{
+  color: #ffb066;
+}
+
+.c-2{
+  color: #66ff87;
+}
+
+.c-3{
+  color: #c466ff;
+}
