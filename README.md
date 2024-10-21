@@ -1,26 +1,104 @@
-<div align="center">
+<img src="dist/banner2.png" style="border-radius: 5px;"><br>
+# Hello, I'm Dimiqhz! 👋 <div style="display: inline; float: right;"><img src="https://komarev.com/ghpvc/?username=dimiqhz&style=flat-square&color=blueviolet" alt=""/></div>
+<style>@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap'); ul{ list-style: none; } ul li::before{ content: '✦'; color: #ffbc57;}</style>
 
-# 💫 About Me:
-✌ I am improving this world
+<img src="https://raw.githubusercontent.com/Dimiqhz/Dimiqhz/github-snake-dark.svg">
 
 
-## 🌐 Socials:
-[![Discord](https://img.shields.io/badge/Discord-%237289DA.svg?logo=discord&logoColor=white)](https://discord.gg/dimiqhz) [![Instagram](https://img.shields.io/badge/Instagram-%23E4405F.svg?logo=Instagram&logoColor=white)](https://instagram.com/dimiqhz) 
 
-# 💻 Tech Stack:
-![C++](https://img.shields.io/badge/c++-%2300599C.svg?style=for-the-badge&logo=c%2B%2B&logoColor=white) ![C#](https://img.shields.io/badge/c%23-%23239120.svg?style=for-the-badge&logo=csharp&logoColor=white) ![Kotlin](https://img.shields.io/badge/kotlin-%237F52FF.svg?style=for-the-badge&logo=kotlin&logoColor=white) ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white) ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E) ![YAML](https://img.shields.io/badge/yaml-%23ffffff.svg?style=for-the-badge&logo=yaml&logoColor=151515) ![PHP](https://img.shields.io/badge/php-%23777BB4.svg?style=for-the-badge&logo=php&logoColor=white) ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white) ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white) ![Cloudflare](https://img.shields.io/badge/Cloudflare-F38020?style=for-the-badge&logo=Cloudflare&logoColor=white) ![Oracle](https://img.shields.io/badge/Oracle-F80000?style=for-the-badge&logo=oracle&logoColor=white) ![DigitalOcean](https://img.shields.io/badge/DigitalOcean-%230167ff.svg?style=for-the-badge&logo=digitalOcean&logoColor=white) ![Google Cloud](https://img.shields.io/badge/GoogleCloud-%234285F4.svg?style=for-the-badge&logo=google-cloud&logoColor=white) ![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white) ![.Net](https://img.shields.io/badge/.NET-5C2D91?style=for-the-badge&logo=.net&logoColor=white) ![SASS](https://img.shields.io/badge/SASS-hotpink.svg?style=for-the-badge&logo=SASS&logoColor=white) ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB) ![NPM](https://img.shields.io/badge/NPM-%23CB3837.svg?style=for-the-badge&logo=npm&logoColor=white) ![jQuery](https://img.shields.io/badge/jquery-%230769AD.svg?style=for-the-badge&logo=jquery&logoColor=white) ![Django](https://img.shields.io/badge/django-%23092E20.svg?style=for-the-badge&logo=django&logoColor=white) ![AIOHTTP](https://img.shields.io/badge/iohttp-%232C5bb4.svg?style=for-the-badge&logo=aiohttp&logoColor=white) ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white) ![Vue.js](https://img.shields.io/badge/vue.js-%2335495e.svg?style=for-the-badge&logo=vuedotjs&logoColor=%234FC08D) ![Angular](https://img.shields.io/badge/angular-%23DD0031.svg?style=for-the-badge&logo=angular&logoColor=white) ![Angular.js](https://img.shields.io/badge/angular.js-%23E23237.svg?style=for-the-badge&logo=angularjs&logoColor=white) ![Bootstrap](https://img.shields.io/badge/bootstrap-%238511FA.svg?style=for-the-badge&logo=bootstrap&logoColor=white) ![Apache](https://img.shields.io/badge/apache-%23D42029.svg?style=for-the-badge&logo=apache&logoColor=white) ![Nginx](https://img.shields.io/badge/nginx-%23009639.svg?style=for-the-badge&logo=nginx&logoColor=white) ![Jenkins](https://img.shields.io/badge/jenkins-%232C5263.svg?style=for-the-badge&logo=jenkins&logoColor=white) ![SQLite](https://img.shields.io/badge/sqlite-%2307405e.svg?style=for-the-badge&logo=sqlite&logoColor=white) ![Redis](https://img.shields.io/badge/redis-%23DD0031.svg?style=for-the-badge&logo=redis&logoColor=white) ![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white) ![MySQL](https://img.shields.io/badge/mysql-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white) ![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white) ![MicrosoftSQLServer](https://img.shields.io/badge/Microsoft%20SQL%20Server-CC2927?style=for-the-badge&logo=microsoft%20sql%20server&logoColor=white) ![Adobe](https://img.shields.io/badge/adobe-%23FF0000.svg?style=for-the-badge&logo=adobe&logoColor=white) ![Adobe Acrobat Reader](https://img.shields.io/badge/Adobe%20Acrobat%20Reader-EC1C24.svg?style=for-the-badge&logo=Adobe%20Acrobat%20Reader&logoColor=white) ![Adobe After Effects](https://img.shields.io/badge/Adobe%20After%20Effects-9999FF.svg?style=for-the-badge&logo=Adobe%20After%20Effects&logoColor=white) ![Adobe Creative Cloud](https://img.shields.io/badge/Adobe%20Creative%20Cloud-DA1F26.svg?style=for-the-badge&logo=Adobe%20Creative%20Cloud&logoColor=white) ![Adobe Premiere Pro](https://img.shields.io/badge/Adobe%20Premiere%20Pro-9999FF.svg?style=for-the-badge&logo=Adobe%20Premiere%20Pro&logoColor=white) ![Adobe Photoshop](https://img.shields.io/badge/adobe%20photoshop-%2331A8FF.svg?style=for-the-badge&logo=adobe%20photoshop&logoColor=white) ![Adobe Lightroom Classic](https://img.shields.io/badge/Adobe%20Lightroom%20Classic-31A8FF.svg?style=for-the-badge&logo=Adobe%20Lightroom%20Classic&logoColor=white) ![Adobe Lightroom](https://img.shields.io/badge/Adobe%20Lightroom-31A8FF.svg?style=for-the-badge&logo=Adobe%20Lightroom&logoColor=white) ![Adobe Illustrator](https://img.shields.io/badge/adobe%20illustrator-%23FF9A00.svg?style=for-the-badge&logo=adobe%20illustrator&logoColor=white) ![Blender](https://img.shields.io/badge/blender-%23F5792A.svg?style=for-the-badge&logo=blender&logoColor=white) ![Figma](https://img.shields.io/badge/figma-%23F24E1E.svg?style=for-the-badge&logo=figma&logoColor=white) ![Adobe Fonts](https://img.shields.io/badge/Adobe%20Fonts-000B1D.svg?style=for-the-badge&logo=Adobe%20Fonts&logoColor=white) ![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white) ![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white) ![GitLab](https://img.shields.io/badge/gitlab-%23181717.svg?style=for-the-badge&logo=gitlab&logoColor=white) ![Notion](https://img.shields.io/badge/Notion-%23000000.svg?style=for-the-badge&logo=notion&logoColor=white) ![Cisco](https://img.shields.io/badge/cisco-%23049fd9.svg?style=for-the-badge&logo=cisco&logoColor=black) ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white) ![Kubernetes](https://img.shields.io/badge/kubernetes-%23326ce5.svg?style=for-the-badge&logo=kubernetes&logoColor=white) ![Portfolio](https://img.shields.io/badge/Portfolio-%23000000.svg?style=for-the-badge&logo=firefox&logoColor=#FF7139) ![WordPress](https://img.shields.io/badge/WordPress-%23117AC9.svg?style=for-the-badge&logo=WordPress&logoColor=white) ![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi) ![Flask](https://img.shields.io/badge/flask-%23000.svg?style=for-the-badge&logo=flask&logoColor=white) ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) ![Windows Terminal](https://img.shields.io/badge/Windows%20Terminal-%234D4D4D.svg?style=for-the-badge&logo=windows-terminal&logoColor=white) ![Shell Script](https://img.shields.io/badge/shell_script-%23121011.svg?style=for-the-badge&logo=gnu-bash&logoColor=white) ![PowerShell](https://img.shields.io/badge/PowerShell-%235391FE.svg?style=for-the-badge&logo=powershell&logoColor=white) ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white) ![Apache Groovy](https://img.shields.io/badge/Apache%20Groovy-4298B8.svg?style=for-the-badge&logo=Apache+Groovy&logoColor=white)
-# 📊 GitHub Stats:
+<div style="display: flex; justify-content: space-between; align-items: flex-start; margin-top: 20px;">
+    <!-- Left Column: Metrics -->
+    <div style="flex: 1; max-width: 45%;">
+        <img align="left" width="50%" alt="if you see this, it means my metrics are not working" src="https://github.com/Dimiqhz/Dimiqhz/blob/main/github-metrics.svg">
+    </div>
 
+
+  <div style="flex: 1; max-width: 45%; text-align: left; margin-left: 20px;">
+        <h3>🌐 Let's Connect and Grow Together!</h3>
+        <p>
+            <a href="" target="_blank" style="text-decoration: none;">
+                <img src="https://img.shields.io/badge/DIMIQHZ-7289DA?style=for-the-badge&logo=discord&logoColor=white" alt="LinkedIn">
+            </a>
+        </p>
+        
+  <h3>🧑‍💻 About Me</h3>
+        <p>
+            I am a software developer with more than <span style="color: #667fff;">10 years</span> of experience under my belt in the areas of <span style="color: #ffb066;">Web Development</span>, <span style="color: #66ff87;">GameDev</span> and <span style="color: #c466ff;">Artificial Intelligence</span>. I love learning new technologies and developing existing ones, as well as creating different interesting things. I also love travelling, physical activity and watching films.
+        </p>
+  <h3>✨ Fun Facts</h3>
+        <ul>
+            <li> I like to attend events and speak at them whenever possible.</li>
+            <li> I started programming at the age of 8, and the first language I started learning was Java.</li>
+            <li> I am interested in any field of activity, I like to develop myself and learn new things.</li>
+        </ul>
+    </div>
+</div>
+
+<h3>🛠 Languages and tools</h3>
+<details>
+    <summary>Languages</summary>
+
+[![My Skills](https://skillicons.dev/icons?i=js,typescript,php,cpp,cs,java,kotlin,python,bash,haskell&perline=5)](https://skillicons.dev)
+
+</details>
+<details>
+    <summary>Libraries</summary>
+
+[![My Skills](https://skillicons.dev/icons?i=bootstrap,jquery,tensorflow,react,nodejs,sass,laravel,flask,discordjs,discordpy&perline=5)](https://skillicons.dev)
+
+</details>
+<details>
+    <summary>Frameworks</summary>
+
+[![My Skills](https://skillicons.dev/icons?i=angular,vue,express,next,dotnet,django,fastapi,spring&perline=4)](https://skillicons.dev)
+
+</details>
+<details>
+    <summary>Tools and Systems</summary>
+
+[![My Skills](https://skillicons.dev/icons?i=vscode,visualstudio,idea,phpstorm,git,github,gitlab,mysql,postgresql,mongodb,aws,gcp,nginx,postman,redis,ps,ae,ai,pr,blender,figma,notion,gmail,cloudflare,docker,kubernetes,gradle,maven,npm,androidstudio&perline=8)](https://skillicons.dev)
+</details>
+<details>
+    <summary>Engines</summary>
+
+[![My Skills](https://skillicons.dev/icons?i=unity,unreal,wordpress,&perline=8)](https://skillicons.dev)
+</details>
+<details>
+    <summary>Operating systems</summary>
+
+[![My Skills](https://skillicons.dev/icons?i=windows,apple,linux,ubuntu,debian&perline=5)](https://skillicons.dev)
+
+</details>
+
+<div style="text-align: right;">
+<h3>📊 Stats</h3>
+
+<details style="">
+    <summary>Stats</summary>
 
 ![](https://github-readme-stats.vercel.app/api?username=dimiqhz&theme=dark&hide_border=false&include_all_commits=true&count_private=false)<br/>
-![](https://github-readme-streak-stats.herokuapp.com/?user=dimiqhz&theme=dark&hide_border=false)<br/>
 ![](https://github-readme-stats.vercel.app/api/top-langs/?username=dimiqhz&theme=dark&hide_border=false&include_all_commits=true&count_private=false&layout=compact)
 
+</details>
+<details style="">
+    <summary>GitHub Trophies</summary>
 
-
-## 🏆 GitHub Trophies
 ![](https://github-profile-trophy.vercel.app/?username=dimiqhz&theme=radical&no-frame=false&no-bg=true&margin-w=4)
 
----
-[![](https://visitcount.itsvg.in/api?id=dimiqhz&icon=6&color=8)](https://visitcount.itsvg.in)
+</details>
+</div>
+
+<h3>🔍 I'm currently learning</h3>
+<details>
+    <summary>Click</summary>
+
+[![My Skills](https://skillicons.dev/icons?i=go,rust&perline=5)](https://skillicons.dev)
+
+</details>
+
+<div style="text-alight: center;">
+<br>
+
+[![Readme Quotes](https://quotes-github-readme.vercel.app/api?quote=In%20a%20world%20full%20of%20obstacles%20and%20difficult%20paths%2C%20only%20the%20desire%20to%20change%20the%20future%2C%20like%20a%20fire%20burning%20in%20our%20hearts%2C%20lights%20the%20way%20to%20a%20better%20life.&type=horizontal&theme=dark")](https://github.com/piyushsuthar/github-readme-quotes)
+
 </div>
