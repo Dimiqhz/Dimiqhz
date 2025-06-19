@@ -22,15 +22,20 @@
         
   <h3>🧑‍💻 About Me</h3>
         <p>
-            I am a software developer with more than <font color="#667fff">3 years</font> of experience under my belt in the areas of <font color="#ffb066"><strong>Web Development</strong></font>, <font color="#66ff87"><strong>GameDev</strong></font> and <font color="#c466ff"><strong>Artificial Intelligence</strong></font>. I love learning new technologies and developing existing ones, as well as creating different interesting things. I also love travelling, physical activity and watching films.
-        </p>
-  <h3>✨ Fun Facts</h3>
-        <ul style="list-style: none;">
-            <li> I like to attend events and speak at them whenever possible.</li>
-            <li> I started programming at the age of 6, and the first language I started learning was Java.</li>
-            <li> I like to travel the world in good company.</li>
-            <li> I am interested in any field of activity, I like to develop myself and learn new things.</li>
-        </ul>
+    I am a software developer with more than <span style="color:#667fff;"><strong>3 years</strong></span> of experience specializing in 
+    <span style="color:#ffb066;"><strong>Web development</strong></span>, 
+    <span style="color:#66ff87;"><strong>application and software development</strong></span>, and exploring the field of 
+    <span style="color:#c466ff;"><strong>artificial intelligence (LLMs and neural networks)</strong></span>. I am passionate about learning new technologies, enhancing existing solutions, and creating innovative projects. In my free time, I enjoy traveling, physical activities, and watching films.
+</p>
+
+### ✨ Fun Facts
+<ul style="list-style: none;">
+  <li>🚩 I enjoy attending tech events and speaking at them whenever possible.</li>
+  <li>👨‍💻 I started programming at the age of 6, and Java was my very first programming language.</li>
+  <li>🌍 Traveling the world with good company is one of my favorite activities.</li>
+  <li>📚 I am curious about various fields and always eager to learn and develop new skills.</li>
+</ul>
+
     </div>
 </div>
 
