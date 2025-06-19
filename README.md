@@ -28,8 +28,8 @@
         <span style="color:#c466ff;"><strong>artificial intelligence (LLMs and neural networks)</strong></span>. I am passionate about learning new technologies, enhancing existing solutions, and creating innovative projects. In my free time, I enjoy traveling, physical activities, and watching films.
     </p>
     
-    ### ✨ Fun Facts
-    <ul style="list-style: none;">
+### ✨ Fun Facts
+<ul style="list-style: none;">
       <li>🚩 I enjoy attending tech events and speaking at them whenever possible.</li>
       <li>👨‍💻 I started programming at the age of 6, and Java was my very first programming language.</li>
       <li>🌍 Traveling the world with good company is one of my favorite activities.</li>
