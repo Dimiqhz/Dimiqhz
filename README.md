@@ -67,7 +67,7 @@
 <details>
     <summary>Engines</summary>
 
-[![My Skills](https://skillicons.dev/icons?i=unity,unreal,wordpress,&perline=8)](https://skillicons.dev)
+[![My Skills](https://skillicons.dev/icons?i=unreal,wordpress,&perline=8)](https://skillicons.dev)
 </details>
 <details>
     <summary>Operating systems</summary>
