@@ -22,7 +22,7 @@
         
   <h3>🧑‍💻 About Me</h3>
         <p>
-            I am a software developer with more than <font color="#667fff">10 years</font> of experience under my belt in the areas of <font color="#ffb066"><strong>Web Development</strong></font>, <font color="#66ff87"><strong>GameDev</strong></font> and <font color="#c466ff"><strong>Artificial Intelligence</strong></font>. I love learning new technologies and developing existing ones, as well as creating different interesting things. I also love travelling, physical activity and watching films.
+            I am a software developer with more than <font color="#667fff">3 years</font> of experience under my belt in the areas of <font color="#ffb066"><strong>Web Development</strong></font>, <font color="#66ff87"><strong>GameDev</strong></font> and <font color="#c466ff"><strong>Artificial Intelligence</strong></font>. I love learning new technologies and developing existing ones, as well as creating different interesting things. I also love travelling, physical activity and watching films.
         </p>
   <h3>✨ Fun Facts</h3>
         <ul style="list-style: none;">
