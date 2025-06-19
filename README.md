@@ -68,7 +68,7 @@
 <details>
     <summary>Operating systems</summary>
 
-[![My Skills](https://skillicons.dev/icons?i=windows,apple,linux,ubuntu,debian&perline=5)](https://skillicons.dev)
+[![My Skills](https://skillicons.dev/icons?i=windows,apple,linux&perline=5)](https://skillicons.dev)
 
 </details>
 <hr>
