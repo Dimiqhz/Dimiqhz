@@ -56,7 +56,7 @@
 <details>
     <summary>Frameworks</summary>
 
-[![My Skills](https://skillicons.dev/icons?i=,express,next,dotnet,django,fastapi,spring&perline=4)](https://skillicons.dev)
+[![My Skills](https://skillicons.dev/icons?i=express,next,dotnet,django,fastapi,spring&perline=4)](https://skillicons.dev)
 
 </details>
 <details>
