@@ -44,19 +44,19 @@
 <details>
     <summary>Languages</summary>
 
-[![My Skills](https://skillicons.dev/icons?i=js,typescript,php,cpp,cs,java,kotlin,python,bash,haskell&perline=5)](https://skillicons.dev)
+[![My Skills](https://skillicons.dev/icons?i=js,typescript,php,cpp,cs,java,python,bash&perline=4)](https://skillicons.dev)
 
 </details>
 <details>
     <summary>Libraries</summary>
 
-[![My Skills](https://skillicons.dev/icons?i=bootstrap,jquery,tensorflow,react,nodejs,sass,laravel,flask,discordjs,discordpy&perline=5)](https://skillicons.dev)
+[![My Skills](https://skillicons.dev/icons?i=bootstrap,jquery,tensorflow,react,nodejs,sass,discordjs,discordpy&perline=4)](https://skillicons.dev)
 
 </details>
 <details>
     <summary>Frameworks</summary>
 
-[![My Skills](https://skillicons.dev/icons?i=angular,vue,express,next,dotnet,django,fastapi,spring&perline=4)](https://skillicons.dev)
+[![My Skills](https://skillicons.dev/icons?i=,express,next,dotnet,django,fastapi,spring&perline=4)](https://skillicons.dev)
 
 </details>
 <details>
