@@ -22,7 +22,7 @@
         
   <h3>🧑‍💻 About Me</h3>
         <p>
-        I am a software developer with more than <span style="color:#667fff;"><strong>3 years</strong></span> of experience specializing in 
+        I am a software developer with more than <span style="color:#667fff;"><strong>8 years</strong></span> of experience specializing in 
         <span style="color:#ffb066;"><strong>Web development</strong></span>, 
         <span style="color:#66ff87;"><strong>application and software development</strong></span>, and exploring the field of 
         <span style="color:#c466ff;"><strong>artificial intelligence (LLMs and neural networks)</strong></span>. I am passionate about learning new technologies, enhancing existing solutions, and creating innovative projects. In my free time, I enjoy traveling, physical activities, and watching films.
