@@ -1,3 +1,5 @@
+import { FEATURED } from './featured.mjs';
+
 const ENDPOINT = 'https://api.github.com/graphql';
 
 const NOT_A_LANGUAGE = new Set([
@@ -20,16 +22,12 @@ const QUERY = `query ($login: String!, $from: DateTime!) {
     repositories(first: 100, ownerAffiliations: OWNER, isFork: false, privacy: PUBLIC) {
       totalCount
       nodes {
+        name url description stargazerCount
+        primaryLanguage { name color }
         languages(first: 10, orderBy: {field: SIZE, direction: DESC}) {
           edges { size node { name color } }
         }
       }
-    }
-    pinnedItems(first: 6, types: REPOSITORY) {
-      nodes { ... on Repository {
-        name url description stargazerCount
-        primaryLanguage { name color }
-      } }
     }
   }
 }`;
@@ -57,7 +55,7 @@ export async function fetchProfile(login, token) {
   return toProfile(payload.data.user);
 }
 
-export function toProfile(user) {
+export function toProfile(user, featured = FEATURED) {
   const { totalCount, nodes } = user.repositories;
   if (totalCount > nodes.length) {
     throw new Error(`only ${nodes.length} of ${totalCount} repositories were fetched; the query needs paging`);
@@ -79,13 +77,17 @@ export function toProfile(user) {
       week.contributionDays.map((day) => ({ date: day.date, count: day.contributionCount }))),
     repositories: totalCount,
     languages: [...sizes.values()],
-    projects: user.pinnedItems.nodes.map((repo) => ({
-      name: repo.name,
-      url: repo.url,
-      description: repo.description ?? '',
-      stars: repo.stargazerCount,
-      language: repo.primaryLanguage?.name ?? null,
-      languageColor: repo.primaryLanguage?.color ?? null,
-    })),
+    projects: featured.map((wanted) => {
+      const repo = nodes.find((r) => r.name === wanted);
+      if (!repo) throw new Error(`featured repository "${wanted}" is not among the public repositories`);
+      return {
+        name: repo.name,
+        url: repo.url,
+        description: repo.description ?? '',
+        stars: repo.stargazerCount,
+        language: repo.primaryLanguage?.name ?? null,
+        languageColor: repo.primaryLanguage?.color ?? null,
+      };
+    }),
   };
 }

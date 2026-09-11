@@ -65,3 +65,10 @@ test('projectMarkup refuses a link that is not http or https', () => {
 test('projectMarkup accepts an ordinary repository link', () => {
   assert.match(projectMarkup([project('One')]), /href="https:\/\/github\.com\/Dimiqhz\/One"/);
 });
+
+test('stackMarkup labels the drawer with how much is inside it', () => {
+  const html = stackMarkup();
+  const total = STACK_GROUPS.reduce((n, [, items]) => n + items.length, 0);
+  assert.match(html, new RegExp(`${total} tools`), 'the count is missing or stale');
+  assert.match(html, /<summary>/, 'the drawer label is not generated');
+});

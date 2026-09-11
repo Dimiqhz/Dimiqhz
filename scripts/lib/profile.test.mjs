@@ -3,52 +3,63 @@ import assert from 'node:assert/strict';
 
 import { toProfile } from './github.mjs';
 
-const user = (over = {}) => ({
-  contributionsCollection: { totalCommitContributions: 1344 },
-  repositories: {
-    totalCount: 2,
-    nodes: [
-      { languages: { edges: [{ size: 80, node: { name: 'Shell', color: '#89e051' } }] } },
-      { languages: { edges: [{ size: 20, node: { name: 'Shell', color: '#89e051' } }, { size: 100, node: { name: 'Python', color: '#3572A5' } }] } },
-    ],
+const repo = (name, languages) => ({
+  name,
+  url: `https://github.com/Dimiqhz/${name}`,
+  description: 'd',
+  stargazerCount: 0,
+  primaryLanguage: { name: 'Python', color: '#3572A5' },
+  languages: { edges: languages.map(([n, size, color]) => ({ size, node: { name: n, color } })) },
+});
+
+const user = (nodes, totalCount = nodes.length) => ({
+  login: 'Dimiqhz',
+  contributionsCollection: {
+    totalCommitContributions: 1344,
+    contributionCalendar: { weeks: [] },
   },
-  pinnedItems: { nodes: [] },
-  ...over,
+  repositories: { totalCount, nodes },
 });
 
 test('toProfile adds up one language across several repositories', () => {
-  const { languages } = toProfile(user());
-  assert.deepEqual(languages.find((l) => l.name === 'Shell').size, 100);
-});
-
-test('toProfile refuses a truncated repository page rather than under-reporting', () => {
-  const truncated = user({ repositories: { totalCount: 140, nodes: [] } });
-  assert.throws(() => toProfile(truncated), /140/);
-});
-
-test('toProfile reports no projects when nothing is pinned', () => {
-  assert.deepEqual(toProfile(user()).projects, []);
+  const profile = toProfile(user([
+    repo('a', [['Shell', 80, '#89e051']]),
+    repo('b', [['Shell', 20, '#89e051'], ['Python', 100, '#3572A5']]),
+  ]), []);
+  assert.equal(profile.languages.find((l) => l.name === 'Shell').size, 100);
 });
 
 test('toProfile leaves markup and build files out of the language split', () => {
-  const withMarkup = user({
-    repositories: {
-      totalCount: 1,
-      nodes: [{ languages: { edges: [
-        { size: 50, node: { name: 'HTML', color: '#e34c26' } },
-        { size: 30, node: { name: 'Batchfile', color: '#C1F12E' } },
-        { size: 20, node: { name: 'Python', color: '#3572A5' } },
-      ] } }],
-    },
-  });
-  assert.deepEqual(toProfile(withMarkup).languages.map((l) => l.name), ['Python']);
+  const profile = toProfile(user([
+    repo('a', [['HTML', 50, '#e34c26'], ['Batchfile', 30, '#C1F12E'], ['Python', 20, '#3572A5']]),
+  ]), []);
+  assert.deepEqual(profile.languages.map((l) => l.name), ['Python']);
 });
 
 test('toProfile keeps shell, which is written not generated', () => {
-  const withShell = user({
-    repositories: { totalCount: 1, nodes: [{ languages: { edges: [
-      { size: 10, node: { name: 'Shell', color: '#89e051' } },
-    ] } }] },
-  });
-  assert.deepEqual(toProfile(withShell).languages.map((l) => l.name), ['Shell']);
+  const profile = toProfile(user([repo('a', [['Shell', 10, '#89e051']])]), []);
+  assert.deepEqual(profile.languages.map((l) => l.name), ['Shell']);
+});
+
+test('toProfile refuses a truncated repository page rather than under-reporting', () => {
+  assert.throws(() => toProfile(user([], 140), []), /140/);
+});
+
+test('toProfile features the repositories listed in the code, in that order', () => {
+  const profile = toProfile(user([
+    repo('SQL2Excel', []), repo('Other', []), repo('Excel2SQL', []),
+  ]), ['Excel2SQL', 'SQL2Excel']);
+  assert.deepEqual(profile.projects.map((p) => p.name), ['Excel2SQL', 'SQL2Excel']);
+});
+
+test('toProfile refuses a featured repository it cannot find', () => {
+  assert.throws(
+    () => toProfile(user([repo('Excel2SQL', [])]), ['Excel2SQL', 'Renamed']),
+    /Renamed/,
+  );
+});
+
+test('toProfile carries the language colour of each featured repository', () => {
+  const profile = toProfile(user([repo('Excel2SQL', [])]), ['Excel2SQL']);
+  assert.equal(profile.projects[0].languageColor, '#3572A5');
 });

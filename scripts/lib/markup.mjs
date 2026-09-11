@@ -2,7 +2,7 @@ import { escapeAttr } from './format.mjs';
 import { STACK_GROUPS } from './stack-data.mjs';
 
 
-export const PANEL_W = 880;
+export const PANEL_W = 820;
 
 
 
@@ -43,5 +43,12 @@ export function stackMarkup() {
   const described = STACK_GROUPS
     .map(([label, items]) => `${label.toLowerCase()}: ${items.join(', ')}`)
     .join('. ');
-  return `<img src="dist/panels/stack.svg" alt="${escapeAttr(`Full stack. ${described}.`)}">`;
+  const total = STACK_GROUPS.reduce((n, [, items]) => n + items.length, 0);
+  return `<details>
+<summary><code>stack.txt</code> &nbsp;&middot;&nbsp; ${total} tools</summary>
+<br>
+
+<img src="dist/panels/stack.svg" alt="${escapeAttr(`Full stack. ${described}.`)}">
+
+</details>`;
 }

@@ -10,8 +10,13 @@ const profile = {
   languages: [{ name: 'TypeScript', color: '#3178c6', size: 842 }],
 };
 
-test('the grid is as wide as the contribution graph', () => {
-  assert.equal(PANEL_W, 880);
+test('the grid fits the profile README column', () => {
+  // Measured on the live profile page with headless Edge: the column is 844px
+  // at both 1280 and 1440 viewports — GitHub caps it. A pair of half-width
+  // cards must fit inside it too, or the browser wraps them onto two lines,
+  // which is exactly how they ended up stacked in production.
+  assert.ok(PANEL_W <= 844, `${PANEL_W}px is wider than the 844px column`);
+  assert.equal(PANEL_W % 2, 0, 'halves have to be whole pixels');
 });
 
 test('every panel is drawn at the shared grid width', () => {

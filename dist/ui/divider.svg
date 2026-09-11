@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="880" height="36" viewBox="0 0 880 36" role="presentation">
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="36" viewBox="0 0 820 36" role="presentation">
 <style>:root{--bg:#0d1117;--bar:#161b22;--card:#12181f;--line:#21262d;--track:#1c2128;--fg:#e6edf3;--dim:#8b949e;--mute:#6e7681;--title:#b6bcc4;--js:#f1e05a;--sh:#89e051;--l0:#161b22;--l1:#0e4429;--l2:#006d32;--l3:#26a641;--l4:#39d353}@media (prefers-color-scheme: light){:root{--bg:#ffffff;--bar:#f0f3f6;--card:#f6f8fa;--line:#d1d9e0;--track:#eaeef2;--fg:#1f2328;--dim:#59636e;--mute:#818b98;--title:#424a53;--js:#8a6d00;--sh:#3f6212;--l0:#ebedf0;--l1:#9be9a8;--l2:#40c463;--l3:#30a14e;--l4:#216e39}}</style>
 <defs><linearGradient id="rule" x1="0" y1="0" x2="1" y2="0">
 <stop offset="0%" stop-color="#4f6bff" stop-opacity="0"/>
@@ -7,5 +7,5 @@
 <stop offset="76%" stop-color="#a371f7" stop-opacity=".7"/>
 <stop offset="100%" stop-color="#a371f7" stop-opacity="0"/>
 </linearGradient></defs>
-<rect x="0" y="17" width="880" height="2" rx="1" fill="url(#rule)"/>
+<rect x="0" y="17" width="820" height="2" rx="1" fill="url(#rule)"/>
 </svg>

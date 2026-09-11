@@ -87,7 +87,7 @@ ${HEADER_LINES.map((l, i) => `@keyframes t${i}{from{width:0}96%{width:${l.w}px}t
 
 export function renderGraph(weeks) {
   const CELL = 12;
-  const GAP = 3;
+  const GAP = 2;
   const STEP = CELL + GAP;
   const gridW = weeks.length * STEP - GAP;
   const x0 = Math.round((W - gridW) / 2);

@@ -1,4 +1,4 @@
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { mkdir, readdir, readFile, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -21,6 +21,11 @@ async function main() {
 
   for (const dir of ['dist/panels', 'dist/ui', 'dist/projects']) {
     await mkdir(path.join(ROOT, dir), { recursive: true });
+  }
+
+  const projectsDir = path.join(ROOT, 'dist/projects');
+  for (const stale of await readdir(projectsDir)) {
+    await rm(path.join(projectsDir, stale));
   }
   await write('dist/panels/header.svg', renderHeader());
   await write('dist/panels/about.svg', renderAbout());
