@@ -110,3 +110,18 @@ test('a panel no longer states its own command; the prompt line above it does', 
   assert.ok(!renderGraph(calendar).includes('git log --graph'));
   assert.ok(!renderStack().includes('cat stack.txt'));
 });
+
+test('a prompt line can carry a note on its right', () => {
+  const svg = renderPromptStrip('cat stack.txt', '71 tools');
+  assert.match(svg, />71 tools</);
+  assert.match(svg, /text-anchor="end"/, 'the note has to sit at the right edge');
+});
+
+test('the drawer prompt leaves room for the disclosure marker', () => {
+  // GitHub indents a <summary> by about 44px for its triangle. The strip gives
+  // that space back by shrinking and dropping its own padding, so the command
+  // still lines up with the panels.
+  const drawer = renderPromptStrip('cat stack.txt', '71 tools', { width: PANEL_W - 20, pad: 10 });
+  assert.match(drawer, /<svg[^>]*width="800"/);
+  assert.match(drawer, /<text x="10"/);
+});

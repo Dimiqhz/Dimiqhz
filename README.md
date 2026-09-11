@@ -22,10 +22,7 @@
 
 <!-- stack:start -->
 <details>
-<summary><code>stack.txt</code> &nbsp;&middot;&nbsp; 71 tools</summary>
-<br>
-
-<img src="dist/ui/prompt-stack.svg" alt="~ $ cat stack.txt">
+<summary><img src="dist/ui/prompt-stack.svg" alt="~ $ cat stack.txt — 71 tools"></summary>
 
 <img src="dist/panels/stack.svg" alt="Full stack. languages: TypeScript, JavaScript, Python, Java, C#, C++, PHP, Bash. infra &amp; ops: Docker, Podman, Kubernetes, Helm, Argo CD, Terraform, Ansible, Vagrant, Vault, Consul, Nomad, GitHub Actions, Jenkins, Prometheus, Grafana, AWS, Azure, GCP, Cloudflare, Nginx, Linux, Ubuntu, Debian. data: PostgreSQL, MySQL, ClickHouse, MongoDB, Redis, Elasticsearch, Kafka, RabbitMQ. frameworks &amp; libraries: Node.js, Express, Next.js, React, jQuery, Bootstrap, Sass, Django, FastAPI, Spring, .NET, TensorFlow, discord.js. tools: Git, GitHub, GitLab, Gradle, Maven, npm, IntelliJ IDEA, PhpStorm, Android Studio, Visual Studio, VS Code, Postman, Figma, Photoshop, Illustrator, After Effects, Premiere, Blender, Notion.">
 

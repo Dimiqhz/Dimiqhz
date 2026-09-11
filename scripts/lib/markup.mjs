@@ -49,10 +49,7 @@ export function stackMarkup() {
     .join('. ');
   const total = STACK_GROUPS.reduce((n, [, items]) => n + items.length, 0);
   return `<details>
-<summary><code>stack.txt</code> &nbsp;&middot;&nbsp; ${total} tools</summary>
-<br>
-
-<img src="dist/ui/prompt-stack.svg" alt="~ $ cat stack.txt">
+<summary><img src="dist/ui/prompt-stack.svg" alt="~ $ cat stack.txt — ${total} tools"></summary>
 
 <img src="dist/panels/stack.svg" alt="${escapeAttr(`Full stack. ${described}.`)}">
 

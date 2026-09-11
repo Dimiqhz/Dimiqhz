@@ -63,3 +63,9 @@ test('stackMarkup labels the drawer with how much is inside it', () => {
   assert.match(html, new RegExp(`${total} tools`), 'the count is missing or stale');
   assert.match(html, /<summary>/, 'the drawer label is not generated');
 });
+
+test('the stack drawer is opened by the prompt line itself', () => {
+  const html = stackMarkup();
+  assert.match(html, /<summary><img src="dist\/ui\/prompt-stack\.svg"/, 'the summary is not the prompt line');
+  assert.ok(!/<summary>[^<]*stack\.txt[^<]*<\/summary>/.test(html), 'a separate text label is still there');
+});

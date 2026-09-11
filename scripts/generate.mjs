@@ -4,7 +4,8 @@ import { fileURLToPath } from 'node:url';
 
 import { renderAbout, renderHeader, renderGraph, renderProjectCard, renderPromptStrip, renderStack, renderStats } from './lib/assets.mjs';
 import { fetchProfile } from './lib/github.mjs';
-import { cardCorners, cardWidths, projectMarkup, stackMarkup } from './lib/markup.mjs';
+import { PANEL_W, cardCorners, cardWidths, projectMarkup, stackMarkup } from './lib/markup.mjs';
+import { STACK_GROUPS } from './lib/stack-data.mjs';
 import { replaceBlock } from './lib/readme.mjs';
 
 const LOGIN = 'Dimiqhz';
@@ -35,7 +36,7 @@ async function main() {
   await write('dist/ui/prompt-about.svg', renderPromptStrip('neofetch'));
   await write('dist/ui/prompt-stats.svg', renderPromptStrip('gh stats'));
   await write('dist/ui/prompt-graph.svg', renderPromptStrip('git log --graph'));
-  await write('dist/ui/prompt-stack.svg', renderPromptStrip('cat stack.txt'));
+  await write('dist/ui/prompt-stack.svg', renderPromptStrip('cat stack.txt', `${STACK_GROUPS.reduce((n, [, items]) => n + items.length, 0)} tools`, { width: PANEL_W - 20, pad: 10 }));
   await write('dist/panels/graph.svg', renderGraph(profile.calendar));
 
 

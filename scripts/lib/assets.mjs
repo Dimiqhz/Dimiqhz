@@ -133,11 +133,14 @@ ${legend}
 
 
 
-export function renderPromptStrip(command) {
+export function renderPromptStrip(command, note = null, opts = {}) {
+  const width = opts.width ?? W;
+  const pad = opts.pad ?? TEXT_X;
 
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="46" viewBox="0 0 ${W} 46" role="img" aria-label="${escapeAttr(`~ $ ${command}`)}">
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="46" viewBox="0 0 ${width} 46" role="img" aria-label="${escapeAttr(`~ $ ${command}`)}">
 <style>${THEME}text{font-family:${MONO};font-size:19px}</style>
-<text x="${TEXT_X}" y="31" xml:space="preserve"><tspan fill="var(--mute)">~</tspan><tspan fill="${C.brand}"> $ </tspan><tspan fill="var(--fg)">${escapeXml(command)}</tspan></text>
+<text x="${pad}" y="31" xml:space="preserve"><tspan fill="var(--mute)">~</tspan><tspan fill="${C.brand}"> $ </tspan><tspan fill="var(--fg)">${escapeXml(command)}</tspan></text>
+${note ? `<text x="${width - pad}" y="31" text-anchor="end" font-size="13" fill="var(--mute)">${escapeXml(note)}</text>` : ''}
 </svg>`;
 }
 
