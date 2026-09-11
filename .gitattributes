@@ -1,0 +1,2 @@
+dist/** -diff -merge linguist-generated
+scripts/lib/icons.json -diff linguist-generated
