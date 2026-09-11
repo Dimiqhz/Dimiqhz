@@ -6,8 +6,13 @@ import { STACK_GROUPS } from './stack-data.mjs';
 
 const project = (name) => ({ name, url: `https://github.com/Dimiqhz/${name}`, description: 'A tool', language: 'Python' });
 
-test('projectMarkup leaves no whitespace between two cards', () => {
-  assert.ok(!/<\/a>\s+<a/.test(projectMarkup([project('One'), project('Two')])));
+test('every slice of the projects block floats, so the window has no seam', () => {
+  // An inline image sits on a text baseline and leaves 5px of page showing
+  // under it; align="left" takes it out of the line box entirely.
+  const markup = projectMarkup([project('One'), project('Two')]);
+  const images = [...markup.matchAll(/<img [^>]*>/g)].map((m) => m[0]);
+  assert.equal(images.length, 3, 'expected the command line and one row per project');
+  for (const img of images) assert.match(img, /align="left"/, `${img} would cut the window`);
 });
 
 
@@ -57,15 +62,17 @@ test('projectMarkup accepts an ordinary repository link', () => {
   assert.match(projectMarkup([project('One')]), /href="https:\/\/github\.com\/Dimiqhz\/One"/);
 });
 
-test('stackMarkup labels the drawer with how much is inside it', () => {
+test('the stack section states how much is inside it', () => {
   const html = stackMarkup();
   const total = STACK_GROUPS.reduce((n, [, items]) => n + items.length, 0);
   assert.match(html, new RegExp(`${total} tools`), 'the count is missing or stale');
-  assert.match(html, /<summary>/, 'the drawer label is not generated');
 });
 
-test('the stack drawer is opened by the prompt line itself', () => {
+test('the stack section is two slices of the window, not a drawer', () => {
+  // <details> puts its disclosure triangle on a line of its own, which opens a
+  // 21px band of page background across the middle of the window frame.
   const html = stackMarkup();
-  assert.match(html, /<summary><img src="dist\/ui\/prompt-stack\.svg"/, 'the summary is not the prompt line');
-  assert.ok(!/<summary>[^<]*stack\.txt[^<]*<\/summary>/.test(html), 'a separate text label is still there');
+  assert.ok(!html.includes('<details'), 'a drawer would cut the window open');
+  assert.ok(!html.includes('<summary'), 'a drawer would cut the window open');
+  assert.match(html, /prompt-stack\.svg[\s\S]*panels\/stack\.svg/, 'the command should come before its output');
 });

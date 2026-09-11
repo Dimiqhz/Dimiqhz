@@ -1,12 +1,12 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
-import { renderAbout, renderProjectCard } from './assets.mjs';
+import { renderAbout, renderProjectRow } from './assets.mjs';
 
 const UNESCAPED = /&(?!(amp|lt|gt|quot|apos|#\d+);)/;
 
-test('renderProjectCard escapes a repository name containing markup', () => {
-  const svg = renderProjectCard({ name: 'A & B', description: '<x>', language: 'Python' }, 380);
+test('renderProjectRow escapes a repository name containing markup', () => {
+  const svg = renderProjectRow({ name: 'A & B', description: '<x>', language: 'Python' });
   assert.ok(!UNESCAPED.test(svg), 'SVG contains an unescaped ampersand');
 });
 

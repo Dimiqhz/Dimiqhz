@@ -4,7 +4,7 @@ export const STACK_GROUPS = [
   group('LANGUAGES',
     ['TypeScript', 'JavaScript'],
     ['Python'],
-    ['Java', 'C#', 'C++'],
+    ['Java', 'Kotlin', 'C#', 'C++'],
     ['PHP'],
     ['Bash']),
 
@@ -37,7 +37,7 @@ export const STACK_GROUPS = [
   group('TOOLS',
     ['Git', 'GitHub', 'GitLab'],
     ['Gradle', 'Maven', 'npm'],
-    ['IntelliJ IDEA', 'PhpStorm', 'Android Studio'],
+    ['IntelliJ IDEA', 'WebStorm', 'PyCharm', 'GoLand', 'CLion', 'Rider', 'PhpStorm', 'DataGrip', 'Android Studio', 'Qodana'],
     ['Visual Studio', 'VS Code'],
     ['Postman'],
     ['Figma'],
@@ -48,7 +48,7 @@ export const STACK_GROUPS = [
 
 export const ICON_SLUGS = {
   TypeScript: 'typescript', JavaScript: 'javascript', Python: 'python', Java: 'java',
-  'C++': 'cplusplus', 'C#': 'csharp', PHP: 'php', Bash: 'bash',
+  Kotlin: 'kotlin', 'C++': 'cplusplus', 'C#': 'csharp', PHP: 'php', Bash: 'bash',
 
   Ansible: 'ansible', 'Argo CD': 'argocd', AWS: 'amazonwebservices', Azure: 'azure',
   Cloudflare: 'cloudflare', Consul: 'consul', Debian: 'debian', Docker: 'docker',
@@ -68,7 +68,9 @@ export const ICON_SLUGS = {
 
   Git: 'git', GitHub: 'github', GitLab: 'gitlab', Postman: 'postman', Gradle: 'gradle',
   Maven: 'maven', npm: 'npm', 'VS Code': 'vscode', 'Visual Studio': 'visualstudio',
-  'IntelliJ IDEA': 'intellij', PhpStorm: 'phpstorm', 'Android Studio': 'androidstudio',
+  'IntelliJ IDEA': 'intellij', WebStorm: 'webstorm', PyCharm: 'pycharm', GoLand: 'goland',
+  CLion: 'clion', Rider: 'rider', PhpStorm: 'phpstorm', DataGrip: 'datagrip',
+  'Android Studio': 'androidstudio', Qodana: 'qodana',
   Figma: 'figma', Photoshop: 'photoshop', 'After Effects': 'aftereffects',
   Illustrator: 'illustrator', Premiere: 'premierepro', Blender: 'blender',
   Notion: 'notion',

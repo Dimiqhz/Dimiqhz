@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
-import { renderHeader } from './assets.mjs';
+import { renderBottom, renderHeader } from './assets.mjs';
 
 test('the header window carries the GNOME Terminal title', () => {
   assert.match(renderHeader(), /dimiqhz@github: ~/);
@@ -33,13 +33,15 @@ test('the animation is gated on the viewer having asked for motion', () => {
 });
 
 test('only the cursor loops — the typing plays once', () => {
-  const loops = (renderHeader().match(/infinite/g) || []).length;
-  assert.equal(loops, 1, 'exactly one perpetual animation is allowed: the cursor');
+  // The cursor lives in the closing slice now: the session runs the whole way
+  // down the window, so it cannot end at the top of it.
+  assert.equal((renderHeader().match(/infinite/g) || []).length, 0, 'the header loops an animation');
+  assert.equal((renderBottom().match(/infinite/g) || []).length, 1, 'the prompt should keep blinking');
 });
 
 test('the typed lines are authored complete, so a still render shows a finished terminal', () => {
   const widths = [...renderHeader().matchAll(/<clipPath[^>]*><rect[^>]*width="(\d+)"/g)].map((m) => Number(m[1]));
-  assert.equal(widths.length, 7, 'expected one clip per line');
+  assert.equal(widths.length, 6, 'expected one clip per line');
   assert.ok(widths.every((w) => w === widths[0]), 'a clip was authored short and would cut its line');
 });
 

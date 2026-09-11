@@ -44,16 +44,47 @@ export const WINDOW_TITLE = 'dimiqhz@github: ~';
 
 const light = (cx, fill) => `<circle class="light" cx="${cx}" cy="20.5" r="6" fill="${fill}"/>`;
 
-const panel = (w, h, title, body, defs = '', chrome = false) => `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" role="img">
-<style>${THEME}text{font-family:${MONO}}.title{font-family:${UI};font-size:13px;font-weight:600;fill:var(--title)}</style>
-<defs>${defs}</defs>
-<rect class="frame" x=".5" y=".5" width="${w - 1}" height="${h - 1}" rx="12" fill="${chrome ? 'var(--bg)' : 'var(--card)'}" stroke="var(--line)"/>
-${chrome ? `<path class="frame" d="M.5 12.5A12 12 0 0 1 12.5 .5H${w - 12.5}A12 12 0 0 1 ${w - 0.5} 12.5V40.5H.5Z" fill="var(--bar)"/>
-<path class="frame" d="M.5 40.5H${w - 0.5}" stroke="var(--line)"/>
-${light(24, '#ff5f57')}${light(46, '#febc2e')}${light(68, '#28c840')}
-<text class="title" x="${w / 2}" y="25.5" text-anchor="middle">${escapeXml(title)}</text>` : ''}
-${body}</svg>`;
+const R = 12;
 
+// The profile is one terminal window cut into stacked images. Each slice paints
+// its background right up to its own top and bottom, so a seam shows no page
+// through it, and draws the two side edges itself. Only the first and the last
+// slice round a corner and close the window off.
+const roundedPath = (w, h, { tl, tr, br, bl }) => {
+  const arc = (on, x, y) => (on ? `A${R} ${R} 0 0 1 ${x} ${y}` : `L${x} ${y}`);
+  return [
+    `M${tl ? R : 0} 0`,
+    `H${w - (tr ? R : 0)}`, arc(tr, w, R),
+    `V${h - (br ? R : 0)}`, arc(br, w - R, h),
+    `H${bl ? R : 0}`, arc(bl, 0, h - R),
+    `V${tl ? R : 0}`, arc(tl, R, 0),
+    'Z',
+  ].join(' ');
+};
+
+const edgePath = (w, h, top, bottom) => {
+  const right = w - 0.5;
+  if (top) return `M.5 ${h}V${R}A${R} ${R} 0 0 1 ${R + 0.5} .5H${right - R}A${R} ${R} 0 0 1 ${right} ${R}V${h}`;
+  if (bottom) return `M${right} 0V${h - R}A${R} ${R} 0 0 1 ${right - R} ${h - 0.5}H${R + 0.5}A${R} ${R} 0 0 1 .5 ${h - R}V0`;
+  return `M.5 0V${h}M${right} 0V${h}`;
+};
+
+const slice = (h, body, defs = '', opts = {}) => {
+  const top = opts.top ?? false;
+  const bottom = opts.bottom ?? false;
+  const corners = { tl: top, tr: top, bl: bottom, br: bottom };
+
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${h}" viewBox="0 0 ${W} ${h}" role="img"${opts.label ? ` aria-label="${escapeAttr(opts.label)}"` : ''}>
+<style>${THEME}text{font-family:${MONO}}.title{font-family:${UI};font-size:13px;font-weight:600;fill:var(--title)}.cmdline{font-size:19px}</style>
+<defs>${defs}</defs>
+<path class="frame" d="${roundedPath(W, h, corners)}" fill="var(--card)"/>
+${top ? `<path class="frame" d="M0 41V${R}A${R} ${R} 0 0 1 ${R} 0H${W - R}A${R} ${R} 0 0 1 ${W} ${R}V41Z" fill="var(--bar)"/>
+<path class="frame" d="M0 40.5H${W}" stroke="var(--line)"/>
+${light(24, '#ff5f57')}${light(46, '#febc2e')}${light(68, '#28c840')}
+<text class="title" x="${W / 2}" y="25.5" text-anchor="middle">${escapeXml(WINDOW_TITLE)}</text>` : ''}
+<path class="edge" d="${edgePath(W, h, top, bottom)}" fill="none" stroke="var(--line)"/>
+${body}</svg>`;
+};
 
 
 const cmd = (text) => `<tspan fill="var(--mute)">~</tspan><tspan fill="${C.brand}"> $ </tspan><tspan fill="var(--fg)">${text}</tspan>`;
@@ -61,6 +92,7 @@ const out = `<tspan fill="${C.green}">&#8594;</tspan><tspan fill="var(--dim)"> <
 
 
 const CURSOR_AT = 4.65;
+const HEADER_H = 268;
 
 const HEADER_LINES = [
   { y: 76, w: 120, n: 10, at: 0.15, dur: 0.65, t: cmd('whoami') },
@@ -69,7 +101,6 @@ const HEADER_LINES = [
   { y: 172, w: 500, n: 43, at: 2.45, dur: 0.45, t: `${out}<tspan fill="${C.blue}">web</tspan><tspan fill="var(--mute)"> ${MID} </tspan><tspan fill="${C.amber}">applications</tspan><tspan fill="var(--mute)"> ${MID} </tspan><tspan fill="${C.purple}">llm &amp; neural networks</tspan>` },
   { y: 204, w: 120, n: 10, at: 3.00, dur: 0.65, t: cmd('uptime') },
   { y: 236, w: 545, n: 47, at: 3.75, dur: 0.45, t: `${out}<tspan fill="${C.green}">8 years</tspan><tspan fill="var(--dim)"> shipping ${MID} first line of Java at age 6</tspan>` },
-  { y: 268, w: 65, n: 5, at: 4.30, dur: 0.30, t: `<tspan fill="var(--mute)">~</tspan><tspan fill="${C.brand}"> $ </tspan><tspan class="cur" fill="${C.brand}">&#9612;</tspan>` },
 ];
 
 export function renderHeader() {
@@ -81,17 +112,27 @@ export function renderHeader() {
 
   const motion = `<style>@media (prefers-reduced-motion: no-preference){
 ${HEADER_LINES.map((l, i) => `.c${i}{animation:t${i} ${l.dur}s steps(${l.n}) ${l.at}s both}`).join('')}
-.cur{animation:blink 1.1s step-end ${CURSOR_AT}s infinite}
-${HEADER_LINES.map((l, i) => `@keyframes t${i}{from{width:0}96%{width:${l.w}px}to{width:${full}px}}`).join('')}
-@keyframes blink{0%,45%{fill-opacity:1}50%,100%{fill-opacity:0}}}</style>`;
+${HEADER_LINES.map((l, i) => `@keyframes t${i}{from{width:0}96%{width:${l.w}px}to{width:${full}px}}`).join('')}}</style>`;
 
   const body = HEADER_LINES
     .map((l, i) => `<text x="${TEXT_X}" y="${l.y}" font-size="19" xml:space="preserve" clip-path="url(#h${i})">${l.t}</text>`)
     .join('\n');
 
-  return panel(W, 304, WINDOW_TITLE, body, clips + motion, true);
+  return slice(HEADER_H, body, clips + motion, { top: true });
 }
 
+
+
+export function renderBottom() {
+  const body = `<text class="cmdline" x="${TEXT_X}" y="33" xml:space="preserve">`
+    + `<tspan fill="var(--mute)">~</tspan><tspan fill="${C.brand}"> $ </tspan>`
+    + `<tspan class="cur" fill="${C.brand}">&#9612;</tspan></text>`;
+  const motion = '<style>@media (prefers-reduced-motion: no-preference){'
+    + `.cur{animation:blink 1.1s step-end ${CURSOR_AT}s infinite}`
+    + '@keyframes blink{0%,45%{fill-opacity:1}50%,100%{fill-opacity:0}}}</style>';
+
+  return slice(58, body, motion, { bottom: true, label: '~ $' });
+}
 
 
 export function renderGraph(weeks) {
@@ -127,21 +168,17 @@ export function renderGraph(weeks) {
 ${legend}
 <text x="${W - 30}" y="${height - 20}">more</text>`;
 
-  return panel(W, height, WINDOW_TITLE, body, extra);
+  return slice(height, body, extra);
 }
 
 
 
 
-export function renderPromptStrip(command, note = null, opts = {}) {
-  const width = opts.width ?? W;
-  const pad = opts.pad ?? TEXT_X;
+export function renderPromptStrip(command, note = null) {
+  const body = `<text class="cmdline" x="${TEXT_X}" y="31" xml:space="preserve">${cmd(escapeXml(command))}</text>`
+    + (note ? `<text x="${W - PAD}" y="31" text-anchor="end" font-size="13" fill="var(--mute)">${escapeXml(note)}</text>` : '');
 
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="46" viewBox="0 0 ${width} 46" role="img" aria-label="${escapeAttr(`~ $ ${command}`)}">
-<style>${THEME}text{font-family:${MONO};font-size:19px}</style>
-<text x="${pad}" y="31" xml:space="preserve"><tspan fill="var(--mute)">~</tspan><tspan fill="${C.brand}"> $ </tspan><tspan fill="var(--fg)">${escapeXml(command)}</tspan></text>
-${note ? `<text x="${width - pad}" y="31" text-anchor="end" font-size="13" fill="var(--mute)">${escapeXml(note)}</text>` : ''}
-</svg>`;
+  return slice(46, body, '', { label: `~ $ ${command}` });
 }
 
 
@@ -154,18 +191,14 @@ const D_MATRIX = [
 const sep = ['var(--mute)', ` ${MID} `];
 
 
-const CHROME_H = 0;
 const ABOUT_H = 236;
 const LOGO_X = TEXT_X;
 const BLOCK = 13;
 const LOGO_H = D_MATRIX.length * BLOCK - 1;
-const LOGO_Y = Math.round(CHROME_H + (ABOUT_H - CHROME_H - LOGO_H) / 2);
+const LOGO_Y = Math.round((ABOUT_H - LOGO_H) / 2);
 const LOGO_W = D_MATRIX[0].length * BLOCK;
 const INFO_X = LOGO_X + LOGO_W + 52;
 const VALUE_X = INFO_X + 100;
-
-
-const HANDLE_W = 160;
 
 
 const ABOUT_ROWS = [
@@ -189,7 +222,7 @@ export function renderAbout() {
 <text x="${VALUE_X}" y="${y}" font-size="15" xml:space="preserve">${parts.map(([fill, text]) => `<tspan fill="${fill}">${text}</tspan>`).join('')}</text>`;
   }).join('\n');
 
-  return panel(W, ABOUT_H, WINDOW_TITLE, `${logo}
+  return slice(ABOUT_H, `${logo}
 ${rows}`,
   `<linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${C.brand}"/><stop offset="100%" stop-color="${C.blue}"/></linearGradient>`);
 }
@@ -197,51 +230,28 @@ ${rows}`,
 
 
 
-const CARD_BODY = 168;
-const COMMAND_BAND = 0;
+const ROW_H = 76;
 
-export function renderProjectCard({ name, description, language, languageColor }, width, opts = {}) {
-  const corners = opts.corners ?? { tl: true, tr: true, bl: true, br: true };
-  const command = opts.command ?? null;
-  const topRow = opts.topRow ?? Boolean(command);
-  const band = topRow ? COMMAND_BAND : 0;
-  const H = CARD_BODY + band;
-  const R = 12;
+// JetBrains Mono advances exactly 0.6em, so a column count follows from the room.
+const columnsIn = (room, size) => Math.floor(room / (size * 0.6));
 
-  const arc = (on, x, y, sweep) => (on ? `A${R} ${R} 0 0 ${sweep} ${x} ${y}` : `L${x} ${y}`);
-  const shape = [
-    `M${corners.tl ? R : 0} 0`,
-    `H${width - (corners.tr ? R : 0)}`,
-    arc(corners.tr, width, R, 1),
-    `V${H - (corners.br ? R : 0)}`,
-    arc(corners.br, width - R, H, 1),
-    `H${corners.bl ? R : 0}`,
-    arc(corners.bl, 0, H - R, 1),
-    `V${corners.tl ? R : 0}`,
-    arc(corners.tl, R, 0, 1),
-    'Z',
-  ].join(' ');
+// The right-hand meta sits on its own column so the rows line up whether or not
+// a repository has stars.
+const LANG_X = W - PAD - 190;
 
-  const columns = Math.floor((width - TEXT_X - 16) / 7.4);
-  const nameColumns = Math.floor((width - TEXT_X - 16) / 8.4);
-  const body = clampLines(wrapText(description, columns), 4)
-    .map((line, i) => `<text x="${TEXT_X}" y="${band + 68 + i * 20}" font-size="13" fill="var(--dim)">${escapeXml(line)}</text>`)
-    .join('\n');
-  const tag = language
-    ? `<circle cx="${TEXT_X + 5}" cy="${H - 28}" r="5" fill="${escapeAttr(languageColor || C.blue)}"/>
-<text x="${TEXT_X + 18}" y="${H - 23}" font-size="12" fill="var(--dim)">${escapeXml(language)}</text>`
+export function renderProjectRow({ name, description, language, languageColor, stars }) {
+  const meta = language
+    ? `<circle cx="${LANG_X + 5}" cy="27" r="5" fill="${escapeAttr(languageColor || C.blue)}"/>
+<text x="${LANG_X + 18}" y="31" font-size="12" fill="var(--dim)">${escapeXml(language)}</text>`
     : '';
-  const head = command
-    ? `<text class="cmdline" x="${TEXT_X}" y="34" xml:space="preserve">${cmd(escapeXml(command))}</text>`
+  const count = stars
+    ? `<text x="${W - PAD}" y="31" font-size="12" text-anchor="end" fill="var(--mute)">${String.fromCharCode(9733)} ${stars}</text>`
     : '';
 
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${H}" viewBox="0 0 ${width} ${H}" role="img">
-<style>${THEME}text{font-family:${MONO}}.cmdline{font-size:19px}</style>
-<path class="frame" d="${shape}" fill="var(--card)"/>
-${head}
-<text x="${TEXT_X}" y="${band + 42}" font-size="14" font-weight="600" fill="${C.blue}">${escapeXml(truncate(name, nameColumns))}</text>
-${body}
-${tag}</svg>`;
+  return slice(ROW_H, `<text x="${TEXT_X}" y="31" font-size="15" font-weight="600" fill="${C.blue}">${escapeXml(truncate(name, columnsIn(LANG_X - TEXT_X - 8, 15)))}</text>
+${meta}
+${count}
+<text x="${TEXT_X}" y="55" font-size="13" fill="var(--dim)">${escapeXml(truncate(description, columnsIn(W - PAD - TEXT_X, 13)))}</text>`);
 }
 
 
@@ -286,7 +296,7 @@ export function renderStack() {
 
   const style = `<style>.glabel{font-size:12px;letter-spacing:1.2px;fill:var(--mute)}`
     + `.chip{font-size:12px;fill:var(--dim)}</style>`;
-  return panel(W, Math.round(y - 12), WINDOW_TITLE, parts.join('\n'), style);
+  return slice(Math.round(y - 12), parts.join('\n'), style);
 }
 
 
@@ -330,7 +340,7 @@ export function renderStats({ contributions, repositories, languages }) {
   const rightBottom = top.length ? 78 + (top.length - 1) * 40 + 18 : 0;
   const height = Math.max(leftBottom, rightBottom) + 40;
 
-  return panel(W, height, WINDOW_TITLE, `
+  return slice(height, `
 <text x="${TEXT_X}" y="38" font-size="12" letter-spacing="1.2" fill="var(--mute)">OVERVIEW</text>
 ${left}
 <path d="M${SPLIT} 30V${height - 26}" stroke="var(--line)"/>

@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
-import { renderAbout, renderGraph, renderHeader, renderProjectCard, renderPromptStrip, renderStack, renderStats } from './assets.mjs';
+import { renderAbout, renderBottom, renderGraph, renderHeader, renderProjectRow, renderPromptStrip, renderStack, renderStats } from './assets.mjs';
 import { PANEL_W } from './markup.mjs';
 
 const profile = {
@@ -53,7 +53,8 @@ test('every asset adapts to a light page', () => {
     stats: renderStats(profile),
     stack: renderStack(),
     prompt: renderPromptStrip('ls'),
-    card: renderProjectCard({ name: 'a', description: 'b', language: 'Shell' }, 440),
+    row: renderProjectRow({ name: 'a', description: 'b', language: 'Shell' }),
+    bottom: renderBottom(),
   };
   for (const [name, svg] of Object.entries(assets)) {
     assert.match(svg, /@media \(prefers-color-scheme: light\)/, `${name} is dark-only`);
@@ -86,10 +87,9 @@ test('every panel carries the typeface with it', () => {
   }
 });
 
-test('the prompt line is bare text, so nothing can seam against it', () => {
+test('the prompt line is a slice of the window, so it seams into the panels', () => {
   const svg = renderPromptStrip('ls ./projects');
-  assert.ok(!/<rect[^>]*fill="var\(--bg\)"/.test(svg), 'the strip is a block again');
-  assert.ok(!/<rect[^>]*fill="var\(--card\)"/.test(svg), 'the strip is a block again');
+  assert.match(svg, /<path class="frame"[^>]*fill="var\(--card\)"/, 'the command floats on the page again');
   assert.match(svg, /fill="var\(--fg\)"/, 'the command would vanish on a light page');
 });
 
@@ -117,11 +117,11 @@ test('a prompt line can carry a note on its right', () => {
   assert.match(svg, /text-anchor="end"/, 'the note has to sit at the right edge');
 });
 
-test('the drawer prompt leaves room for the disclosure marker', () => {
-  // GitHub indents a <summary> by about 44px for its triangle. The strip gives
-  // that space back by shrinking and dropping its own padding, so the command
-  // still lines up with the panels.
-  const drawer = renderPromptStrip('cat stack.txt', '71 tools', { width: PANEL_W - 20, pad: 10 });
-  assert.match(drawer, /<svg[^>]*width="800"/);
-  assert.match(drawer, /<text x="10"/);
+test('every prompt line is the full window width, indented like the panels', () => {
+  // The drawer used to shrink this strip to buy back a <summary> indent. There
+  // is no drawer now, so every command starts on the one content edge.
+  for (const command of ['ls ./projects', 'cat stack.txt', 'gh stats']) {
+    const svg = renderPromptStrip(command);
+    assert.match(svg, new RegExp(`<svg[^>]*width="${PANEL_W}"`), `${command} is off the grid`);
+  }
 });

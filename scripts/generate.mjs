@@ -2,9 +2,9 @@ import { mkdir, readdir, readFile, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { renderAbout, renderHeader, renderGraph, renderProjectCard, renderPromptStrip, renderStack, renderStats } from './lib/assets.mjs';
+import { renderAbout, renderBottom, renderHeader, renderGraph, renderProjectRow, renderPromptStrip, renderStack, renderStats } from './lib/assets.mjs';
 import { fetchProfile } from './lib/github.mjs';
-import { PANEL_W, cardCorners, cardWidths, projectMarkup, stackMarkup } from './lib/markup.mjs';
+import { projectMarkup, stackMarkup } from './lib/markup.mjs';
 import { STACK_GROUPS } from './lib/stack-data.mjs';
 import { replaceBlock } from './lib/readme.mjs';
 
@@ -36,16 +36,12 @@ async function main() {
   await write('dist/ui/prompt-about.svg', renderPromptStrip('neofetch'));
   await write('dist/ui/prompt-stats.svg', renderPromptStrip('gh stats'));
   await write('dist/ui/prompt-graph.svg', renderPromptStrip('git log --graph'));
-  await write('dist/ui/prompt-stack.svg', renderPromptStrip('cat stack.txt', `${STACK_GROUPS.reduce((n, [, items]) => n + items.length, 0)} tools`, { width: PANEL_W - 20, pad: 10 }));
+  await write('dist/ui/prompt-stack.svg', renderPromptStrip('cat stack.txt', `${STACK_GROUPS.reduce((n, [, items]) => n + items.length, 0)} tools`));
   await write('dist/panels/graph.svg', renderGraph(profile.calendar));
+  await write('dist/panels/bottom.svg', renderBottom());
 
-
-  const count = profile.projects.length;
-  const widths = cardWidths(count);
   await Promise.all(profile.projects.map((project, i) =>
-    write(`dist/projects/${i + 1}.svg`, renderProjectCard(project, widths[i], {
-      corners: cardCorners(i, count),
-    }))));
+    write(`dist/projects/${i + 1}.svg`, renderProjectRow(project))));
 
   const readmePath = path.join(ROOT, 'README.md');
   const readme = await readFile(readmePath, 'utf8');

@@ -52,7 +52,8 @@ test('icons that carry no colour of their own inherit a visible one', () => {
 
 test('related tools sit next to each other', () => {
   const families = {
-    JetBrains: ['IntelliJ IDEA', 'PhpStorm', 'Android Studio'],
+    JetBrains: ['IntelliJ IDEA', 'WebStorm', 'PyCharm', 'GoLand', 'CLion', 'Rider',
+      'PhpStorm', 'DataGrip', 'Android Studio', 'Qodana'],
     Adobe: ['Photoshop', 'Illustrator', 'After Effects', 'Premiere'],
     Microsoft: ['Visual Studio', 'VS Code'],
     HashiCorp: ['Vault', 'Consul', 'Nomad'],
