@@ -2,7 +2,7 @@ import { mkdir, readdir, readFile, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { renderAbout, renderDivider, renderHeader, renderGraph, renderProjectCard, renderPromptStrip, renderStack, renderStats } from './lib/assets.mjs';
+import { renderAbout, renderHeader, renderGraph, renderProjectCard, renderPromptStrip, renderStack, renderStats } from './lib/assets.mjs';
 import { fetchProfile } from './lib/github.mjs';
 import { cardCorners, cardWidths, projectMarkup, stackMarkup } from './lib/markup.mjs';
 import { replaceBlock } from './lib/readme.mjs';
@@ -31,8 +31,11 @@ async function main() {
   await write('dist/panels/about.svg', renderAbout());
   await write('dist/panels/stats.svg', renderStats(profile));
   await write('dist/panels/stack.svg', renderStack());
-  await write('dist/ui/divider.svg', renderDivider());
   await write('dist/ui/prompt-projects.svg', renderPromptStrip('ls ./projects'));
+  await write('dist/ui/prompt-about.svg', renderPromptStrip('neofetch'));
+  await write('dist/ui/prompt-stats.svg', renderPromptStrip('gh stats'));
+  await write('dist/ui/prompt-graph.svg', renderPromptStrip('git log --graph'));
+  await write('dist/ui/prompt-stack.svg', renderPromptStrip('cat stack.txt'));
   await write('dist/panels/graph.svg', renderGraph(profile.calendar));
 
 

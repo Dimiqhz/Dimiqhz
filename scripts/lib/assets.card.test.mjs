@@ -54,10 +54,6 @@ test('renderAbout draws no decorative colour strip', () => {
   assert.ok(!/width="24" height="8"/.test(renderAbout()), 'the swatch strip is still drawn');
 });
 
-test('the about panel is titled the way GNOME Terminal titles a window', () => {
-
-  assert.match(renderAbout(), /dimiqhz@github: ~/);
-});
 
 test('the info column keeps a gutter clear of the mark', () => {
   const svg = renderAbout();
@@ -68,17 +64,13 @@ test('the info column keeps a gutter clear of the mark', () => {
   assert.ok(textLeft - markRight >= 40, `the gutter is only ${textLeft - markRight}px wide`);
 });
 
-test('the panel does not repeat what the window title already says', () => {
-  const occurrences = (renderAbout().match(/dimiqhz@github/g) || []).length;
-  assert.equal(occurrences, 1, 'the handle appears in the title bar and again in the body');
-});
 
 test('the mark is centred in the window body', () => {
   const svg = renderAbout();
   const height = Number(svg.match(/<svg[^>]*height="(\d+)"/)[1]);
   const blocks = [...svg.matchAll(/<rect x="\d+" y="(\d+)" width="12"/g)].map((m) => Number(m[1]));
   const markCentre = (Math.min(...blocks) + Math.max(...blocks) + 12) / 2;
-  const bodyCentre = (40 + height) / 2;
+  const bodyCentre = height / 2;
   assert.ok(Math.abs(markCentre - bodyCentre) <= 1, `mark at ${markCentre}, body centre at ${bodyCentre}`);
 });
 

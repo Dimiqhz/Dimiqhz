@@ -6,8 +6,8 @@
 @keyframes t0{from{width:0}96%{width:120px}to{width:780px}}@keyframes t1{from{width:0}96%{width:650px}to{width:780px}}@keyframes t2{from{width:0}96%{width:200px}to{width:780px}}@keyframes t3{from{width:0}96%{width:500px}to{width:780px}}@keyframes t4{from{width:0}96%{width:120px}to{width:780px}}@keyframes t5{from{width:0}96%{width:545px}to{width:780px}}@keyframes t6{from{width:0}96%{width:65px}to{width:780px}}
 @keyframes blink{0%,45%{fill-opacity:1}50%,100%{fill-opacity:0}}}</style></defs>
 <rect class="frame" x=".5" y=".5" width="819" height="303" rx="12" fill="var(--bg)" stroke="var(--line)"/>
-<path d="M.5 12.5A12 12 0 0 1 12.5 .5H807.5A12 12 0 0 1 819.5 12.5V40.5H.5Z" fill="var(--bar)"/>
-<path d="M.5 40.5H819.5" stroke="var(--line)"/>
+<path class="frame" d="M.5 12.5A12 12 0 0 1 12.5 .5H807.5A12 12 0 0 1 819.5 12.5V40.5H.5Z" fill="var(--bar)"/>
+<path class="frame" d="M.5 40.5H819.5" stroke="var(--line)"/>
 <circle class="light" cx="24" cy="20.5" r="6" fill="#ff5f57"/><circle class="light" cx="46" cy="20.5" r="6" fill="#febc2e"/><circle class="light" cx="68" cy="20.5" r="6" fill="#28c840"/>
 <text class="title" x="410" y="25.5" text-anchor="middle">dimiqhz@github: ~</text>
 <text x="28" y="76" font-size="19" xml:space="preserve" clip-path="url(#h0)"><tspan fill="var(--mute)">~</tspan><tspan fill="#4f6bff"> $ </tspan><tspan fill="var(--fg)">whoami</tspan></text>

@@ -14,6 +14,8 @@ test('every asset the README points at actually exists', () => {
 test('every generated asset is referenced by the README', () => {
   const referenced = new Set([...readme.matchAll(/src="(dist\/[^"]+)"/g)].map((m) => m[1]));
   const generated = ['dist/panels/header.svg', 'dist/panels/about.svg', 'dist/panels/stats.svg',
-    'dist/panels/graph.svg', 'dist/panels/stack.svg', 'dist/ui/divider.svg'];
+    'dist/panels/graph.svg', 'dist/panels/stack.svg',
+    'dist/ui/prompt-about.svg', 'dist/ui/prompt-projects.svg', 'dist/ui/prompt-stats.svg',
+    'dist/ui/prompt-graph.svg', 'dist/ui/prompt-stack.svg'];
   assert.deepEqual(generated.filter((f) => !referenced.has(f)), [], 'these assets are built but never shown');
 });

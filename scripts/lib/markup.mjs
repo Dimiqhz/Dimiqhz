@@ -52,6 +52,8 @@ export function stackMarkup() {
 <summary><code>stack.txt</code> &nbsp;&middot;&nbsp; ${total} tools</summary>
 <br>
 
+<img src="dist/ui/prompt-stack.svg" alt="~ $ cat stack.txt">
+
 <img src="dist/panels/stack.svg" alt="${escapeAttr(`Full stack. ${described}.`)}">
 
 </details>`;

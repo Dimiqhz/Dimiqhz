@@ -41,9 +41,6 @@ test('renderStats charts at most five languages', () => {
   assert.equal([...svg.matchAll(/class="bar"/g)].length, 5);
 });
 
-test('the stats panel is titled the way GNOME Terminal titles a window', () => {
-  assert.match(renderStats(profile), /dimiqhz@github: ~/);
-});
 
 test('the growing bars are gated on reduced motion too', () => {
   assert.match(renderStats(profile), /@media \(prefers-reduced-motion: no-preference\)/);

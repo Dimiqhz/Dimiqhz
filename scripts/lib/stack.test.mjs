@@ -89,6 +89,3 @@ test('no group label runs into the chip column', () => {
   assert.deepEqual(overflowing, [], 'these labels collide with the chips');
 });
 
-test('the stack panel shows the command that produced it', () => {
-  assert.match(renderStack(), />cat stack\.txt</);
-});

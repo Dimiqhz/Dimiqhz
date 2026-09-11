@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
-import { renderAbout, renderDivider, renderHeader, renderProjectCard, renderPromptStrip, renderStack, renderStats } from './assets.mjs';
+import { renderAbout, renderGraph, renderHeader, renderProjectCard, renderPromptStrip, renderStack, renderStats } from './assets.mjs';
 import { PANEL_W } from './markup.mjs';
 
 const profile = {
@@ -42,15 +42,7 @@ test('the prompt strip escapes whatever command it is handed', () => {
   assert.ok(!/&(?!(amp|lt|gt|quot|apos|#\d+);)/.test(renderPromptStrip('grep a & b')));
 });
 
-test('the divider is drawn on the shared grid width', () => {
-  assert.match(renderDivider(), new RegExp(`<svg[^>]*width="${PANEL_W}"`));
-});
 
-test('the divider is a rule, not a third window', () => {
-  const svg = renderDivider();
-  assert.ok(!svg.includes('#ff5f57'), 'the divider grew window chrome');
-  assert.ok(!svg.includes('<text'), 'a rule carries no text');
-});
 
 
 test('every asset adapts to a light page', () => {
@@ -60,7 +52,6 @@ test('every asset adapts to a light page', () => {
     about: renderAbout(),
     stats: renderStats(profile),
     stack: renderStack(),
-    divider: renderDivider(),
     prompt: renderPromptStrip('ls'),
     card: renderProjectCard({ name: 'a', description: 'b', language: 'Shell' }, 440),
   };
@@ -100,4 +91,22 @@ test('the prompt line is bare text, so nothing can seam against it', () => {
   assert.ok(!/<rect[^>]*fill="var\(--bg\)"/.test(svg), 'the strip is a block again');
   assert.ok(!/<rect[^>]*fill="var\(--card\)"/.test(svg), 'the strip is a block again');
   assert.match(svg, /fill="var\(--fg\)"/, 'the command would vanish on a light page');
+});
+
+test('only the header wears window chrome; the rest are output', () => {
+  const profile = { contributions: 1, repositories: 1, languages: [{ name: 'Shell', color: '#89e051', size: 1 }] };
+  const calendar = Array.from({ length: 53 }, () => Array.from({ length: 7 }, () => ({ date: 'x', count: 1 })));
+  assert.match(renderHeader(), /class="light"/, 'the session has to start somewhere');
+  for (const [name, svg] of Object.entries({
+    about: renderAbout(), stats: renderStats(profile), stack: renderStack(), graph: renderGraph(calendar),
+  })) {
+    assert.ok(!svg.includes('class="light"'), `${name} still opens its own window`);
+    assert.ok(!svg.includes('class="title"'), `${name} still repeats the window title`);
+  }
+});
+
+test('a panel no longer states its own command; the prompt line above it does', () => {
+  const calendar = Array.from({ length: 53 }, () => Array.from({ length: 7 }, () => ({ date: 'x', count: 1 })));
+  assert.ok(!renderGraph(calendar).includes('git log --graph'));
+  assert.ok(!renderStack().includes('cat stack.txt'));
 });

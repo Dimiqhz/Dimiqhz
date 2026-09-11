@@ -44,14 +44,14 @@ export const WINDOW_TITLE = 'dimiqhz@github: ~';
 
 const light = (cx, fill) => `<circle class="light" cx="${cx}" cy="20.5" r="6" fill="${fill}"/>`;
 
-const panel = (w, h, title, body, defs = '') => `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" role="img">
+const panel = (w, h, title, body, defs = '', chrome = false) => `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" role="img">
 <style>${THEME}text{font-family:${MONO}}.title{font-family:${UI};font-size:13px;font-weight:600;fill:var(--title)}</style>
 <defs>${defs}</defs>
-<rect class="frame" x=".5" y=".5" width="${w - 1}" height="${h - 1}" rx="12" fill="var(--bg)" stroke="var(--line)"/>
-<path d="M.5 12.5A12 12 0 0 1 12.5 .5H${w - 12.5}A12 12 0 0 1 ${w - 0.5} 12.5V40.5H.5Z" fill="var(--bar)"/>
-<path d="M.5 40.5H${w - 0.5}" stroke="var(--line)"/>
+<rect class="frame" x=".5" y=".5" width="${w - 1}" height="${h - 1}" rx="12" fill="${chrome ? 'var(--bg)' : 'var(--card)'}" stroke="var(--line)"/>
+${chrome ? `<path class="frame" d="M.5 12.5A12 12 0 0 1 12.5 .5H${w - 12.5}A12 12 0 0 1 ${w - 0.5} 12.5V40.5H.5Z" fill="var(--bar)"/>
+<path class="frame" d="M.5 40.5H${w - 0.5}" stroke="var(--line)"/>
 ${light(24, '#ff5f57')}${light(46, '#febc2e')}${light(68, '#28c840')}
-<text class="title" x="${w / 2}" y="25.5" text-anchor="middle">${escapeXml(title)}</text>
+<text class="title" x="${w / 2}" y="25.5" text-anchor="middle">${escapeXml(title)}</text>` : ''}
 ${body}</svg>`;
 
 
@@ -89,7 +89,7 @@ ${HEADER_LINES.map((l, i) => `@keyframes t${i}{from{width:0}96%{width:${l.w}px}t
     .map((l, i) => `<text x="${TEXT_X}" y="${l.y}" font-size="19" xml:space="preserve" clip-path="url(#h${i})">${l.t}</text>`)
     .join('\n');
 
-  return panel(W, 304, WINDOW_TITLE, body, clips + motion);
+  return panel(W, 304, WINDOW_TITLE, body, clips + motion, true);
 }
 
 
@@ -100,7 +100,7 @@ export function renderGraph(weeks) {
   const STEP = CELL + GAP;
   const gridW = weeks.length * STEP - GAP;
   const x0 = TEXT_X;
-  const y0 = 96;
+  const y0 = 40;
   const height = y0 + 7 * STEP - GAP + 46;
 
   const busiest = Math.max(0, ...weeks.flat().map((day) => day.count));
@@ -121,8 +121,7 @@ export function renderGraph(weeks) {
   const extra = `<style>text{font-size:11px;fill:var(--mute)}.cmdline{font-size:19px}${levels}${motion}</style>`
     + `<clipPath id="wipe"><rect class="reveal" x="${x0}" y="0" height="${height}" width="${gridW}"/></clipPath>`;
 
-  const body = `<text class="cmdline" x="${TEXT_X}" y="72" xml:space="preserve">${cmd('git log --graph')}</text>
-<g clip-path="url(#wipe)">${cells}</g>
+  const body = `<g clip-path="url(#wipe)">${cells}</g>
 <text x="${x0}" y="${height - 20}">${weeks.length} weeks</text>
 <text x="${W - 140}" y="${height - 20}" text-anchor="end">less</text>
 ${legend}
@@ -131,20 +130,6 @@ ${legend}
   return panel(W, height, WINDOW_TITLE, body, extra);
 }
 
-export function renderDivider() {
-
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="36" viewBox="0 0 ${W} 36" role="presentation">
-<style>${THEME}</style>
-<defs><linearGradient id="rule" x1="0" y1="0" x2="1" y2="0">
-<stop offset="0%" stop-color="${C.brand}" stop-opacity="0"/>
-<stop offset="28%" stop-color="${C.brand}" stop-opacity=".75"/>
-<stop offset="52%" stop-color="${C.blue}" stop-opacity=".85"/>
-<stop offset="76%" stop-color="${C.purple}" stop-opacity=".7"/>
-<stop offset="100%" stop-color="${C.purple}" stop-opacity="0"/>
-</linearGradient></defs>
-<rect x="0" y="17" width="${W}" height="2" rx="1" fill="url(#rule)"/>
-</svg>`;
-}
 
 
 
@@ -166,8 +151,8 @@ const D_MATRIX = [
 const sep = ['var(--mute)', ` ${MID} `];
 
 
-const CHROME_H = 40;
-const ABOUT_H = 276;
+const CHROME_H = 0;
+const ABOUT_H = 236;
 const LOGO_X = TEXT_X;
 const BLOCK = 13;
 const LOGO_H = D_MATRIX.length * BLOCK - 1;
@@ -196,7 +181,7 @@ export function renderAbout() {
   )).join('');
 
   const rows = ABOUT_ROWS.map(([label, parts], i) => {
-    const y = 82 + i * 26;
+    const y = 42 + i * 26;
     return `<text x="${INFO_X}" y="${y}" font-size="12" letter-spacing="1.2" fill="var(--mute)">${label}</text>
 <text x="${VALUE_X}" y="${y}" font-size="15" xml:space="preserve">${parts.map(([fill, text]) => `<tspan fill="${fill}">${text}</tspan>`).join('')}</text>`;
   }).join('\n');
@@ -270,7 +255,7 @@ export function renderStack() {
   const TEXT_GAP = ICON + 8;
 
   const parts = [];
-  let y = 120;
+  let y = 64;
 
   for (const [label, items] of STACK_GROUPS) {
     const column = CHIPS_X - LABEL_X - 12;
@@ -298,8 +283,7 @@ export function renderStack() {
 
   const style = `<style>.glabel{font-size:12px;letter-spacing:1.2px;fill:var(--mute)}`
     + `.chip{font-size:12px;fill:var(--dim)}</style>`;
-  const head = `<text x="${TEXT_X}" y="76" font-size="19" xml:space="preserve">${cmd('cat stack.txt')}</text>`;
-  return panel(W, Math.round(y - 12), WINDOW_TITLE, head + '\n' + parts.join('\n'), style);
+  return panel(W, Math.round(y - 12), WINDOW_TITLE, parts.join('\n'), style);
 }
 
 
@@ -320,13 +304,13 @@ export function renderStats({ contributions, repositories, languages }) {
     .join('');
 
   const left = counters.map(([value, label], i) => {
-    const y = 130 + i * 76;
+    const y = 90 + i * 76;
     return `<text x="${TEXT_X}" y="${y}" font-size="34" font-weight="600" fill="url(#n${i})">${escapeXml(value)}</text>
 <text x="${TEXT_X}" y="${y + 22}" font-size="13" fill="var(--dim)">${escapeXml(label)}</text>`;
   }).join('\n');
 
   const right = top.map((lang, i) => {
-    const y = 118 + i * 40;
+    const y = 78 + i * 40;
     const filled = total > 0 ? Math.max(4, Math.round(BAR_W * (lang.size / total))) : 0;
     return `<text x="${COL2_X}" y="${y}" font-size="14" fill="var(--fg)">${escapeXml(lang.name)}</text>
 <text x="${COL2_X + BAR_W}" y="${y}" font-size="14" text-anchor="end" fill="var(--dim)">${share(lang.size, total)}</text>
@@ -339,14 +323,14 @@ export function renderStats({ contributions, repositories, languages }) {
     + `.bar{animation:grow .8s cubic-bezier(.2,.8,.2,1) backwards}`
     + `@keyframes grow{from{width:0}}}</style>${ramps}`;
 
-  const leftBottom = 130 + (counters.length - 1) * 76 + 22;
-  const rightBottom = top.length ? 118 + (top.length - 1) * 40 + 18 : 0;
+  const leftBottom = 90 + (counters.length - 1) * 76 + 22;
+  const rightBottom = top.length ? 78 + (top.length - 1) * 40 + 18 : 0;
   const height = Math.max(leftBottom, rightBottom) + 40;
 
   return panel(W, height, WINDOW_TITLE, `
-<text x="${TEXT_X}" y="78" font-size="12" letter-spacing="1.2" fill="var(--mute)">OVERVIEW</text>
+<text x="${TEXT_X}" y="38" font-size="12" letter-spacing="1.2" fill="var(--mute)">OVERVIEW</text>
 ${left}
-<path d="M${SPLIT} 70V${height - 26}" stroke="var(--line)"/>
-<text x="${COL2_X}" y="78" font-size="12" letter-spacing="1.2" fill="var(--mute)">TOP LANGUAGES</text>
+<path d="M${SPLIT} 30V${height - 26}" stroke="var(--line)"/>
+<text x="${COL2_X}" y="38" font-size="12" letter-spacing="1.2" fill="var(--mute)">TOP LANGUAGES</text>
 ${right}`, motion);
 }

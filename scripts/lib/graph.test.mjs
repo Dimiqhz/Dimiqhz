@@ -40,15 +40,4 @@ test('the graph adapts to a light page and honours reduced motion', () => {
   assert.match(svg, /@media \(prefers-reduced-motion: no-preference\)/);
 });
 
-test('the graph shows the command that produced it, inside its own window', () => {
-  const svg = renderGraph(calendar);
-  assert.match(svg, />git log --graph</);
-  assert.match(svg, /#ff5f57/, 'the graph is not drawn as a terminal window');
-});
 
-test('the command line is not shrunk by the cell styling', () => {
-  // A `text{font-size:11px}` rule beats a font-size attribute, so the command
-  // needs a class of its own to keep terminal size.
-  assert.match(renderGraph(calendar), /class="cmdline"/);
-  assert.match(renderGraph(calendar), /\.cmdline\{font-size:19px\}/);
-});
