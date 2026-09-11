@@ -88,3 +88,13 @@ test('no text is painted a colour that disappears on a white page', () => {
   }
   assert.deepEqual(pale, [], 'these fills are too light to read on white');
 });
+
+test('every panel carries the typeface with it', () => {
+  const profile = { contributions: 1, repositories: 1, languages: [{ name: 'Shell', color: '#89e051', size: 1 }] };
+  for (const [name, svg] of Object.entries({
+    header: renderHeader(), about: renderAbout(), stats: renderStats(profile), stack: renderStack(),
+  })) {
+    assert.match(svg, /@font-face/, `${name} would fall back to whatever the viewer has`);
+    assert.match(svg, /font-family:JetBrains Mono|'JetBrains Mono'/, `${name} does not ask for the face`);
+  }
+});

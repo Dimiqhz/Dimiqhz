@@ -32,3 +32,9 @@ test('vendored path data is never rewritten', () => {
   const bodies = Object.values(icons).map((i) => i.body).join('');
   assert.match(bodies, /\d\.\d{2,}/, 'coordinates look rounded');
 });
+
+test('the embedded typeface carries both weights and no network reference', () => {
+  const font = JSON.parse(readFileSync(new URL('./font.json', import.meta.url), 'utf8'));
+  assert.ok(font.regular.length > 1000 && font.bold.length > 1000, 'a weight is missing');
+  assert.ok(!/https?:/.test(font.regular + font.bold), 'the font points at a network resource');
+});

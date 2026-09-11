@@ -9,7 +9,17 @@ export const C = {
   brand: '#4f6bff', blue: '#58a6ff', green: '#3fb950', amber: '#d29922', purple: '#a371f7',
 };
 
-export const THEME = ':root{--bg:#0d1117;--bar:#161b22;--card:#12181f;--line:#21262d;'
+const FONT = JSON.parse(readFileSync(new URL('./font.json', import.meta.url), 'utf8'));
+
+const FACE = ['regular', 'bold']
+  .map((weight) => `@font-face{font-family:'JetBrains Mono';font-style:normal;`
+    + `font-weight:${weight === 'bold' ? 700 : 400};font-display:block;`
+    + `src:url(data:font/woff2;base64,${FONT[weight]}) format('woff2')}`)
+  .join('');
+
+const MONO = "'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace";
+
+export const THEME = FACE + ':root{--bg:#0d1117;--bar:#161b22;--card:#12181f;--line:#21262d;'
   + '--track:#1c2128;--fg:#e6edf3;--dim:#8b949e;--mute:#6e7681;--title:#b6bcc4;'
   + '--js:#f1e05a;--sh:#89e051;--l0:#161b22;--l1:#0e4429;--l2:#006d32;--l3:#26a641;--l4:#39d353}'
   + '@media (prefers-color-scheme: light){:root{--bg:#ffffff;--bar:#f0f3f6;--card:#f6f8fa;'
@@ -17,7 +27,6 @@ export const THEME = ':root{--bg:#0d1117;--bar:#161b22;--card:#12181f;--line:#21
   + '--js:#8a6d00;--sh:#3f6212;--l0:#ebedf0;--l1:#9be9a8;--l2:#40c463;--l3:#30a14e;--l4:#216e39}}';
 
 
-const MONO = 'ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace';
 
 
 const UI = '-apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif';
