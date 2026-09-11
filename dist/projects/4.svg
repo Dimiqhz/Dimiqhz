@@ -1,8 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="205" height="132" viewBox="0 0 205 132" role="img">
+<svg xmlns="http://www.w3.org/2000/svg" width="410" height="130" viewBox="0 0 410 130" role="img">
 <style>:root{--bg:#0d1117;--bar:#161b22;--card:#12181f;--line:#21262d;--track:#1c2128;--fg:#e6edf3;--dim:#8b949e;--mute:#6e7681;--title:#b6bcc4;--js:#f1e05a;--sh:#89e051;--l0:#161b22;--l1:#0e4429;--l2:#006d32;--l3:#26a641;--l4:#39d353}@media (prefers-color-scheme: light){:root{--bg:#ffffff;--bar:#f0f3f6;--card:#f6f8fa;--line:#d1d9e0;--track:#eaeef2;--fg:#1f2328;--dim:#59636e;--mute:#818b98;--title:#424a53;--js:#8a6d00;--sh:#3f6212;--l0:#ebedf0;--l1:#9be9a8;--l2:#40c463;--l3:#30a14e;--l4:#216e39}}text{font-family:ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace}.cmdline{font-size:19px}</style>
-<path class="frame" d="M0 0 H193 A12 12 0 0 1 205 12 V120 A12 12 0 0 1 193 132 H0 Z" fill="var(--card)"/>
-<path class="frame" d="M0 .5 H192.5 A12 12 0 0 1 204.5 12.5 V119.5 A12 12 0 0 1 192.5 131.5 H0" fill="none" stroke="var(--line)"/>
+<path class="frame" d="M0 0 H410 L410 12 V118 A12 12 0 0 1 398 130 H0 L0 118 V0 L12 0 Z" fill="var(--card)"/>
 
-<text x="28" y="80" font-size="14" font-weight="600" fill="#58a6ff">Shannon-Fano-Compr…</text>
-<circle cx="33" cy="104" r="5" fill="#3572A5"/>
-<text x="46" y="109" font-size="12" fill="var(--dim)">Python</text></svg>
+<text x="28" y="42" font-size="16" font-weight="600" xml:space="preserve"><tspan fill="var(--mute)">dimiqhz/</tspan><tspan fill="#58a6ff">Shannon-Fano-Compression</tspan></text>
+<text x="28" y="68" font-size="13" fill="var(--dim)">This Python script implements the Shannon-Fano</text>
+<text x="28" y="88" font-size="13" fill="var(--dim)">algorithm for data compression. It…</text>
+<circle cx="33" cy="102" r="5" fill="#3572A5"/>
+<text x="46" y="107" font-size="12" fill="var(--dim)">Python</text></svg>

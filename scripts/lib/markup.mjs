@@ -7,17 +7,24 @@ export const PANEL_W = 820;
 
 
 export function cardWidths(count) {
-  const base = Math.floor(PANEL_W / count);
-  const widths = Array.from({ length: count }, () => base);
-  widths[count - 1] += PANEL_W - base * count;
-  return widths;
+  return Array.from({ length: count }, (_, i) => {
+    const alone = i === count - 1 && i % 2 === 0;
+    return alone ? PANEL_W : PANEL_W / 2;
+  });
 }
 
-export function cardShape(index, count) {
-  if (count === 1) return 'full';
-  if (index === 0) return 'left';
-  if (index === count - 1) return 'right';
-  return 'middle';
+export function cardCorners(index, count) {
+  const lastRow = Math.floor((count - 1) / 2);
+  const row = Math.floor(index / 2);
+  const alone = index === count - 1 && index % 2 === 0;
+  const left = alone || index % 2 === 0;
+  const right = alone || index % 2 === 1 || index === count - 1;
+  return {
+    tl: row === 0 && left,
+    tr: row === 0 && right,
+    bl: row === lastRow && left,
+    br: row === lastRow && right,
+  };
 }
 
 const safeUrl = (url) => {

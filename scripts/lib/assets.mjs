@@ -200,42 +200,50 @@ ${rows}`,
 
 
 
-const CARD_H = 132;
 
-export function renderProjectCard({ name, language, languageColor }, width, opts = {}) {
-  const shape = opts.shape ?? 'full';
+const CARD_BODY = 130;
+const COMMAND_BAND = 46;
+
+export function renderProjectCard({ name, description, language, languageColor }, width, opts = {}) {
+  const corners = opts.corners ?? { tl: true, tr: true, bl: true, br: true };
   const command = opts.command ?? null;
-  const H = CARD_H;
+  const topRow = opts.topRow ?? Boolean(command);
+  const band = topRow ? COMMAND_BAND : 0;
+  const H = CARD_BODY + band;
   const R = 12;
 
-  const fills = {
-    left: `M${width} 0 H${R} A${R} ${R} 0 0 0 0 ${R} V${H - R} A${R} ${R} 0 0 0 ${R} ${H} H${width} Z`,
-    middle: `M0 0 H${width} V${H} H0 Z`,
-    right: `M0 0 H${width - R} A${R} ${R} 0 0 1 ${width} ${R} V${H - R} A${R} ${R} 0 0 1 ${width - R} ${H} H0 Z`,
-    full: `M${R} 0 H${width - R} A${R} ${R} 0 0 1 ${width} ${R} V${H - R} A${R} ${R} 0 0 1 ${width - R} ${H} H${R} A${R} ${R} 0 0 1 0 ${H - R} V${R} A${R} ${R} 0 0 1 ${R} 0 Z`,
-  };
-  const edges = {
-    left: `M${width} .5 H${R + 0.5} A${R} ${R} 0 0 0 .5 ${R + 0.5} V${H - R - 0.5} A${R} ${R} 0 0 0 ${R + 0.5} ${H - 0.5} H${width}`,
-    middle: `M0 .5 H${width} M0 ${H - 0.5} H${width}`,
-    right: `M0 .5 H${width - R - 0.5} A${R} ${R} 0 0 1 ${width - 0.5} ${R + 0.5} V${H - R - 0.5} A${R} ${R} 0 0 1 ${width - R - 0.5} ${H - 0.5} H0`,
-    full: fills.full,
-  };
+  const arc = (on, x, y, sweep) => (on ? `A${R} ${R} 0 0 ${sweep} ${x} ${y}` : `L${x} ${y}`);
+  const shape = [
+    `M${corners.tl ? R : 0} 0`,
+    `H${width - (corners.tr ? R : 0)}`,
+    arc(corners.tr, width, R, 1),
+    `V${H - (corners.br ? R : 0)}`,
+    arc(corners.br, width - R, H, 1),
+    `H${corners.bl ? R : 0}`,
+    arc(corners.bl, 0, H - R, 1),
+    `V${corners.tl ? R : 0}`,
+    arc(corners.tl, R, 0, 1),
+    'Z',
+  ].join(' ');
 
-  const columns = Math.floor((width - TEXT_X - 16) / 8.4);
-  const head = command
-    ? `<text class="cmdline" x="${TEXT_X}" y="34" xml:space="preserve">${cmd(escapeXml(command))}</text>`
-    : '';
+  const columns = Math.floor((width - TEXT_X - 16) / 7.8);
+  const body = clampLines(wrapText(description, columns), 2)
+    .map((line, i) => `<text x="${TEXT_X}" y="${band + 68 + i * 20}" font-size="13" fill="var(--dim)">${escapeXml(line)}</text>`)
+    .join('\n');
   const tag = language
     ? `<circle cx="${TEXT_X + 5}" cy="${H - 28}" r="5" fill="${escapeAttr(languageColor || C.blue)}"/>
 <text x="${TEXT_X + 18}" y="${H - 23}" font-size="12" fill="var(--dim)">${escapeXml(language)}</text>`
     : '';
+  const head = command
+    ? `<text class="cmdline" x="${TEXT_X}" y="34" xml:space="preserve">${cmd(escapeXml(command))}</text>`
+    : '';
 
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${H}" viewBox="0 0 ${width} ${H}" role="img">
 <style>${THEME}text{font-family:${MONO}}.cmdline{font-size:19px}</style>
-<path class="frame" d="${fills[shape]}" fill="var(--card)"/>
-<path class="frame" d="${edges[shape]}" fill="none" stroke="var(--line)"/>
+<path class="frame" d="${shape}" fill="var(--card)"/>
 ${head}
-<text x="${TEXT_X}" y="80" font-size="14" font-weight="600" fill="${C.blue}">${escapeXml(truncate(name, columns))}</text>
+<text x="${TEXT_X}" y="${band + 42}" font-size="16" font-weight="600" xml:space="preserve"><tspan fill="var(--mute)">dimiqhz/</tspan><tspan fill="${C.blue}">${escapeXml(truncate(name, columns))}</tspan></text>
+${body}
 ${tag}</svg>`;
 }
 
