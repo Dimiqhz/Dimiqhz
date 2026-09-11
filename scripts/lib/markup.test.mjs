@@ -36,13 +36,12 @@ test('stackMarkup describes the panel from the same list the panel is drawn from
   assert.ok(!html.includes('Unreal'), 'alt text still lists a removed tool');
 });
 
-test('the projects row is nothing but linked cards', () => {
-  // A bare <img> here means the generator is pointing at an asset it no longer
-  // builds — which is how a broken image got into the README.
+test('every project card is a link; only the prompt line is not', () => {
   const html = projectMarkup([project('One'), project('Two')]);
   const linked = [...html.matchAll(/<a href="[^"]*"><img/g)].length;
   const total = [...html.matchAll(/<img/g)].length;
-  assert.equal(linked, total, 'an image sits outside a link');
+  assert.equal(total - linked, 1, 'exactly one unlinked image is expected: the prompt line');
+  assert.match(html, /prompt-projects\.svg/);
 });
 
 test('projectMarkup refuses a link that is not http or https', () => {

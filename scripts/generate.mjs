@@ -2,7 +2,7 @@ import { mkdir, readdir, readFile, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { renderAbout, renderDivider, renderHeader, renderGraph, renderProjectCard, renderStack, renderStats } from './lib/assets.mjs';
+import { renderAbout, renderDivider, renderHeader, renderGraph, renderProjectCard, renderPromptStrip, renderStack, renderStats } from './lib/assets.mjs';
 import { fetchProfile } from './lib/github.mjs';
 import { cardCorners, cardWidths, projectMarkup, stackMarkup } from './lib/markup.mjs';
 import { replaceBlock } from './lib/readme.mjs';
@@ -32,6 +32,7 @@ async function main() {
   await write('dist/panels/stats.svg', renderStats(profile));
   await write('dist/panels/stack.svg', renderStack());
   await write('dist/ui/divider.svg', renderDivider());
+  await write('dist/ui/prompt-projects.svg', renderPromptStrip('ls ./projects'));
   await write('dist/panels/graph.svg', renderGraph(profile.calendar));
 
 
@@ -40,8 +41,6 @@ async function main() {
   await Promise.all(profile.projects.map((project, i) =>
     write(`dist/projects/${i + 1}.svg`, renderProjectCard(project, widths[i], {
       corners: cardCorners(i, count),
-      topRow: i < 2,
-      command: i === 0 ? 'ls ./projects' : null,
     }))));
 
   const readmePath = path.join(ROOT, 'README.md');

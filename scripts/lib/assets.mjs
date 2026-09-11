@@ -152,7 +152,6 @@ export function renderPromptStrip(command) {
 
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="46" viewBox="0 0 ${W} 46" role="img" aria-label="${escapeAttr(`~ $ ${command}`)}">
 <style>${THEME}text{font-family:${MONO};font-size:19px}</style>
-<rect x=".5" y=".5" width="${W - 1}" height="45" rx="10" fill="var(--bg)" stroke="var(--line)"/>
 <text x="${TEXT_X}" y="31" xml:space="preserve"><tspan fill="var(--mute)">~</tspan><tspan fill="${C.brand}"> $ </tspan><tspan fill="var(--fg)">${escapeXml(command)}</tspan></text>
 </svg>`;
 }
@@ -210,8 +209,8 @@ ${rows}`,
 
 
 
-const CARD_BODY = 130;
-const COMMAND_BAND = 46;
+const CARD_BODY = 168;
+const COMMAND_BAND = 0;
 
 export function renderProjectCard({ name, description, language, languageColor }, width, opts = {}) {
   const corners = opts.corners ?? { tl: true, tr: true, bl: true, br: true };
@@ -235,8 +234,9 @@ export function renderProjectCard({ name, description, language, languageColor }
     'Z',
   ].join(' ');
 
-  const columns = Math.floor((width - TEXT_X - 16) / 7.8);
-  const body = clampLines(wrapText(description, columns), 2)
+  const columns = Math.floor((width - TEXT_X - 16) / 7.4);
+  const nameColumns = Math.floor((width - TEXT_X - 16) / 8.4);
+  const body = clampLines(wrapText(description, columns), 4)
     .map((line, i) => `<text x="${TEXT_X}" y="${band + 68 + i * 20}" font-size="13" fill="var(--dim)">${escapeXml(line)}</text>`)
     .join('\n');
   const tag = language
@@ -251,7 +251,7 @@ export function renderProjectCard({ name, description, language, languageColor }
 <style>${THEME}text{font-family:${MONO}}.cmdline{font-size:19px}</style>
 <path class="frame" d="${shape}" fill="var(--card)"/>
 ${head}
-<text x="${TEXT_X}" y="${band + 42}" font-size="16" font-weight="600" xml:space="preserve"><tspan fill="var(--mute)">dimiqhz/</tspan><tspan fill="${C.blue}">${escapeXml(truncate(name, columns))}</tspan></text>
+<text x="${TEXT_X}" y="${band + 42}" font-size="14" font-weight="600" fill="${C.blue}">${escapeXml(truncate(name, nameColumns))}</text>
 ${body}
 ${tag}</svg>`;
 }

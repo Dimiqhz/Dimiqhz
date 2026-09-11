@@ -6,46 +6,54 @@ import { PANEL_W, cardCorners, cardWidths } from './markup.mjs';
 
 const one = { name: 'Excel2SQL', description: 'A tool for things', language: 'Python', languageColor: '#3572A5' };
 
-test('cards are laid out two to a row and each row fills the panel', () => {
+test('the cards sit in one row that fills the panel', () => {
+  // One row is the only seamless arrangement: two stacked images are always
+  // separated by the line box, and that 6px cannot be closed without CSS.
   for (const count of [1, 2, 3, 4]) {
     const widths = cardWidths(count);
     assert.equal(widths.length, count);
-    for (let i = 0; i < count; i += 2) {
-      const row = widths.slice(i, i + 2).reduce((a, b) => a + b, 0);
-      assert.equal(row, PANEL_W, `row starting at ${i} does not fill the panel`);
-    }
+    assert.equal(widths.reduce((a, b) => a + b, 0), PANEL_W, `${count} cards do not fill the row`);
   }
 });
 
-test('only the outer corners of the block are rounded', () => {
-  assert.deepEqual(cardCorners(0, 4), { tl: true, tr: false, bl: false, br: false });
-  assert.deepEqual(cardCorners(1, 4), { tl: false, tr: true, bl: false, br: false });
-  assert.deepEqual(cardCorners(2, 4), { tl: false, tr: false, bl: true, br: false });
-  assert.deepEqual(cardCorners(3, 4), { tl: false, tr: false, bl: false, br: true });
+test('only the two ends of the row are rounded', () => {
+  assert.deepEqual(cardCorners(0, 4), { tl: true, bl: true, tr: false, br: false });
+  assert.deepEqual(cardCorners(1, 4), { tl: false, bl: false, tr: false, br: false });
+  assert.deepEqual(cardCorners(3, 4), { tl: false, bl: false, tr: true, br: true });
 });
 
-test('a single project is a rounded block on its own', () => {
-  assert.deepEqual(cardCorners(0, 1), { tl: true, tr: true, bl: true, br: true });
+test('a lone card is rounded all round', () => {
+  assert.deepEqual(cardCorners(0, 1), { tl: true, bl: true, tr: true, br: true });
 });
 
-test('the first row is taller, because it carries the command', () => {
-  const height = (svg) => Number(svg.match(/<svg[^>]*height="(\d+)"/)[1]);
-  const first = renderProjectCard(one, 410, { corners: cardCorners(0, 4), command: 'ls ./projects' });
-  const second = renderProjectCard(one, 410, { corners: cardCorners(1, 4), topRow: true });
-  const third = renderProjectCard(one, 410, { corners: cardCorners(2, 4) });
-  assert.equal(height(first), height(second), 'a row must not step');
-  assert.ok(height(first) > height(third), 'the command needs room the other rows do not');
-});
-
-test('only the first card carries the command', () => {
-  assert.match(renderProjectCard(one, 410, { command: 'ls ./projects' }), />ls \.\/projects</);
-  assert.ok(!renderProjectCard(one, 410, {}).includes('ls ./projects'));
+test('every card in the row is the same height so the block does not step', () => {
+  const height = (svg) => svg.match(/<svg[^>]*height="(\d+)"/)[1];
+  assert.equal(
+    height(renderProjectCard(one, 205, { corners: cardCorners(0, 4) })),
+    height(renderProjectCard(one, 205, { corners: cardCorners(2, 4) })),
+  );
 });
 
 test('a card keeps its description', () => {
-  assert.match(renderProjectCard(one, 410, {}), />A tool for things</);
+  assert.match(renderProjectCard(one, 205, {}), />A tool for things</);
+});
+
+test('a description too long for the column is cut with an ellipsis', () => {
+  const long = 'An intuitive tool for converting Excel spreadsheets into SQL scripts, designed to streamline every migration anyone could want';
+  assert.match(renderProjectCard({ ...one, description: long }, 205, {}), /…/);
 });
 
 test('a card escapes a repository name that contains markup', () => {
-  assert.ok(!/<script[ >]/.test(renderProjectCard({ ...one, name: '<script>a()</script>' }, 410, {})));
+  assert.ok(!/<script[ >]/.test(renderProjectCard({ ...one, name: '<script>a()</script>' }, 205, {})));
+});
+
+test('a card marks its language in that language colour', () => {
+  assert.match(renderProjectCard(one, 205, {}), /<circle[^>]*fill="#3572A5"/);
+});
+
+test('a name too long for its column is cut, not clipped by the card edge', () => {
+  const svg = renderProjectCard({ ...one, name: 'Shannon-Fano-Compression' }, 205, {});
+  const shown = svg.match(/font-size="14" font-weight="600"[^>]*>([^<]+)</)[1];
+  assert.ok(shown.endsWith('…'), `"${shown}" was not cut`);
+  assert.ok(shown.length * 8.4 <= 205 - 28 - 16, `"${shown}" still overflows the column`);
 });

@@ -52,10 +52,6 @@ test('the divider is a rule, not a third window', () => {
   assert.ok(!svg.includes('<text'), 'a rule carries no text');
 });
 
-test('the prompt strip carries its own background', () => {
-
-  assert.match(renderPromptStrip('ls ./projects'), /<rect[^>]*fill="var\(--bg\)"/);
-});
 
 test('every asset adapts to a light page', () => {
   const profile = { contributions: 1, repositories: 1, languages: [{ name: 'Shell', color: '#89e051', size: 1 }] };
@@ -97,4 +93,11 @@ test('every panel carries the typeface with it', () => {
     assert.match(svg, /@font-face/, `${name} would fall back to whatever the viewer has`);
     assert.match(svg, /font-family:JetBrains Mono|'JetBrains Mono'/, `${name} does not ask for the face`);
   }
+});
+
+test('the prompt line is bare text, so nothing can seam against it', () => {
+  const svg = renderPromptStrip('ls ./projects');
+  assert.ok(!/<rect[^>]*fill="var\(--bg\)"/.test(svg), 'the strip is a block again');
+  assert.ok(!/<rect[^>]*fill="var\(--card\)"/.test(svg), 'the strip is a block again');
+  assert.match(svg, /fill="var\(--fg\)"/, 'the command would vanish on a light page');
 });
