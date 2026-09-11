@@ -29,6 +29,11 @@ export function wrapText(value, max) {
   return lines;
 }
 
+export function truncate(text, max) {
+  const value = String(text ?? '');
+  return value.length <= max ? value : `${value.slice(0, max - 1)}…`;
+}
+
 export function clampLines(lines, max) {
   if (lines.length <= max) return lines;
   const kept = lines.slice(0, max);

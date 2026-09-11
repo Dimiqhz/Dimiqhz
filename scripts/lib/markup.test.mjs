@@ -10,15 +10,7 @@ test('projectMarkup leaves no whitespace between two cards', () => {
   assert.ok(!/<\/a>\s+<a/.test(projectMarkup([project('One'), project('Two')])));
 });
 
-test('projectMarkup pairs cards at half the panel width', () => {
-  const html = projectMarkup([project('One'), project('Two')]);
-  assert.deepEqual([...html.matchAll(/width="(\d+)"/g)].map((m) => Number(m[1])), [PANEL_W / 2, PANEL_W / 2]);
-});
 
-test('projectMarkup stretches a lone trailing card across the full width', () => {
-  const html = projectMarkup([project('One'), project('Two'), project('Three')]);
-  assert.deepEqual([...html.matchAll(/width="(\d+)"/g)].map((m) => Number(m[1])), [PANEL_W / 2, PANEL_W / 2, PANEL_W]);
-});
 
 test('projectMarkup links every card to its repository', () => {
   const html = projectMarkup([project('One')]);

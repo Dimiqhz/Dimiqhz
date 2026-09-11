@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
 
-import { clampLines, escapeAttr, escapeXml, groupThousands, lighten, share, wrapText } from './format.mjs';
+import { clampLines, escapeAttr, escapeXml, groupThousands, lighten, share, truncate, wrapText } from './format.mjs';
 import { STACK_GROUPS } from './stack-data.mjs';
 import { PANEL_W } from './markup.mjs';
 
@@ -24,7 +24,7 @@ const UI = '-apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Ari
 
 const W = PANEL_W;
 const PAD = 36;
-const TEXT_X = 28;
+export const TEXT_X = 28;
 const SPLIT = Math.round(W / 2);
 const COL2_X = SPLIT + 40;
 export const BAR_W = W - COL2_X - PAD;
@@ -33,12 +33,12 @@ const MID = '&#183;';
 
 export const WINDOW_TITLE = 'dimiqhz@github: ~';
 
-const light = (cx, fill) => `<circle cx="${cx}" cy="20.5" r="6" fill="${fill}"/>`;
+const light = (cx, fill) => `<circle class="light" cx="${cx}" cy="20.5" r="6" fill="${fill}"/>`;
 
 const panel = (w, h, title, body, defs = '') => `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" role="img">
 <style>${THEME}text{font-family:${MONO}}.title{font-family:${UI};font-size:13px;font-weight:600;fill:var(--title)}</style>
 <defs>${defs}</defs>
-<rect x=".5" y=".5" width="${w - 1}" height="${h - 1}" rx="12" fill="var(--bg)" stroke="var(--line)"/>
+<rect class="frame" x=".5" y=".5" width="${w - 1}" height="${h - 1}" rx="12" fill="var(--bg)" stroke="var(--line)"/>
 <path d="M.5 12.5A12 12 0 0 1 12.5 .5H${w - 12.5}A12 12 0 0 1 ${w - 0.5} 12.5V40.5H.5Z" fill="var(--bar)"/>
 <path d="M.5 40.5H${w - 0.5}" stroke="var(--line)"/>
 ${light(24, '#ff5f57')}${light(46, '#febc2e')}${light(68, '#28c840')}
@@ -90,7 +90,7 @@ export function renderGraph(weeks) {
   const GAP = 2;
   const STEP = CELL + GAP;
   const gridW = weeks.length * STEP - GAP;
-  const x0 = Math.round((W - gridW) / 2);
+  const x0 = TEXT_X;
   const y0 = 96;
   const height = y0 + 7 * STEP - GAP + 46;
 
@@ -160,7 +160,7 @@ const sep = ['var(--mute)', ` ${MID} `];
 
 const CHROME_H = 40;
 const ABOUT_H = 276;
-const LOGO_X = 48;
+const LOGO_X = TEXT_X;
 const BLOCK = 13;
 const LOGO_H = D_MATRIX.length * BLOCK - 1;
 const LOGO_Y = Math.round(CHROME_H + (ABOUT_H - CHROME_H - LOGO_H) / 2);
@@ -200,9 +200,9 @@ ${rows}`,
 
 
 
-const CARD_H = 172;
+const CARD_H = 132;
 
-export function renderProjectCard({ name, description, language, languageColor }, width, opts = {}) {
+export function renderProjectCard({ name, language, languageColor }, width, opts = {}) {
   const shape = opts.shape ?? 'full';
   const command = opts.command ?? null;
   const H = CARD_H;
@@ -210,34 +210,32 @@ export function renderProjectCard({ name, description, language, languageColor }
 
   const fills = {
     left: `M${width} 0 H${R} A${R} ${R} 0 0 0 0 ${R} V${H - R} A${R} ${R} 0 0 0 ${R} ${H} H${width} Z`,
+    middle: `M0 0 H${width} V${H} H0 Z`,
     right: `M0 0 H${width - R} A${R} ${R} 0 0 1 ${width} ${R} V${H - R} A${R} ${R} 0 0 1 ${width - R} ${H} H0 Z`,
     full: `M${R} 0 H${width - R} A${R} ${R} 0 0 1 ${width} ${R} V${H - R} A${R} ${R} 0 0 1 ${width - R} ${H} H${R} A${R} ${R} 0 0 1 0 ${H - R} V${R} A${R} ${R} 0 0 1 ${R} 0 Z`,
   };
   const edges = {
     left: `M${width} .5 H${R + 0.5} A${R} ${R} 0 0 0 .5 ${R + 0.5} V${H - R - 0.5} A${R} ${R} 0 0 0 ${R + 0.5} ${H - 0.5} H${width}`,
+    middle: `M0 .5 H${width} M0 ${H - 0.5} H${width}`,
     right: `M0 .5 H${width - R - 0.5} A${R} ${R} 0 0 1 ${width - 0.5} ${R + 0.5} V${H - R - 0.5} A${R} ${R} 0 0 1 ${width - R - 0.5} ${H - 0.5} H0`,
     full: fills.full,
   };
 
-  const columns = Math.floor((width - 48) / (13 * 0.6));
-  const body = clampLines(wrapText(description, columns), 2)
-    .map((line, i) => `<text x="24" y="${106 + i * 20}" font-size="13" fill="var(--dim)">${escapeXml(line)}</text>`)
-    .join('\n');
-  const tag = language
-    ? `<circle cx="29" cy="${H - 26}" r="5" fill="${escapeAttr(languageColor || C.blue)}"/>
-<text x="42" y="${H - 21}" font-size="12" fill="var(--dim)">${escapeXml(language)}</text>`
-    : '';
+  const columns = Math.floor((width - TEXT_X - 16) / 8.4);
   const head = command
-    ? `<text class="cmdline" x="24" y="34" xml:space="preserve">${cmd(escapeXml(command))}</text>`
+    ? `<text class="cmdline" x="${TEXT_X}" y="34" xml:space="preserve">${cmd(escapeXml(command))}</text>`
+    : '';
+  const tag = language
+    ? `<circle cx="${TEXT_X + 5}" cy="${H - 28}" r="5" fill="${escapeAttr(languageColor || C.blue)}"/>
+<text x="${TEXT_X + 18}" y="${H - 23}" font-size="12" fill="var(--dim)">${escapeXml(language)}</text>`
     : '';
 
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${H}" viewBox="0 0 ${width} ${H}" role="img">
 <style>${THEME}text{font-family:${MONO}}.cmdline{font-size:19px}</style>
-<path d="${fills[shape]}" fill="var(--card)"/>
-<path d="${edges[shape]}" fill="none" stroke="var(--line)"/>
+<path class="frame" d="${fills[shape]}" fill="var(--card)"/>
+<path class="frame" d="${edges[shape]}" fill="none" stroke="var(--line)"/>
 ${head}
-<text x="24" y="82" font-size="16" font-weight="600" xml:space="preserve"><tspan fill="var(--mute)">dimiqhz/</tspan><tspan fill="${C.blue}">${escapeXml(name)}</tspan></text>
-${body}
+<text x="${TEXT_X}" y="80" font-size="14" font-weight="600" fill="${C.blue}">${escapeXml(truncate(name, columns))}</text>
 ${tag}</svg>`;
 }
 
@@ -249,8 +247,8 @@ const ICON = 16;
 const GLYPH = 7.2;
 
 export function renderStack() {
-  const LABEL_X = 36;
-  const CHIPS_X = 190;
+  const LABEL_X = TEXT_X;
+  const CHIPS_X = TEXT_X + 162;
   const RIGHT = W - PAD;
   const TEXT_GAP = ICON + 8;
 
@@ -306,8 +304,8 @@ export function renderStats({ contributions, repositories, languages }) {
 
   const left = counters.map(([value, label], i) => {
     const y = 130 + i * 76;
-    return `<text x="36" y="${y}" font-size="34" font-weight="600" fill="url(#n${i})">${escapeXml(value)}</text>
-<text x="36" y="${y + 22}" font-size="13" fill="var(--dim)">${escapeXml(label)}</text>`;
+    return `<text x="${TEXT_X}" y="${y}" font-size="34" font-weight="600" fill="url(#n${i})">${escapeXml(value)}</text>
+<text x="${TEXT_X}" y="${y + 22}" font-size="13" fill="var(--dim)">${escapeXml(label)}</text>`;
   }).join('\n');
 
   const right = top.map((lang, i) => {
@@ -329,7 +327,7 @@ export function renderStats({ contributions, repositories, languages }) {
   const height = Math.max(leftBottom, rightBottom) + 40;
 
   return panel(W, height, WINDOW_TITLE, `
-<text x="36" y="78" font-size="12" letter-spacing="1.2" fill="var(--mute)">OVERVIEW</text>
+<text x="${TEXT_X}" y="78" font-size="12" letter-spacing="1.2" fill="var(--mute)">OVERVIEW</text>
 ${left}
 <path d="M${SPLIT} 70V${height - 26}" stroke="var(--line)"/>
 <text x="${COL2_X}" y="78" font-size="12" letter-spacing="1.2" fill="var(--mute)">TOP LANGUAGES</text>

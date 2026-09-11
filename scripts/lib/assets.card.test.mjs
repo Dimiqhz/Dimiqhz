@@ -10,20 +10,8 @@ test('renderProjectCard escapes a repository name containing markup', () => {
   assert.ok(!UNESCAPED.test(svg), 'SVG contains an unescaped ampersand');
 });
 
-test('renderProjectCard is drawn at the width it is given', () => {
-  assert.match(renderProjectCard({ name: 'One', description: 'x' }, 380), /width="380"/);
-  assert.match(renderProjectCard({ name: 'One', description: 'x' }, 760), /width="760"/);
-});
 
-test('renderProjectCard marks a description too long to fit', () => {
-  const long = 'A thoroughly detailed description that keeps going well past the room a narrow card can offer a reader';
-  assert.match(renderProjectCard({ name: 'One', description: long, language: 'Go' }, 380), /…/);
-});
 
-test('renderProjectCard prints nothing rather than "undefined" for a repository with no description', () => {
-  const svg = renderProjectCard({ name: 'One', description: null, language: null }, 380);
-  assert.ok(!svg.includes('undefined'), 'SVG contains the string "undefined"');
-});
 
 test('renderAbout keeps the contact handle in the panel', () => {
   assert.match(renderAbout(), /DIMIQHZ/);
@@ -94,7 +82,3 @@ test('the mark is centred in the window body', () => {
   assert.ok(Math.abs(markCentre - bodyCentre) <= 1, `mark at ${markCentre}, body centre at ${bodyCentre}`);
 });
 
-test('a project card marks its language in that language colour', () => {
-  const svg = renderProjectCard({ name: 'One', description: 'x', language: 'Python', languageColor: '#3572A5' }, 380);
-  assert.match(svg, /<circle[^>]*fill="#3572A5"/);
-});

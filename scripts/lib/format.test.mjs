@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
-import { clampLines, escapeAttr, escapeXml, groupThousands, lighten, share, wrapText } from './format.mjs';
+import { clampLines, escapeAttr, escapeXml, groupThousands, lighten, share, truncate, wrapText } from './format.mjs';
 
 test('escapeXml escapes the ampersand before the angle brackets', () => {
   assert.equal(escapeXml('Tools & <utils>'), 'Tools &amp; &lt;utils&gt;');
@@ -54,4 +54,12 @@ test('lighten mixes a colour towards white by the given amount', () => {
 
 test('lighten leaves a colour alone at zero', () => {
   assert.equal(lighten('#3fb950', 0), '#3fb950');
+});
+
+test('truncate marks a name it had to cut', () => {
+  assert.equal(truncate('Shannon-Fano-Compression', 12), 'Shannon-Fan…');
+});
+
+test('truncate leaves a name that fits alone', () => {
+  assert.equal(truncate('Excel2SQL', 12), 'Excel2SQL');
 });

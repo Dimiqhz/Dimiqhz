@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url';
 
 import { renderAbout, renderDivider, renderHeader, renderGraph, renderProjectCard, renderStack, renderStats } from './lib/assets.mjs';
 import { fetchProfile } from './lib/github.mjs';
-import { cardShape, cardWidth, projectMarkup, stackMarkup } from './lib/markup.mjs';
+import { cardShape, cardWidths, projectMarkup, stackMarkup } from './lib/markup.mjs';
 import { replaceBlock } from './lib/readme.mjs';
 
 const LOGIN = 'Dimiqhz';
@@ -36,10 +36,11 @@ async function main() {
 
 
   const count = profile.projects.length;
+  const widths = cardWidths(count);
   await Promise.all(profile.projects.map((project, i) =>
-    write(`dist/projects/${i + 1}.svg`, renderProjectCard(project, cardWidth(i, count), {
+    write(`dist/projects/${i + 1}.svg`, renderProjectCard(project, widths[i], {
       shape: cardShape(i, count),
-      command: i === 0 ? 'ls ./projects' : null,
+      command: i === 0 ? 'ls' : null,
     }))));
 
   const readmePath = path.join(ROOT, 'README.md');

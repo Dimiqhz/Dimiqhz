@@ -6,18 +6,18 @@ export const PANEL_W = 820;
 
 
 
-export const GUTTER = 8;
-
-const isLoneTrailingCard = (index, count) => index === count - 1 && count % 2 === 1;
-
-export function cardWidth(index, count) {
-  return isLoneTrailingCard(index, count) ? PANEL_W : PANEL_W / 2;
+export function cardWidths(count) {
+  const base = Math.floor(PANEL_W / count);
+  const widths = Array.from({ length: count }, () => base);
+  widths[count - 1] += PANEL_W - base * count;
+  return widths;
 }
 
-
 export function cardShape(index, count) {
-  if (isLoneTrailingCard(index, count)) return 'full';
-  return index % 2 === 0 ? 'left' : 'right';
+  if (count === 1) return 'full';
+  if (index === 0) return 'left';
+  if (index === count - 1) return 'right';
+  return 'middle';
 }
 
 const safeUrl = (url) => {
@@ -28,9 +28,11 @@ const safeUrl = (url) => {
 export function projectMarkup(projects) {
   if (projects.length === 0) return '';
 
+  const widths = cardWidths(projects.length);
+
   const cards = projects
     .map((project, i) => {
-      const width = cardWidth(i, projects.length);
+      const width = widths[i];
       const alt = project.description ? `${project.name} — ${project.description}` : project.name;
       return `<a href="${escapeAttr(safeUrl(project.url))}"><img src="dist/projects/${i + 1}.svg" width="${width}" alt="${escapeAttr(alt)}"></a>`;
     })
