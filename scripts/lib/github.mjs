@@ -16,7 +16,6 @@ const yearAgo = () => {
 const QUERY = `query ($login: String!, $from: DateTime!) {
   user(login: $login) {
     contributionsCollection(from: $from) {
-      totalCommitContributions
       contributionCalendar { weeks { contributionDays { date contributionCount } } }
     }
     repositories(first: 100, ownerAffiliations: OWNER, isFork: false, privacy: PUBLIC) {
@@ -56,6 +55,8 @@ export async function fetchProfile(login, token) {
 }
 
 export function toProfile(user, featured = FEATURED) {
+  const calendar = (user.contributionsCollection.contributionCalendar?.weeks ?? []).map((week) =>
+    week.contributionDays.map((day) => ({ date: day.date, count: day.contributionCount })));
   const { totalCount, nodes } = user.repositories;
   if (totalCount > nodes.length) {
     throw new Error(`only ${nodes.length} of ${totalCount} repositories were fetched; the query needs paging`);
@@ -72,9 +73,8 @@ export function toProfile(user, featured = FEATURED) {
   }
 
   return {
-    commits: user.contributionsCollection.totalCommitContributions,
-    calendar: (user.contributionsCollection.contributionCalendar?.weeks ?? []).map((week) =>
-      week.contributionDays.map((day) => ({ date: day.date, count: day.contributionCount }))),
+    contributions: calendar.flat().reduce((total, day) => total + day.count, 0),
+    calendar,
     repositories: totalCount,
     languages: [...sizes.values()],
     projects: featured.map((wanted) => {

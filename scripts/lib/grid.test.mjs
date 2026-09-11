@@ -5,7 +5,7 @@ import { renderAbout, renderDivider, renderHeader, renderProjectCard, renderProm
 import { PANEL_W } from './markup.mjs';
 
 const profile = {
-  commits: 1344,
+  contributions: 1344,
   repositories: 26,
   languages: [{ name: 'TypeScript', color: '#3178c6', size: 842 }],
 };
@@ -58,7 +58,7 @@ test('the prompt strip carries its own background', () => {
 });
 
 test('every asset adapts to a light page', () => {
-  const profile = { commits: 1, repositories: 1, languages: [{ name: 'Shell', color: '#89e051', size: 1 }] };
+  const profile = { contributions: 1, repositories: 1, languages: [{ name: 'Shell', color: '#89e051', size: 1 }] };
   const assets = {
     header: renderHeader(),
     about: renderAbout(),

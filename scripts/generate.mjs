@@ -47,7 +47,7 @@ async function main() {
   const withProjects = replaceBlock(readme, 'projects', projectMarkup(profile.projects));
   await writeFile(readmePath, replaceBlock(withProjects, 'stack', stackMarkup()));
 
-  console.log(`generated: ${profile.commits} commits, ${profile.repositories} repos, ` +
+  console.log(`generated: ${profile.contributions} contributions, ${profile.repositories} repos, ` +
     `${profile.languages.length} languages, ${profile.projects.length} pinned projects`);
 }
 

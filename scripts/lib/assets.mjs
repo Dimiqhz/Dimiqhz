@@ -289,13 +289,13 @@ export function renderStack() {
 
 
 
-export function renderStats({ commits, repositories, languages }) {
+export function renderStats({ contributions, repositories, languages }) {
   const total = languages.reduce((sum, l) => sum + l.size, 0);
   const top = [...languages].sort((a, b) => b.size - a.size).slice(0, 5);
 
 
   const counters = [
-    [groupThousands(commits), 'commits, last 12 months', C.green],
+    [groupThousands(contributions), 'contributions, last 12 months', C.green],
     [groupThousands(repositories), 'public repositories', C.brand],
     [String(languages.length), 'languages used', C.blue],
   ];

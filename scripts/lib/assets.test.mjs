@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import { BAR_W, renderStats } from './assets.mjs';
 
 const profile = {
-  commits: 1344,
+  contributions: 1344,
   repositories: 26,
   languages: [
     { name: 'TypeScript', color: '#3178c6', size: 842 },
@@ -31,13 +31,13 @@ test('renderStats fills the whole track for a language at one hundred percent', 
 });
 
 test('renderStats survives a profile with no code in it', () => {
-  const svg = renderStats({ commits: 0, repositories: 0, languages: [] });
+  const svg = renderStats({ contributions: 0, repositories: 0, languages: [] });
   assert.ok(!svg.includes('NaN'), 'SVG contains NaN');
 });
 
 test('renderStats charts at most five languages', () => {
   const languages = Array.from({ length: 9 }, (_, i) => ({ name: `L${i}`, color: '#ffffff', size: 10 - i }));
-  const svg = renderStats({ commits: 1, repositories: 1, languages });
+  const svg = renderStats({ contributions: 1, repositories: 1, languages });
   assert.equal([...svg.matchAll(/class="bar"/g)].length, 5);
 });
 
@@ -60,8 +60,8 @@ test('each headline number is painted with its own gradient', () => {
   assert.equal(new Set(refs).size, 3, 'the numbers share a gradient id');
 });
 
-test('the commit counter says which window it measures', () => {
-  assert.match(renderStats(profile), /last 12 months/);
+test('the headline counter says what it counts and over what window', () => {
+  assert.match(renderStats(profile), /contributions, last 12 months/);
 });
 
 test('the stats panel is no taller than its content needs', () => {
