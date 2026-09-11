@@ -14,17 +14,17 @@
 <path d="M410 30V278" stroke="var(--line)"/>
 <text x="450" y="38" font-size="12" letter-spacing="1.2" fill="var(--mute)">TOP LANGUAGES</text>
 <text x="450" y="78" font-size="14" fill="var(--fg)">Shell</text>
-<text x="784" y="78" font-size="14" text-anchor="end" fill="var(--dim)">41.6%</text>
+<text x="784" y="78" font-size="14" text-anchor="end" fill="var(--dim)">41.5%</text>
 <rect class="track" x="450" y="88" height="8" rx="4" fill="var(--track)" width="334"/>
 <rect class="bar" x="450" y="88" height="8" rx="4" fill="#89e051" style="animation-delay:0.15s" width="139"/>
 <text x="450" y="118" font-size="14" fill="var(--fg)">Python</text>
-<text x="784" y="118" font-size="14" text-anchor="end" fill="var(--dim)">28.6%</text>
+<text x="784" y="118" font-size="14" text-anchor="end" fill="var(--dim)">28.5%</text>
 <rect class="track" x="450" y="128" height="8" rx="4" fill="var(--track)" width="334"/>
-<rect class="bar" x="450" y="128" height="8" rx="4" fill="#3572A5" style="animation-delay:0.24s" width="96"/>
+<rect class="bar" x="450" y="128" height="8" rx="4" fill="#3572A5" style="animation-delay:0.24s" width="95"/>
 <text x="450" y="158" font-size="14" fill="var(--fg)">JavaScript</text>
-<text x="784" y="158" font-size="14" text-anchor="end" fill="var(--dim)">14.9%</text>
+<text x="784" y="158" font-size="14" text-anchor="end" fill="var(--dim)">15.1%</text>
 <rect class="track" x="450" y="168" height="8" rx="4" fill="var(--track)" width="334"/>
-<rect class="bar" x="450" y="168" height="8" rx="4" fill="#f1e05a" style="animation-delay:0.33s" width="50"/>
+<rect class="bar" x="450" y="168" height="8" rx="4" fill="#f1e05a" style="animation-delay:0.33s" width="51"/>
 <text x="450" y="198" font-size="14" fill="var(--fg)">C++</text>
 <text x="784" y="198" font-size="14" text-anchor="end" fill="var(--dim)">9.3%</text>
 <rect class="track" x="450" y="208" height="8" rx="4" fill="var(--track)" width="334"/>
