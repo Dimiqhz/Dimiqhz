@@ -3,7 +3,7 @@ import { readFileSync } from 'node:fs';
 import { clampLines, escapeAttr, escapeXml, groupThousands, lighten, share, truncate, wrapText } from './format.mjs';
 import { STACK_GROUPS } from './stack-data.mjs';
 import { IMAGE_W, PANEL_W } from './markup.mjs';
-import { CURSOR_AT, TYPE_DUR } from './session.mjs';
+import { CURSOR_AT } from './session.mjs';
 
 
 export const C = {
@@ -66,6 +66,10 @@ const roundedPath = (w, h, { tl, tr, br, bl }) => {
 
 const edgePath = (w, h, top, bottom) => {
   const right = w - 0.5;
+  if (top && bottom) {
+    return `M.5 ${h - R}V${R}A${R} ${R} 0 0 1 ${R + 0.5} .5H${right - R}A${R} ${R} 0 0 1 ${right} ${R}`
+      + `V${h - R}A${R} ${R} 0 0 1 ${right - R} ${h - 0.5}H${R + 0.5}A${R} ${R} 0 0 1 .5 ${h - R}Z`;
+  }
   if (top) return `M.5 ${h}V${R}A${R} ${R} 0 0 1 ${R + 0.5} .5H${right - R}A${R} ${R} 0 0 1 ${right} ${R}V${h}`;
   if (bottom) return `M${right} 0V${h - R}A${R} ${R} 0 0 1 ${right - R} ${h - 0.5}H${R + 0.5}A${R} ${R} 0 0 1 .5 ${h - R}V0`;
   return `M.5 0V${h}M${right} 0V${h}`;
@@ -74,14 +78,20 @@ const edgePath = (w, h, top, bottom) => {
 const slice = (h, body, defs = '', opts = {}) => {
   const top = opts.top ?? false;
   const bottom = opts.bottom ?? false;
+  // Only the terminal wears chrome. The block below it is a plain surface, so
+  // it can hold the same output without claiming to be a second shell.
+  const chrome = opts.chrome ?? false;
+  // Transparent space under a closed block, drawn rather than left to the page.
+  const gutter = opts.gutter ?? 0;
+  const canvas = h + gutter;
   const corners = { tl: top, tr: top, bl: bottom, br: bottom };
 
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${IMAGE_W}" height="${h}" viewBox="0 0 ${IMAGE_W} ${h}" role="img"${opts.label ? ` aria-label="${escapeAttr(opts.label)}"` : ''}>
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${IMAGE_W}" height="${canvas}" viewBox="0 0 ${IMAGE_W} ${canvas}" role="img"${opts.label ? ` aria-label="${escapeAttr(opts.label)}"` : ''}>
 <style>${THEME}text{font-family:${MONO}}.title{font-family:${UI};font-size:13px;font-weight:600;fill:var(--title)}.cmdline{font-size:19px}</style>
 <defs>${defs}</defs>
 <g transform="translate(${MARGIN} 0)">
 <path class="frame" d="${roundedPath(W, h, corners)}" fill="var(--card)"/>
-${top ? `<path class="frame" d="M0 41V${R}A${R} ${R} 0 0 1 ${R} 0H${W - R}A${R} ${R} 0 0 1 ${W} ${R}V41Z" fill="var(--bar)"/>
+${chrome ? `<path class="frame" d="M0 41V${R}A${R} ${R} 0 0 1 ${R} 0H${W - R}A${R} ${R} 0 0 1 ${W} ${R}V41Z" fill="var(--bar)"/>
 <path class="frame" d="M0 40.5H${W}" stroke="var(--line)"/>
 ${light(24, '#ff5f57')}${light(46, '#febc2e')}${light(68, '#28c840')}
 <text class="title" x="${W / 2}" y="25.5" text-anchor="middle">${escapeXml(WINDOW_TITLE)}</text>` : ''}
@@ -94,7 +104,8 @@ const cmd = (text) => `<tspan fill="var(--mute)">~</tspan><tspan fill="${C.brand
 const out = `<tspan fill="${C.green}">&#8594;</tspan><tspan fill="var(--dim)"> </tspan>`;
 
 
-const HEADER_H = 268;
+export const GUTTER = 28;
+const HEADER_H = 300;
 
 const HEADER_LINES = [
   { y: 76, w: 120, n: 10, at: 0.15, dur: 0.65, t: cmd('whoami') },
@@ -103,6 +114,7 @@ const HEADER_LINES = [
   { y: 172, w: 500, n: 43, at: 2.45, dur: 0.45, t: `${out}<tspan fill="${C.blue}">web</tspan><tspan fill="var(--mute)"> ${MID} </tspan><tspan fill="${C.amber}">applications</tspan><tspan fill="var(--mute)"> ${MID} </tspan><tspan fill="${C.purple}">llm &amp; neural networks</tspan>` },
   { y: 204, w: 120, n: 10, at: 3.00, dur: 0.65, t: cmd('uptime') },
   { y: 236, w: 545, n: 47, at: 3.75, dur: 0.45, t: `${out}<tspan fill="${C.green}">8 years</tspan><tspan fill="var(--dim)"> shipping ${MID} first line of Java at age 6</tspan>` },
+  { y: 268, w: 65, n: 5, at: 4.30, dur: 0.30, t: `<tspan fill="var(--mute)">~</tspan><tspan fill="${C.brand}"> $ </tspan><tspan class="cur" fill="${C.brand}">&#9612;</tspan>` },
 ];
 
 export function renderHeader() {
@@ -114,30 +126,19 @@ export function renderHeader() {
 
   const motion = `<style>@media (prefers-reduced-motion: no-preference){
 ${HEADER_LINES.map((l, i) => `.c${i}{animation:t${i} ${l.dur}s steps(${l.n}) ${l.at}s both}`).join('')}
-${HEADER_LINES.map((l, i) => `@keyframes t${i}{from{width:0}96%{width:${l.w}px}to{width:${full}px}}`).join('')}}</style>`;
+${HEADER_LINES.map((l, i) => `@keyframes t${i}{from{width:0}96%{width:${l.w}px}to{width:${full}px}}`).join('')}
+.cur{animation:blink 1.1s step-end ${CURSOR_AT}s infinite}@keyframes blink{0%,45%{fill-opacity:1}50%,100%{fill-opacity:0}}}</style>`;
 
   const body = HEADER_LINES
     .map((l, i) => `<text x="${TEXT_X}" y="${l.y}" font-size="19" xml:space="preserve" clip-path="url(#h${i})">${l.t}</text>`)
     .join('\n');
 
-  return slice(HEADER_H, body, clips + motion, { top: true });
+  return slice(HEADER_H, body, clips + motion, { top: true, bottom: true, chrome: true, gutter: GUTTER });
 }
 
 
 
-export function renderBottom() {
-  const body = `<text class="cmdline" x="${TEXT_X}" y="33" xml:space="preserve">`
-    + `<tspan fill="var(--mute)">~</tspan><tspan fill="${C.brand}"> $ </tspan>`
-    + `<tspan class="cur" fill="${C.brand}">&#9612;</tspan></text>`;
-  const motion = '<style>@media (prefers-reduced-motion: no-preference){'
-    + `.cur{animation:blink 1.1s step-end ${CURSOR_AT}s infinite}`
-    + '@keyframes blink{0%,45%{fill-opacity:1}50%,100%{fill-opacity:0}}}</style>';
-
-  return slice(58, body, motion, { bottom: true, label: '~ $' });
-}
-
-
-export function renderGraph(weeks) {
+export function renderGraph(weeks, opts = {}) {
   const CELL = 12;
   const GAP = 2;
   const STEP = CELL + GAP;
@@ -170,29 +171,17 @@ export function renderGraph(weeks) {
 ${legend}
 <text x="${W - 30}" y="${height - 20}">more</text>`;
 
-  return slice(height, body, extra);
+  return slice(height, body, extra, opts);
 }
 
 
 
 
 export function renderPromptStrip(command, note = null, opts = {}) {
-  const at = opts.at ?? null;
-  const line = `~ $ ${command}`;
-  const full = W - TEXT_X - PAD;
-  // The clip is authored at its resting width, so a still render — or a viewer
-  // who asked for no motion — sees the command already typed.
-  const typed = Math.min(full, Math.ceil(line.length * 19 * 0.6));
-
-  const body = `<text class="cmdline" x="${TEXT_X}" y="31" xml:space="preserve"${at === null ? '' : ' clip-path="url(#type)"'}>${cmd(escapeXml(command))}</text>`
+  const body = `<text class="cmdline" x="${TEXT_X}" y="31" xml:space="preserve">${cmd(escapeXml(command))}</text>`
     + (note ? `<text x="${W - PAD}" y="31" text-anchor="end" font-size="13" fill="var(--mute)">${escapeXml(note)}</text>` : '');
 
-  const defs = at === null ? '' : `<clipPath id="type"><rect class="t" x="${TEXT_X}" y="9" height="30" width="${full}"/></clipPath>`
-    + '<style>@media (prefers-reduced-motion: no-preference){'
-    + `.t{animation:type ${TYPE_DUR}s steps(${line.length}) ${at}s both}`
-    + `@keyframes type{from{width:0}96%{width:${typed}px}to{width:${full}px}}}</style>`;
-
-  return slice(46, body, defs, { label: `~ $ ${command}` });
+  return slice(46, body, '', { ...opts, label: `~ $ ${command}` });
 }
 
 
@@ -225,7 +214,7 @@ const ABOUT_ROWS = [
   ['CONTACT', [['var(--dim)', 'discord '], [C.brand, 'DIMIQHZ']]],
 ];
 
-export function renderAbout() {
+export function renderAbout(opts = {}) {
   const logo = D_MATRIX.flatMap((row, y) => [...row].map((bit, x) =>
     bit === '1' ? `<rect x="${LOGO_X + x * BLOCK}" y="${LOGO_Y + y * BLOCK}" width="${BLOCK - 1}" height="${BLOCK - 1}" rx="2" fill="url(#g)"/>` : '',
   )).join('');
@@ -238,7 +227,7 @@ export function renderAbout() {
 
   return slice(ABOUT_H, `${logo}
 ${rows}`,
-  `<linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${C.brand}"/><stop offset="100%" stop-color="${C.blue}"/></linearGradient>`);
+  `<linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${C.brand}"/><stop offset="100%" stop-color="${C.blue}"/></linearGradient>`, opts);
 }
 
 
@@ -275,7 +264,7 @@ const ICONS = JSON.parse(readFileSync(new URL('./icons.json', import.meta.url), 
 const ICON = 16;
 const GLYPH = 7.2;
 
-export function renderStack() {
+export function renderStack(opts = {}) {
   const LABEL_X = TEXT_X;
   const CHIPS_X = TEXT_X + 162;
   const RIGHT = W - PAD;
@@ -310,12 +299,12 @@ export function renderStack() {
 
   const style = `<style>.glabel{font-size:12px;letter-spacing:1.2px;fill:var(--mute)}`
     + `.chip{font-size:12px;fill:var(--dim)}</style>`;
-  return slice(Math.round(y - 12), parts.join('\n'), style);
+  return slice(Math.round(y - 12), parts.join('\n'), style, opts);
 }
 
 
 
-export function renderStats({ contributions, repositories, languages }) {
+export function renderStats({ contributions, repositories, languages }, opts = {}) {
   const total = languages.reduce((sum, l) => sum + l.size, 0);
   const top = [...languages].sort((a, b) => b.size - a.size).slice(0, 5);
 
@@ -359,5 +348,5 @@ export function renderStats({ contributions, repositories, languages }) {
 ${left}
 <path d="M${SPLIT} 30V${height - 26}" stroke="var(--line)"/>
 <text x="${COL2_X}" y="38" font-size="12" letter-spacing="1.2" fill="var(--mute)">TOP LANGUAGES</text>
-${right}`, motion);
+${right}`, motion, opts);
 }

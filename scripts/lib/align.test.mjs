@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
-import { TEXT_X, renderAbout, renderBottom, renderGraph, renderHeader, renderProjectRow, renderPromptStrip, renderStack, renderStats } from './assets.mjs';
+import { TEXT_X, renderAbout, renderGraph, renderHeader, renderProjectRow, renderPromptStrip, renderStack, renderStats } from './assets.mjs';
 
 const profile = { contributions: 1, repositories: 1, languages: [{ name: 'Shell', color: '#89e051', size: 1 }] };
 const calendar = Array.from({ length: 53 }, () => Array.from({ length: 7 }, () => ({ date: 'x', count: 1 })));
@@ -14,7 +14,6 @@ const panels = () => ({
   graph: renderGraph(calendar),
   project: renderProjectRow({ name: 'One', description: 'a row', language: 'Shell', stars: 1 }),
   prompt: renderPromptStrip('ls ./projects'),
-  bottom: renderBottom(),
 });
 
 // Window chrome hugs the corner; it is not content and is tagged so.

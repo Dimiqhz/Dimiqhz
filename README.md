@@ -26,7 +26,6 @@
 <img align="left" src="dist/ui/prompt-stack.svg" width="846" alt="~ $ cat stack.txt — 79 tools">
 <img align="left" src="dist/panels/stack.svg" width="846" alt="Full stack. languages: TypeScript, JavaScript, Python, Java, Kotlin, C#, C++, PHP, Bash. infra &amp; ops: Docker, Podman, Kubernetes, Helm, Argo CD, Terraform, Ansible, Vagrant, Vault, Consul, Nomad, GitHub Actions, Jenkins, Prometheus, Grafana, AWS, Azure, GCP, Cloudflare, Nginx, Linux, Ubuntu, Debian. data: PostgreSQL, MySQL, ClickHouse, MongoDB, Redis, Elasticsearch, Kafka, RabbitMQ. frameworks &amp; libraries: Node.js, Express, Next.js, React, jQuery, Bootstrap, Sass, Django, FastAPI, Spring, .NET, TensorFlow, discord.js. tools: Git, GitHub, GitLab, Gradle, Maven, npm, IntelliJ IDEA, WebStorm, PyCharm, GoLand, CLion, Rider, PhpStorm, DataGrip, Android Studio, Qodana, Visual Studio, VS Code, Postman, Figma, Photoshop, Illustrator, After Effects, Premiere, Blender, Notion.">
 <!-- stack:end -->
-<img align="left" src="dist/panels/bottom.svg" width="846" alt="~ $">
 
 <br clear="left">
 

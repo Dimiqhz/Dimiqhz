@@ -2,12 +2,12 @@ import { mkdir, readdir, readFile, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { renderAbout, renderBottom, renderHeader, renderGraph, renderProjectRow, renderPromptStrip, renderStack, renderStats } from './lib/assets.mjs';
+import { renderAbout, renderHeader, renderGraph, renderProjectRow, renderPromptStrip, renderStack, renderStats } from './lib/assets.mjs';
 import { fetchProfile } from './lib/github.mjs';
 import { projectMarkup, stackMarkup } from './lib/markup.mjs';
 import { STACK_GROUPS } from './lib/stack-data.mjs';
 import { replaceBlock } from './lib/readme.mjs';
-import { SESSION, cueOf } from './lib/session.mjs';
+import { SESSION } from './lib/session.mjs';
 
 const LOGIN = 'Dimiqhz';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -32,14 +32,13 @@ async function main() {
   await write('dist/panels/header.svg', renderHeader());
   await write('dist/panels/about.svg', renderAbout());
   await write('dist/panels/stats.svg', renderStats(profile));
-  await write('dist/panels/stack.svg', renderStack());
+  await write('dist/panels/stack.svg', renderStack({ bottom: true }));
   const tools = STACK_GROUPS.reduce((n, [, items]) => n + items.length, 0);
   await Promise.all(SESSION.map(({ name, command }) =>
     write(`dist/ui/prompt-${name}.svg`, renderPromptStrip(command, name === 'stack' ? `${tools} tools` : null, {
-      at: cueOf(name),
+      top: name === SESSION[0].name,
     }))));
   await write('dist/panels/graph.svg', renderGraph(profile.calendar));
-  await write('dist/panels/bottom.svg', renderBottom());
 
   await Promise.all(profile.projects.map((project, i) =>
     write(`dist/projects/${i + 1}.svg`, renderProjectRow(project))));
