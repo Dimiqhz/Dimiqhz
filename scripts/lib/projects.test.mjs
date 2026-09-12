@@ -11,8 +11,6 @@ const xs = (svg, re) => [...svg.matchAll(re)].map((m) => Number(m[1]));
 const height = (svg) => Number(svg.match(/<svg[^>]*height="(\d+)"/)[1]);
 
 test('a pair is one image, because two floated ones can never close up', () => {
-  // GitHub wedges 20px of padding to the right of every align="left" image, so
-  // a column gap drawn between two of them would cut the panel open.
   assert.match(renderProjectPair([one, two]), new RegExp(`<svg[^>]*width="${IMAGE_W}"`));
 });
 

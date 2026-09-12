@@ -11,10 +11,6 @@ const profile = {
 };
 
 test('the grid fits the profile README column', () => {
-  // Measured on the live profile page with headless Edge: the column is 844px
-  // at both 1280 and 1440 viewports — GitHub caps it. A pair of half-width
-  // cards must fit inside it too, or the browser wraps them onto two lines,
-  // which is exactly how they ended up stacked in production.
   assert.ok(PANEL_W <= 844, `${PANEL_W}px is wider than the 844px column`);
   assert.equal(PANEL_W % 2, 0, 'halves have to be whole pixels');
 });
@@ -41,8 +37,6 @@ test('the prompt strip is a bare command line, not another window', () => {
 test('the prompt strip escapes whatever command it is handed', () => {
   assert.ok(!/&(?!(amp|lt|gt|quot|apos|#\d+);)/.test(renderPromptStrip('grep a & b')));
 });
-
-
 
 
 test('every asset adapts to a light page', () => {
@@ -117,8 +111,6 @@ test('a prompt line can carry a note on its right', () => {
 });
 
 test('every prompt line is the full window width, indented like the panels', () => {
-  // The drawer used to shrink this strip to buy back a <summary> indent. There
-  // is no drawer now, so every command starts on the one content edge.
   for (const command of ['ls ./projects', 'cat stack.txt', 'gh stats']) {
     const svg = renderPromptStrip(command);
     assert.match(svg, new RegExp(`<svg[^>]*width="${IMAGE_W}"`), `${command} is off the grid`);

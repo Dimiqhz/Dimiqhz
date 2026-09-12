@@ -28,8 +28,6 @@ export const THEME = FACE + ':root{--bg:#0d1117;--bar:#161b22;--card:#12181f;--l
   + '--js:#8a6d00;--sh:#3f6212;--l0:#ebedf0;--l1:#9be9a8;--l2:#40c463;--l3:#30a14e;--l4:#216e39}}';
 
 
-
-
 const UI = '-apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif';
 
 const W = PANEL_W;
@@ -48,10 +46,6 @@ const light = (cx, fill) => `<circle class="light" cx="${cx}" cy="20.5" r="6" fi
 
 const R = 12;
 
-// The profile is one terminal window cut into stacked images. Each slice paints
-// its background right up to its own top and bottom, so a seam shows no page
-// through it, and draws the two side edges itself. Only the first and the last
-// slice round a corner and close the window off.
 const roundedPath = (w, h, { tl, tr, br, bl }) => {
   const arc = (on, x, y) => (on ? `A${R} ${R} 0 0 1 ${x} ${y}` : `L${x} ${y}`);
   return [
@@ -78,10 +72,7 @@ const edgePath = (w, h, top, bottom) => {
 const slice = (h, body, defs = '', opts = {}) => {
   const top = opts.top ?? false;
   const bottom = opts.bottom ?? false;
-  // Only the terminal wears chrome. The block below it is a plain surface, so
-  // it can hold the same output without claiming to be a second shell.
   const chrome = opts.chrome ?? false;
-  // Transparent space under a closed block, drawn rather than left to the page.
   const gutter = opts.gutter ?? 0;
   const canvas = h + gutter;
   const corners = { tl: top, tr: top, bl: bottom, br: bottom };
@@ -114,8 +105,6 @@ const HEADER_LINES = [
   { y: 172, w: 500, n: 43, at: 2.45, dur: 0.45, t: `${out}<tspan fill="${C.blue}">web</tspan><tspan fill="var(--mute)"> ${MID} </tspan><tspan fill="${C.amber}">applications</tspan><tspan fill="var(--mute)"> ${MID} </tspan><tspan fill="${C.purple}">llm &amp; neural networks</tspan>` },
   { y: 204, w: 120, n: 10, at: 3.00, dur: 0.65, t: cmd('uptime') },
   { y: 236, w: 545, n: 47, at: 3.75, dur: 0.45, t: `${out}<tspan fill="${C.green}">8 years</tspan><tspan fill="var(--dim)"> shipping ${MID} first line of Java at age 6</tspan>` },
-  // The block glyph fills a whole cell, so it hangs 4px under the baseline the
-  // rest of the line sits on. dy puts its foot back on that line.
   { y: 268, w: 65, n: 5, at: 4.30, dur: 0.30, t: `<tspan fill="var(--mute)">~</tspan><tspan fill="${C.brand}"> $ </tspan><tspan class="cur" dy="-4" fill="${C.brand}">&#9612;</tspan>` },
 ];
 
@@ -137,7 +126,6 @@ ${HEADER_LINES.map((l, i) => `@keyframes t${i}{from{width:0}96%{width:${l.w}px}t
 
   return slice(HEADER_H, body, clips + motion, { top: true, bottom: true, chrome: true, gutter: GUTTER });
 }
-
 
 
 export function renderGraph(weeks, opts = {}) {
@@ -177,15 +165,12 @@ ${legend}
 }
 
 
-
-
 export function renderPromptStrip(command, note = null, opts = {}) {
   const body = `<text class="cmdline" x="${TEXT_X}" y="31" xml:space="preserve">${cmd(escapeXml(command))}</text>`
     + (note ? `<text x="${W - PAD}" y="31" text-anchor="end" font-size="13" fill="var(--mute)">${escapeXml(note)}</text>` : '');
 
   return slice(46, body, '', { ...opts, label: `~ $ ${command}` });
 }
-
 
 
 const D_MATRIX = [
@@ -233,11 +218,6 @@ ${rows}`,
 }
 
 
-
-
-// Two projects to a row, drawn into one image. Two floated images can never
-// close up — GitHub keeps 20px to the right of every one of them — so a column
-// gap between them would show the page straight through the panel.
 const COL_GAP = 28;
 const COL_W = W / 2 - TEXT_X - COL_GAP / 2;
 const PAIR_H = 126;
@@ -272,7 +252,6 @@ export function renderProjectPair(pair, opts = {}) {
 }
 
 
-
 const ICONS = JSON.parse(readFileSync(new URL('./icons.json', import.meta.url), 'utf8'));
 
 const ICON = 16;
@@ -296,7 +275,6 @@ export function renderStack(opts = {}) {
     let x = CHIPS_X;
 
     for (const name of items) {
-
       if (x + TEXT_GAP + name.length * GLYPH > RIGHT && x > CHIPS_X) {
         x = CHIPS_X;
         y += 28;
@@ -315,7 +293,6 @@ export function renderStack(opts = {}) {
     + `.chip{font-size:12px;fill:var(--dim)}</style>`;
   return slice(Math.round(y - 12), parts.join('\n'), style, opts);
 }
-
 
 
 export function renderStats({ contributions, repositories, languages }, opts = {}) {

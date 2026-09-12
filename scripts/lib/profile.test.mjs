@@ -65,8 +65,6 @@ test('toProfile carries the language colour of each featured repository', () => 
 });
 
 test('the headline number comes from the calendar, not from a token-dependent field', () => {
-  // totalCommitContributions returns almost nothing to the Actions token: it
-  // read 1,347 locally and 10 in CI. The calendar is identical for both.
   const weeks = [{ contributionDays: [{ date: 'a', contributionCount: 3 }, { date: 'b', contributionCount: 4 }] }];
   const profile = toProfile({
     login: 'Dimiqhz',

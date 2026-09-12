@@ -11,8 +11,6 @@ test('renderProjectPair escapes a repository name containing markup', () => {
 });
 
 
-
-
 test('renderAbout keeps the contact handle in the panel', () => {
   assert.match(renderAbout(), /DIMIQHZ/);
 });
@@ -50,7 +48,6 @@ test('the about panel does not repeat what the header terminal already ran', () 
 });
 
 test('renderAbout draws no decorative colour strip', () => {
-
   assert.ok(!/width="24" height="8"/.test(renderAbout()), 'the swatch strip is still drawn');
 });
 

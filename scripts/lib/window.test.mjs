@@ -11,9 +11,6 @@ const profile = { contributions: 1, repositories: 1, languages: [{ name: 'Shell'
 const calendar = Array.from({ length: 53 }, () => Array.from({ length: 7 }, () => ({ date: 'x', count: 1 })));
 const project = { name: 'Excel2SQL', description: 'A tool', language: 'Python', languageColor: '#3572A5', stars: 3 };
 
-// The page is two blocks cut into stacked images. The terminal on top is a
-// window and types its own session; everything below lives in one plain surface
-// that holds the same output without claiming to be a second shell.
 const terminal = () => renderHeader();
 const opensBlock = () => renderPromptStrip('neofetch', null, { top: true });
 const closesBlock = () => renderStack({ bottom: true });
@@ -38,9 +35,6 @@ const size = (svg) => {
 };
 
 test('every slice is drawn on the full column, with the block centred in it', () => {
-  // GitHub gives the profile README 846px at 1440 and above and 822px at 1280.
-  // A fixed left margin cannot centre at both, but a canvas the width of the
-  // widest column can: a narrower column scales the image and its margins alike.
   const inset = (IMAGE_W - PANEL_W) / 2;
   const all = { terminal: terminal(), opens: opensBlock(), ...middle(), closes: closesBlock() };
   for (const [name, svg] of Object.entries(all)) {
@@ -86,8 +80,6 @@ test('the terminal is a closed window, rounded at both ends', () => {
 });
 
 test('the gap between the two blocks is drawn, not left to the page', () => {
-  // <br clear> would give an unmanageable 21px of line box. Transparent space
-  // inside the closing image keeps the floats touching and the gap exact.
   const withGap = renderAbout({ bottom: true, gutter: GUTTER });
   const flush = renderAbout({ bottom: true });
   assert.equal(size(withGap).height - size(flush).height, GUTTER);

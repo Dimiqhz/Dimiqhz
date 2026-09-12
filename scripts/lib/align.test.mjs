@@ -16,7 +16,6 @@ const panels = () => ({
   prompt: renderPromptStrip('ls ./projects'),
 });
 
-// Window chrome hugs the corner; it is not content and is tagged so.
 const contentEdges = (svg) => [...svg.matchAll(/<(?:text|rect|circle|g)\b([^>]*)>/g)]
   .filter((m) => !/class="(?:frame|light|title)"/.test(m[1]))
   .map((m) => m[1].match(/\b(?:x|cx)="(\d+)"/))

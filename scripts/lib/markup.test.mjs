@@ -7,8 +7,6 @@ import { STACK_GROUPS } from './stack-data.mjs';
 const project = (name) => ({ name, url: `https://github.com/Dimiqhz/${name}`, description: 'A tool', language: 'Python' });
 
 
-
-
 test('projectMarkup lays the projects out two to a row', () => {
   const html = projectMarkup([project('One'), project('Two'), project('Three')]);
   const images = [...html.matchAll(/<img [^>]*src="dist\/projects\/(\d)\.svg"/g)].map((m) => m[1]);
@@ -16,8 +14,6 @@ test('projectMarkup lays the projects out two to a row', () => {
 });
 
 test('a row carries no link, because one anchor cannot point at two repositories', () => {
-  // Two floated images can never close up — GitHub keeps 20px to the right of
-  // every one of them — so a pair shares a single image and gives up its links.
   assert.ok(!projectMarkup([project('One'), project('Two')]).includes('<a '));
 });
 
@@ -39,8 +35,6 @@ test('the stack section states how much is inside it', () => {
 });
 
 test('the stack section is two slices of the window, not a drawer', () => {
-  // <details> puts its disclosure triangle on a line of its own, which opens a
-  // 21px band of page background across the middle of the window frame.
   const html = stackMarkup();
   assert.ok(!html.includes('<details'), 'a drawer would cut the window open');
   assert.ok(!html.includes('<summary'), 'a drawer would cut the window open');
