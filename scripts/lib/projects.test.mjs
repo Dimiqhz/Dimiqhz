@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 
 import { renderProjectRow } from './assets.mjs';
-import { PANEL_W } from './markup.mjs';
+import { IMAGE_W, PANEL_W } from './markup.mjs';
 
 const one = { name: 'Excel2SQL', description: 'A tool for things', language: 'Python', languageColor: '#3572A5', stars: 3 };
 
@@ -11,7 +11,7 @@ const height = (svg) => Number(svg.match(/<svg[^>]*height="(\d+)"/)[1]);
 test('a project is one full-width row, which is the only shape that stacks seamlessly', () => {
   // Floated images keep 20px of padding to their right, so a row of cards can
   // never close up; stacked full-width slices meet at exactly 0px.
-  assert.match(renderProjectRow(one), new RegExp(`<svg[^>]*width="${PANEL_W}"`));
+  assert.match(renderProjectRow(one), new RegExp(`<svg[^>]*width="${IMAGE_W}"`));
 });
 
 test('every row is the same height so the block does not step', () => {

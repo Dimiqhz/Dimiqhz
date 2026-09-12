@@ -4,6 +4,11 @@ import { STACK_GROUPS } from './stack-data.mjs';
 
 export const PANEL_W = 820;
 
+// GitHub gives the profile README 846px at 1440 and above, 822px at 1280. A
+// canvas the width of the widest column keeps the window centred at every one
+// of them: a narrower column scales the image down and the margins with it.
+export const IMAGE_W = 846;
+
 
 
 const safeUrl = (url) => {
@@ -14,7 +19,7 @@ const safeUrl = (url) => {
 // align="left" floats the image, which is the only way GitHub stacks two images
 // with no gap between them: an inline image sits on a baseline and leaves 5px of
 // page showing, which would cut the window frame at every seam.
-const floated = (src, alt) => `<img align="left" src="${src}" width="${PANEL_W}" alt="${escapeAttr(alt)}">`;
+const floated = (src, alt) => `<img align="left" src="${src}" width="${IMAGE_W}" alt="${escapeAttr(alt)}">`;
 
 export function projectMarkup(projects) {
   if (projects.length === 0) return '';

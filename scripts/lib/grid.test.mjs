@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 
 import { renderAbout, renderBottom, renderGraph, renderHeader, renderProjectRow, renderPromptStrip, renderStack, renderStats } from './assets.mjs';
-import { PANEL_W } from './markup.mjs';
+import { IMAGE_W, PANEL_W } from './markup.mjs';
 
 const profile = {
   contributions: 1344,
@@ -26,7 +26,7 @@ test('every panel is drawn at the shared grid width', () => {
     stats: renderStats(profile),
     prompt: renderPromptStrip('ls ./projects'),
   })) {
-    assert.match(svg, new RegExp(`<svg[^>]*width="${PANEL_W}"`), `${name} is off the grid`);
+    assert.match(svg, new RegExp(`<svg[^>]*width="${IMAGE_W}"`), `${name} is off the grid`);
   }
 });
 
@@ -122,6 +122,6 @@ test('every prompt line is the full window width, indented like the panels', () 
   // is no drawer now, so every command starts on the one content edge.
   for (const command of ['ls ./projects', 'cat stack.txt', 'gh stats']) {
     const svg = renderPromptStrip(command);
-    assert.match(svg, new RegExp(`<svg[^>]*width="${PANEL_W}"`), `${command} is off the grid`);
+    assert.match(svg, new RegExp(`<svg[^>]*width="${IMAGE_W}"`), `${command} is off the grid`);
   }
 });

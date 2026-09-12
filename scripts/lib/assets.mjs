@@ -2,7 +2,8 @@ import { readFileSync } from 'node:fs';
 
 import { clampLines, escapeAttr, escapeXml, groupThousands, lighten, share, truncate, wrapText } from './format.mjs';
 import { STACK_GROUPS } from './stack-data.mjs';
-import { PANEL_W } from './markup.mjs';
+import { IMAGE_W, PANEL_W } from './markup.mjs';
+import { CURSOR_AT, TYPE_DUR } from './session.mjs';
 
 
 export const C = {
@@ -32,6 +33,7 @@ export const THEME = FACE + ':root{--bg:#0d1117;--bar:#161b22;--card:#12181f;--l
 const UI = '-apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif';
 
 const W = PANEL_W;
+const MARGIN = (IMAGE_W - PANEL_W) / 2;
 const PAD = 36;
 export const TEXT_X = 28;
 const SPLIT = Math.round(W / 2);
@@ -74,16 +76,17 @@ const slice = (h, body, defs = '', opts = {}) => {
   const bottom = opts.bottom ?? false;
   const corners = { tl: top, tr: top, bl: bottom, br: bottom };
 
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${h}" viewBox="0 0 ${W} ${h}" role="img"${opts.label ? ` aria-label="${escapeAttr(opts.label)}"` : ''}>
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${IMAGE_W}" height="${h}" viewBox="0 0 ${IMAGE_W} ${h}" role="img"${opts.label ? ` aria-label="${escapeAttr(opts.label)}"` : ''}>
 <style>${THEME}text{font-family:${MONO}}.title{font-family:${UI};font-size:13px;font-weight:600;fill:var(--title)}.cmdline{font-size:19px}</style>
 <defs>${defs}</defs>
+<g transform="translate(${MARGIN} 0)">
 <path class="frame" d="${roundedPath(W, h, corners)}" fill="var(--card)"/>
 ${top ? `<path class="frame" d="M0 41V${R}A${R} ${R} 0 0 1 ${R} 0H${W - R}A${R} ${R} 0 0 1 ${W} ${R}V41Z" fill="var(--bar)"/>
 <path class="frame" d="M0 40.5H${W}" stroke="var(--line)"/>
 ${light(24, '#ff5f57')}${light(46, '#febc2e')}${light(68, '#28c840')}
 <text class="title" x="${W / 2}" y="25.5" text-anchor="middle">${escapeXml(WINDOW_TITLE)}</text>` : ''}
 <path class="edge" d="${edgePath(W, h, top, bottom)}" fill="none" stroke="var(--line)"/>
-${body}</svg>`;
+${body}</g></svg>`;
 };
 
 
@@ -91,7 +94,6 @@ const cmd = (text) => `<tspan fill="var(--mute)">~</tspan><tspan fill="${C.brand
 const out = `<tspan fill="${C.green}">&#8594;</tspan><tspan fill="var(--dim)"> </tspan>`;
 
 
-const CURSOR_AT = 4.65;
 const HEADER_H = 268;
 
 const HEADER_LINES = [
@@ -174,11 +176,23 @@ ${legend}
 
 
 
-export function renderPromptStrip(command, note = null) {
-  const body = `<text class="cmdline" x="${TEXT_X}" y="31" xml:space="preserve">${cmd(escapeXml(command))}</text>`
+export function renderPromptStrip(command, note = null, opts = {}) {
+  const at = opts.at ?? null;
+  const line = `~ $ ${command}`;
+  const full = W - TEXT_X - PAD;
+  // The clip is authored at its resting width, so a still render — or a viewer
+  // who asked for no motion — sees the command already typed.
+  const typed = Math.min(full, Math.ceil(line.length * 19 * 0.6));
+
+  const body = `<text class="cmdline" x="${TEXT_X}" y="31" xml:space="preserve"${at === null ? '' : ' clip-path="url(#type)"'}>${cmd(escapeXml(command))}</text>`
     + (note ? `<text x="${W - PAD}" y="31" text-anchor="end" font-size="13" fill="var(--mute)">${escapeXml(note)}</text>` : '');
 
-  return slice(46, body, '', { label: `~ $ ${command}` });
+  const defs = at === null ? '' : `<clipPath id="type"><rect class="t" x="${TEXT_X}" y="9" height="30" width="${full}"/></clipPath>`
+    + '<style>@media (prefers-reduced-motion: no-preference){'
+    + `.t{animation:type ${TYPE_DUR}s steps(${line.length}) ${at}s both}`
+    + `@keyframes type{from{width:0}96%{width:${typed}px}to{width:${full}px}}}</style>`;
+
+  return slice(46, body, defs, { label: `~ $ ${command}` });
 }
 
 

@@ -5,7 +5,7 @@ import {
   renderAbout, renderBottom, renderGraph, renderHeader, renderProjectRow,
   renderPromptStrip, renderStack, renderStats,
 } from './assets.mjs';
-import { PANEL_W } from './markup.mjs';
+import { IMAGE_W, PANEL_W } from './markup.mjs';
 
 const profile = { contributions: 1, repositories: 1, languages: [{ name: 'Shell', color: '#89e051', size: 1 }] };
 const calendar = Array.from({ length: 53 }, () => Array.from({ length: 7 }, () => ({ date: 'x', count: 1 })));
@@ -33,10 +33,21 @@ const size = (svg) => {
   return { width: Number(m[1]), height: Number(m[2]) };
 };
 
-test('every slice is exactly as wide as the window', () => {
+test('every slice is drawn on the full column, with the window centred in it', () => {
+  // GitHub gives the profile README 846px at 1440 and above and 822px at 1280.
+  // A fixed left margin cannot centre the window at both, but a canvas the
+  // width of the widest column can: a narrower column scales the whole image
+  // down, and the margins scale with it.
+  const inset = (IMAGE_W - PANEL_W) / 2;
   for (const [name, svg] of Object.entries({ header: renderHeader(), ...middle(), bottom: renderBottom() })) {
-    assert.equal(size(svg).width, PANEL_W, `${name} is not the window width`);
+    assert.equal(size(svg).width, IMAGE_W, `${name} is not the column width`);
+    assert.ok(svg.includes(`<g transform="translate(${inset} 0)"`), `${name} does not centre its window`);
   }
+});
+
+test('the window leaves the same margin on both sides', () => {
+  assert.equal(IMAGE_W, 846, 'the canvas has to match the widest column GitHub gives');
+  assert.equal((IMAGE_W - PANEL_W) % 2, 0, 'an odd margin cannot be split evenly');
 });
 
 test('a middle slice draws both side edges and neither end', () => {
@@ -80,5 +91,5 @@ test('the session ends with one blinking cursor, in the last slice', () => {
 });
 
 test('a project row spans the window so four of them stack seamlessly', () => {
-  assert.equal(size(renderProjectRow(project)).width, PANEL_W);
+  assert.equal(size(renderProjectRow(project)).width, IMAGE_W);
 });

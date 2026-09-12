@@ -7,6 +7,7 @@ import { fetchProfile } from './lib/github.mjs';
 import { projectMarkup, stackMarkup } from './lib/markup.mjs';
 import { STACK_GROUPS } from './lib/stack-data.mjs';
 import { replaceBlock } from './lib/readme.mjs';
+import { SESSION, cueOf } from './lib/session.mjs';
 
 const LOGIN = 'Dimiqhz';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -32,11 +33,11 @@ async function main() {
   await write('dist/panels/about.svg', renderAbout());
   await write('dist/panels/stats.svg', renderStats(profile));
   await write('dist/panels/stack.svg', renderStack());
-  await write('dist/ui/prompt-projects.svg', renderPromptStrip('ls ./projects'));
-  await write('dist/ui/prompt-about.svg', renderPromptStrip('neofetch'));
-  await write('dist/ui/prompt-stats.svg', renderPromptStrip('gh stats'));
-  await write('dist/ui/prompt-graph.svg', renderPromptStrip('git log --graph'));
-  await write('dist/ui/prompt-stack.svg', renderPromptStrip('cat stack.txt', `${STACK_GROUPS.reduce((n, [, items]) => n + items.length, 0)} tools`));
+  const tools = STACK_GROUPS.reduce((n, [, items]) => n + items.length, 0);
+  await Promise.all(SESSION.map(({ name, command }) =>
+    write(`dist/ui/prompt-${name}.svg`, renderPromptStrip(command, name === 'stack' ? `${tools} tools` : null, {
+      at: cueOf(name),
+    }))));
   await write('dist/panels/graph.svg', renderGraph(profile.calendar));
   await write('dist/panels/bottom.svg', renderBottom());
 

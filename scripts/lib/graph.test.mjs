@@ -2,13 +2,13 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 
 import { renderGraph } from './assets.mjs';
-import { PANEL_W } from './markup.mjs';
+import { IMAGE_W, PANEL_W } from './markup.mjs';
 
 const calendar = Array.from({ length: 53 }, (_, w) =>
   Array.from({ length: 7 }, (_, d) => ({ date: `2026-01-${w}-${d}`, count: (w + d) % 5 })));
 
 test('the graph is drawn on the shared grid width', () => {
-  assert.match(renderGraph(calendar), new RegExp(`<svg[^>]*width="${PANEL_W}"`));
+  assert.match(renderGraph(calendar), new RegExp(`<svg[^>]*width="${IMAGE_W}"`));
 });
 
 const gridOf = (svg) => svg.match(/<g clip-path="url\(#wipe\)">([\s\S]*?)<\/g>/)[1];

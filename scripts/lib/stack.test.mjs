@@ -2,14 +2,14 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 
 import { renderStack } from './assets.mjs';
-import { PANEL_W } from './markup.mjs';
+import { IMAGE_W, PANEL_W } from './markup.mjs';
 import { STACK_GROUPS } from './stack-data.mjs';
 
 const chipsOf = (svg) => [...svg.matchAll(/<text x="(\d+)" y="\d+" class="chip"[^>]*>([^<]+)<\/text>/g)]
   .map((m) => ({ x: Number(m[1]), name: m[2] }));
 
 test('the stack panel is drawn on the shared grid width', () => {
-  assert.match(renderStack(), new RegExp(`<svg[^>]*width="${PANEL_W}"`));
+  assert.match(renderStack(), new RegExp(`<svg[^>]*width="${IMAGE_W}"`));
 });
 
 test('no chip runs past the panel padding', () => {
