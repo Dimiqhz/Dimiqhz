@@ -137,8 +137,13 @@ export function renderGraph(weeks, opts = {}) {
   const y0 = 40;
   const height = y0 + 7 * STEP - GAP + 46;
 
-  const busiest = Math.max(0, ...weeks.flat().map((day) => day.count));
-  const level = (count) => (count === 0 || busiest === 0 ? 0 : Math.min(4, Math.ceil(count / (busiest / 4))));
+  const active = weeks.flat().map((day) => day.count).filter((count) => count > 0).sort((a, b) => a - b);
+  const at = (share) => active[Math.min(active.length - 1, Math.floor(active.length * share))];
+  const cuts = active.length ? [at(0.25), at(0.5), at(0.75)] : [];
+  const level = (count) => {
+    if (count === 0 || cuts.length === 0) return 0;
+    return 1 + cuts.filter((cut) => count > cut).length;
+  };
 
   const cells = weeks.flatMap((week, w) => week.map((day, d) =>
     `<rect class="d${level(day.count)}" x="${x0 + w * STEP}" y="${y0 + d * STEP}" width="${CELL}" height="${CELL}" rx="3"/>`))

@@ -41,3 +41,32 @@ test('the graph adapts to a light page and honours reduced motion', () => {
 });
 
 
+
+const spread = (svg) => {
+  const counts = [0, 0, 0, 0, 0];
+  for (const m of gridOf(svg).matchAll(/class="d(\d)"/g)) counts[Number(m[1])] += 1;
+  return counts;
+};
+
+test('one busy day does not flatten every other day to the palest shade', () => {
+  // The real calendar has 121 active days, a median of 12 and one day of 74.
+  // Scaling levels against that maximum painted 94 of the 121 at level 1.
+  const weeks = [];
+  for (let w = 0; w < 20; w += 1) {
+    weeks.push(Array.from({ length: 7 }, (_, d) => ({ date: `w${w}d${d}`, count: (w * 7 + d) % 6 === 0 ? 0 : 4 + ((w + d) % 20) })));
+  }
+  weeks[0][0] = { date: 'spike', count: 74 };
+
+  const levels = spread(renderGraph(weeks));
+  const active = levels[1] + levels[2] + levels[3] + levels[4];
+  assert.ok(levels[1] <= active * 0.45, `${levels[1]} of ${active} active days are the palest shade`);
+  for (const l of [1, 2, 3, 4]) assert.ok(levels[l] > 0, `no day reached level ${l}`);
+});
+
+test('a day with more work is never painted lighter than a quieter one', () => {
+  const weeks = [Array.from({ length: 7 }, (_, d) => ({ date: `d${d}`, count: d * 3 }))];
+  const levels = [...gridOf(renderGraph(weeks)).matchAll(/class="d(\d)"/g)].map((m) => Number(m[1]));
+  for (let i = 1; i < levels.length; i += 1) {
+    assert.ok(levels[i] >= levels[i - 1], 'the ramp is not monotonic');
+  }
+});
