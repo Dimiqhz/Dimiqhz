@@ -7,25 +7,48 @@ import { STACK_GROUPS } from './stack-data.mjs';
 const project = (name) => ({ name, url: `https://github.com/Dimiqhz/${name}`, description: 'A tool', language: 'Python' });
 
 
-test('projectMarkup lays the projects out two to a row', () => {
-  const html = projectMarkup([project('One'), project('Two'), project('Three')]);
-  const images = [...html.matchAll(/<img [^>]*src="dist\/projects\/(\d)\.svg"/g)].map((m) => m[1]);
-  assert.deepEqual(images, ['1', '2'], 'three projects should fill one full row and one half');
+test('every project is its own linked cell', () => {
+  const html = projectMarkup([project('One'), project('Two'), project('Three'), project('Four')]);
+  const linked = [...html.matchAll(/<a href="([^"]+)"><img [^>]*width="50%"/g)].map((m) => m[1]);
+  assert.equal(linked.length, 4, 'expected one link per project');
+  assert.match(linked[0], /github\.com\/Dimiqhz\/One$/);
 });
 
-test('a row carries no link, because one anchor cannot point at two repositories', () => {
-  assert.ok(!projectMarkup([project('One'), project('Two')]).includes('<a '));
-});
-
-test('every slice of the projects block floats, so the block has no seam', () => {
-  const images = [...projectMarkup([project('One'), project('Two')]).matchAll(/<img [^>]*>/g)].map((m) => m[0]);
-  assert.equal(images.length, 2, 'expected the command line and one row');
-  for (const img of images) assert.match(img, /align="left"/, `${img} would cut the block`);
-});
-
-test('projectMarkup describes both projects of a row for screen readers', () => {
+test('two cells at half the column fill one row, whatever the column is', () => {
+  // The README column is 846px at 1440 but 642px at 1100, so a cell measured in
+  // pixels would stop fitting two to a row. A percentage always splits in half.
   const html = projectMarkup([project('One'), project('Two')]);
-  assert.match(html, /alt="One[^"]*Two[^"]*"/);
+  for (const img of [...html.matchAll(/<img [^>]*>/g)].map((m) => m[0]).slice(1)) {
+    assert.match(img, /width="50%"/, `${img} is measured in pixels`);
+  }
+});
+
+test('nothing in the block floats; every image is top-aligned instead', () => {
+  // align="left" floats the image and GitHub then keeps 20px to its right,
+  // which would open a gap the panel background cannot cross. align="top"
+  // carries no such rule and stacks flush in both directions.
+  const html = projectMarkup([project('One'), project('Two')]);
+  for (const img of [...html.matchAll(/<img [^>]*>/g)].map((m) => m[0])) {
+    assert.match(img, /align="top"/, `${img} would open a seam`);
+    assert.ok(!img.includes('align="left"'));
+  }
+});
+
+test('the cells of a row are joined with nothing between them', () => {
+  // Whitespace between two inline images renders as a space and pushes the
+  // second one onto a line of its own.
+  assert.ok(!/<\/a>\s+<a/.test(projectMarkup([project('One'), project('Two')])));
+});
+
+test('projectMarkup describes each cell for screen readers', () => {
+  assert.match(projectMarkup([project('One')]), /alt="One[^"]*"/);
+});
+
+test('projectMarkup refuses a link that is not http or https', () => {
+  assert.throws(
+    () => projectMarkup([{ name: 'x', url: 'javascript:alert(1)', description: 'd' }]),
+    /javascript:/,
+  );
 });
 
 test('the stack section states how much is inside it', () => {

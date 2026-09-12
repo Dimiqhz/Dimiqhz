@@ -2,9 +2,9 @@ import { mkdir, readdir, readFile, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { renderAbout, renderHeader, renderGraph, renderProjectPair, renderPromptStrip, renderStack, renderStats } from './lib/assets.mjs';
+import { renderAbout, renderHeader, renderGraph, renderProjectCell, renderPromptStrip, renderStack, renderStats } from './lib/assets.mjs';
 import { fetchProfile } from './lib/github.mjs';
-import { projectMarkup, projectPairs, stackMarkup } from './lib/markup.mjs';
+import { projectMarkup, stackMarkup } from './lib/markup.mjs';
 import { STACK_GROUPS } from './lib/stack-data.mjs';
 import { replaceBlock } from './lib/readme.mjs';
 import { SESSION } from './lib/session.mjs';
@@ -40,8 +40,8 @@ async function main() {
     }))));
   await write('dist/panels/graph.svg', renderGraph(profile.calendar));
 
-  await Promise.all(projectPairs(profile.projects).map((pair, i) =>
-    write(`dist/projects/${i + 1}.svg`, renderProjectPair(pair))));
+  await Promise.all(profile.projects.map((project, i) =>
+    write(`dist/projects/${i + 1}.svg`, renderProjectCell(project, i % 2 === 0 ? 'left' : 'right'))));
 
   const readmePath = path.join(ROOT, 'README.md');
   const readme = await readFile(readmePath, 'utf8');

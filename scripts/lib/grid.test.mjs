@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
-import { renderAbout, renderGraph, renderHeader, renderProjectPair, renderPromptStrip, renderStack, renderStats } from './assets.mjs';
+import { renderAbout, renderGraph, renderHeader, renderProjectCell, renderPromptStrip, renderStack, renderStats } from './assets.mjs';
 import { IMAGE_W, PANEL_W } from './markup.mjs';
 
 const profile = {
@@ -47,7 +47,7 @@ test('every asset adapts to a light page', () => {
     stats: renderStats(profile),
     stack: renderStack(),
     prompt: renderPromptStrip('ls'),
-    row: renderProjectPair([{ name: 'a', description: 'b', language: 'Shell' }]),
+    row: renderProjectCell({ name: 'a', description: 'b', language: 'Shell' }, 'left'),
   };
   for (const [name, svg] of Object.entries(assets)) {
     assert.match(svg, /@media \(prefers-color-scheme: light\)/, `${name} is dark-only`);

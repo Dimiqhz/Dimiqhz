@@ -222,9 +222,11 @@ const COL_GAP = 28;
 const COL_W = W / 2 - TEXT_X - COL_GAP / 2;
 const PAIR_H = 126;
 
+export const CELL_W = IMAGE_W / 2;
+
 const columnsIn = (room, size) => Math.floor(room / (size * 0.6));
 
-const projectCell = ({ name, description, language, languageColor, stars }, x) => {
+const cellBody = ({ name, description, language, languageColor, stars }, x) => {
   const body = clampLines(wrapText(description ?? '', columnsIn(COL_W, 13)), 2)
     .map((line, i) => `<text x="${x}" y="${56 + i * 20}" font-size="13" fill="var(--dim)">${escapeXml(line)}</text>`)
     .join('\n');
@@ -236,20 +238,28 @@ const projectCell = ({ name, description, language, languageColor, stars }, x) =
     ? `<text x="${x + COL_W}" y="${PAIR_H - 27}" font-size="12" text-anchor="end" fill="var(--mute)">${String.fromCharCode(9733)} ${stars}</text>`
     : '';
 
-  return `<text x="${x}" y="${32}" font-size="15" font-weight="600" fill="${C.blue}">${escapeXml(truncate(name, columnsIn(COL_W, 15)))}</text>
+  return `<text x="${x}" y="32" font-size="15" font-weight="600" fill="${C.blue}">${escapeXml(truncate(name, columnsIn(COL_W, 15)))}</text>
 ${body}
 ${tag}
 ${count}`;
 };
 
-export function renderProjectPair(pair, opts = {}) {
-  const cells = pair
-    .slice(0, 2)
-    .map((project, i) => projectCell(project, TEXT_X + i * (COL_W + COL_GAP)))
-    .join('\n');
+export function renderProjectCell(project, side) {
+  const half = W / 2;
+  const isLeft = side === 'left';
+  const x0 = isLeft ? 0 : half;
+  const contentX = isLeft ? TEXT_X : TEXT_X + COL_W + COL_GAP;
+  const shiftX = MARGIN - (isLeft ? 0 : CELL_W);
+  const edge = isLeft ? `M.5 0V${PAIR_H}` : `M${W - 0.5} 0V${PAIR_H}`;
 
-  return slice(PAIR_H, cells, '', opts);
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${CELL_W}" height="${PAIR_H}" viewBox="0 0 ${CELL_W} ${PAIR_H}" role="img" aria-label="${escapeAttr(project.name)}">
+<style>${THEME}text{font-family:${MONO}}</style>
+<g transform="translate(${shiftX} 0)">
+<path class="frame" d="M${x0} 0H${x0 + half}V${PAIR_H}H${x0}Z" fill="var(--card)"/>
+<path class="edge" d="${edge}" fill="none" stroke="var(--line)"/>
+${cellBody(project, contentX)}</g></svg>`;
 }
+
 
 
 const ICONS = JSON.parse(readFileSync(new URL('./icons.json', import.meta.url), 'utf8'));

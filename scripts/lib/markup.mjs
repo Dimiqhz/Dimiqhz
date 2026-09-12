@@ -7,29 +7,28 @@ export const PANEL_W = 820;
 export const IMAGE_W = 846;
 
 
-const floated = (src, alt) => `<img align="left" src="${src}" width="${IMAGE_W}" alt="${escapeAttr(alt)}">`;
+const safeUrl = (url) => {
+  if (!/^https?:\/\//i.test(url)) throw new Error(`refusing to link to "${url}"`);
+  return url;
+};
 
-export const PAIR_SIZE = 2;
+const image = (src, alt, width) => `<img align="top" width="${width}" src="${src}" alt="${escapeAttr(alt)}">`;
 
-export function projectPairs(projects) {
-  const pairs = [];
-  for (let i = 0; i < projects.length; i += PAIR_SIZE) pairs.push(projects.slice(i, i + PAIR_SIZE));
-  return pairs;
-}
+const band = (src, alt) => image(src, alt, '100%');
 
 export function projectMarkup(projects) {
   if (projects.length === 0) return '';
 
-  const rows = projectPairs(projects)
-    .map((pair, i) => {
-      const alt = pair
-        .map((p) => (p.description ? `${p.name} — ${p.description}` : p.name))
-        .join('. ');
-      return floated(`dist/projects/${i + 1}.svg`, alt);
+  const cells = projects
+    .map((project, i) => {
+      const alt = project.description ? `${project.name} — ${project.description}` : project.name;
+      const cell = image(`dist/projects/${i + 1}.svg`, alt, '50%');
+      return `<a href="${escapeAttr(safeUrl(project.url))}">${cell}</a>`;
     })
-    .join('\n');
+    .join('');
 
-  return `${floated('dist/ui/prompt-projects.svg', '~ $ ls ./projects')}\n${rows}`;
+  return `${band('dist/ui/prompt-projects.svg', '~ $ ls ./projects')}
+${cells}`;
 }
 
 export function stackMarkup() {
@@ -38,7 +37,7 @@ export function stackMarkup() {
     .join('. ');
   const total = STACK_GROUPS.reduce((n, [, items]) => n + items.length, 0);
 
-  return floated('dist/ui/prompt-stack.svg', `~ $ cat stack.txt — ${total} tools`)
+  return band('dist/ui/prompt-stack.svg', `~ $ cat stack.txt — ${total} tools`)
     + '\n'
-    + floated('dist/panels/stack.svg', `Full stack. ${described}.`);
+    + band('dist/panels/stack.svg', `Full stack. ${described}.`);
 }
