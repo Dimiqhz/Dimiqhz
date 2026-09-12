@@ -7,7 +7,7 @@
 <path class="edge" d="M.5 0V304M819.5 0V304" fill="none" stroke="var(--line)"/>
 
 <text x="28" y="38" font-size="12" letter-spacing="1.2" fill="var(--mute)">OVERVIEW</text>
-<text x="28" y="90" font-size="34" font-weight="600" fill="url(#n0)">1,577</text>
+<text x="28" y="90" font-size="34" font-weight="600" fill="url(#n0)">1,578</text>
 <text x="28" y="112" font-size="13" fill="var(--dim)">contributions, last 12 months</text>
 <text x="28" y="166" font-size="34" font-weight="600" fill="url(#n1)">15</text>
 <text x="28" y="188" font-size="13" fill="var(--dim)">public repositories</text>
@@ -16,22 +16,22 @@
 <path d="M410 30V278" stroke="var(--line)"/>
 <text x="450" y="38" font-size="12" letter-spacing="1.2" fill="var(--mute)">TOP LANGUAGES</text>
 <text x="450" y="78" font-size="14" fill="var(--fg)">Shell</text>
-<text x="784" y="78" font-size="14" text-anchor="end" fill="var(--dim)">41.0%</text>
+<text x="784" y="78" font-size="14" text-anchor="end" fill="var(--dim)">40.4%</text>
 <rect class="track" x="450" y="88" height="8" rx="4" fill="var(--track)" width="334"/>
-<rect class="bar" x="450" y="88" height="8" rx="4" fill="#89e051" style="animation-delay:0.15s" width="137"/>
+<rect class="bar" x="450" y="88" height="8" rx="4" fill="#89e051" style="animation-delay:0.15s" width="135"/>
 <text x="450" y="118" font-size="14" fill="var(--fg)">Python</text>
-<text x="784" y="118" font-size="14" text-anchor="end" fill="var(--dim)">28.2%</text>
+<text x="784" y="118" font-size="14" text-anchor="end" fill="var(--dim)">27.8%</text>
 <rect class="track" x="450" y="128" height="8" rx="4" fill="var(--track)" width="334"/>
-<rect class="bar" x="450" y="128" height="8" rx="4" fill="#3572A5" style="animation-delay:0.24s" width="94"/>
+<rect class="bar" x="450" y="128" height="8" rx="4" fill="#3572A5" style="animation-delay:0.24s" width="93"/>
 <text x="450" y="158" font-size="14" fill="var(--fg)">JavaScript</text>
-<text x="784" y="158" font-size="14" text-anchor="end" fill="var(--dim)">16.1%</text>
+<text x="784" y="158" font-size="14" text-anchor="end" fill="var(--dim)">17.3%</text>
 <rect class="track" x="450" y="168" height="8" rx="4" fill="var(--track)" width="334"/>
-<rect class="bar" x="450" y="168" height="8" rx="4" fill="#f1e05a" style="animation-delay:0.33s" width="54"/>
+<rect class="bar" x="450" y="168" height="8" rx="4" fill="#f1e05a" style="animation-delay:0.33s" width="58"/>
 <text x="450" y="198" font-size="14" fill="var(--fg)">C++</text>
-<text x="784" y="198" font-size="14" text-anchor="end" fill="var(--dim)">9.2%</text>
+<text x="784" y="198" font-size="14" text-anchor="end" fill="var(--dim)">9.0%</text>
 <rect class="track" x="450" y="208" height="8" rx="4" fill="var(--track)" width="334"/>
-<rect class="bar" x="450" y="208" height="8" rx="4" fill="#f34b7d" style="animation-delay:0.42s" width="31"/>
+<rect class="bar" x="450" y="208" height="8" rx="4" fill="#f34b7d" style="animation-delay:0.42s" width="30"/>
 <text x="450" y="238" font-size="14" fill="var(--fg)">C#</text>
-<text x="784" y="238" font-size="14" text-anchor="end" fill="var(--dim)">5.5%</text>
+<text x="784" y="238" font-size="14" text-anchor="end" fill="var(--dim)">5.4%</text>
 <rect class="track" x="450" y="248" height="8" rx="4" fill="var(--track)" width="334"/>
 <rect class="bar" x="450" y="248" height="8" rx="4" fill="#7355dd" style="animation-delay:0.51s" width="18"/></g></svg>
