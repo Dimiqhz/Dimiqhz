@@ -1,70 +1,62 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
-import { renderProjectRow } from './assets.mjs';
+import { renderProjectPair } from './assets.mjs';
 import { IMAGE_W, PANEL_W } from './markup.mjs';
 
 const one = { name: 'Excel2SQL', description: 'A tool for things', language: 'Python', languageColor: '#3572A5', stars: 3 };
+const two = { name: 'SQL2Excel', description: 'The other way round', language: 'C++', languageColor: '#f34b7d', stars: 0 };
 
+const xs = (svg, re) => [...svg.matchAll(re)].map((m) => Number(m[1]));
 const height = (svg) => Number(svg.match(/<svg[^>]*height="(\d+)"/)[1]);
 
-test('a project is one full-width row, which is the only shape that stacks seamlessly', () => {
-  // Floated images keep 20px of padding to their right, so a row of cards can
-  // never close up; stacked full-width slices meet at exactly 0px.
-  assert.match(renderProjectRow(one), new RegExp(`<svg[^>]*width="${IMAGE_W}"`));
+test('a pair is one image, because two floated ones can never close up', () => {
+  // GitHub wedges 20px of padding to the right of every align="left" image, so
+  // a column gap drawn between two of them would cut the panel open.
+  assert.match(renderProjectPair([one, two]), new RegExp(`<svg[^>]*width="${IMAGE_W}"`));
 });
 
-test('every row is the same height so the block does not step', () => {
-  assert.equal(height(renderProjectRow(one)), height(renderProjectRow({ ...one, name: 'A', description: 'b' })));
+test('the two columns are the same width and sit inside the panel padding', () => {
+  const svg = renderProjectPair([one, two]);
+  const names = xs(svg, /<text x="(\d+)"[^>]*font-size="15"/g);
+  assert.equal(names.length, 2, 'expected one name per column');
+  const [left, right] = names;
+  assert.equal(left, 28, 'the left column is off the content edge');
+  assert.equal(right - left, PANEL_W / 2 - 14, 'the columns are not evenly split');
+  assert.ok(right + (PANEL_W / 2 - 42) <= PANEL_W - 28, 'the right column runs past the padding');
 });
 
-test('a row keeps its description', () => {
-  assert.match(renderProjectRow(one), />A tool for things</);
+test('a lone project keeps the left column and leaves the right one empty', () => {
+  const svg = renderProjectPair([one]);
+  assert.equal(xs(svg, /<text x="(\d+)"[^>]*font-size="15"/g).length, 1);
+  assert.equal(height(svg), height(renderProjectPair([one, two])), 'a short row would step the block');
 });
 
-test('a description too long for the row is cut with an ellipsis', () => {
-  const long = 'An intuitive tool for converting Excel spreadsheets into SQL scripts, designed to streamline every single migration that anyone anywhere could ever want to run';
-  assert.match(renderProjectRow({ ...one, description: long }), /…/);
+test('a description too long for its column is cut with an ellipsis', () => {
+  const long = 'An intuitive tool for converting Excel spreadsheets into SQL scripts, designed to streamline every migration anyone could ever want to run anywhere';
+  assert.match(renderProjectPair([{ ...one, description: long }]), /…/);
 });
 
-test('a row escapes a repository name that contains markup', () => {
-  assert.ok(!/<script[ >]/.test(renderProjectRow({ ...one, name: '<script>a()</script>' })));
+test('a description wraps rather than running out of the column', () => {
+  const svg = renderProjectPair([{ ...one, description: 'one two three four five six seven eight nine ten eleven twelve' }]);
+  const lines = [...svg.matchAll(/font-size="13"[^>]*>([^<]+)</g)].map((m) => m[1]);
+  assert.ok(lines.length >= 2, 'the description was not wrapped');
+  for (const line of lines) {
+    assert.ok(line.length * 7.8 <= PANEL_W / 2 - 42, `"${line}" runs past its column`);
+  }
 });
 
-test('a row marks its language in that language colour', () => {
-  assert.match(renderProjectRow(one), /<circle[^>]*fill="#3572A5"/);
+test('each column marks its own language colour', () => {
+  const svg = renderProjectPair([one, two]);
+  assert.match(svg, /<circle[^>]*fill="#3572A5"/);
+  assert.match(svg, /<circle[^>]*fill="#f34b7d"/);
 });
 
-test('a row states its stars, and says nothing when there are none', () => {
-  assert.match(renderProjectRow(one), /★ 3/);
-  assert.ok(!renderProjectRow({ ...one, stars: 0 }).includes('★'));
+test('a project states its stars, and says nothing when it has none', () => {
+  const svg = renderProjectPair([one, two]);
+  assert.equal([...svg.matchAll(/★/g)].length, 1, 'only the starred project should show a count');
 });
 
-test('a row with no language still renders', () => {
-  const svg = renderProjectRow({ ...one, language: null, languageColor: null });
-  assert.ok(!svg.includes('NaN'), 'row contains NaN');
-  assert.ok(!svg.includes('<circle'), 'a language dot with no language');
-});
-
-test('a row keeps its description inside the window padding', () => {
-  // JetBrains Mono advances exactly 0.6em, so 13px text is 7.8px a character.
-  const long = 'x'.repeat(400);
-  const svg = renderProjectRow({ ...one, description: long });
-  const shown = svg.match(/font-size="13"[^>]*>([^<]+)</)[1];
-  assert.ok(28 + shown.length * 7.8 <= PANEL_W - 36, `${shown.length} characters run past the padding`);
-});
-
-test('a long name is cut before it reaches the language column', () => {
-  const svg = renderProjectRow({ ...one, name: 'Shannon-Fano-Compression'.repeat(4) });
-  const shown = svg.match(/font-size="15"[^>]*>([^<]+)</)[1];
-  const dot = Number(svg.match(/<circle cx="(\d+)"/)[1]);
-  assert.ok(shown.endsWith('…'), `"${shown}" was not cut`);
-  assert.ok(28 + shown.length * 9 <= dot - 8, `"${shown}" reaches the language column`);
-});
-
-test('the language column sits at the same place in every row', () => {
-  const dotOf = (svg) => svg.match(/<circle cx="(\d+)"/)[1];
-  const withStars = renderProjectRow({ ...one, language: 'C++', stars: 12 });
-  const without = renderProjectRow({ ...one, language: 'Python', stars: 0 });
-  assert.equal(dotOf(withStars), dotOf(without), 'stars push the language column sideways');
+test('a pair escapes a repository name that contains markup', () => {
+  assert.ok(!/<script[ >]/.test(renderProjectPair([{ ...one, name: '<script>a()</script>' }])));
 });

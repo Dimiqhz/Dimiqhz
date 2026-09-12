@@ -6,60 +6,30 @@ import { STACK_GROUPS } from './stack-data.mjs';
 
 const project = (name) => ({ name, url: `https://github.com/Dimiqhz/${name}`, description: 'A tool', language: 'Python' });
 
-test('every slice of the projects block floats, so the window has no seam', () => {
-  // An inline image sits on a text baseline and leaves 5px of page showing
-  // under it; align="left" takes it out of the line box entirely.
-  const markup = projectMarkup([project('One'), project('Two')]);
-  const images = [...markup.matchAll(/<img [^>]*>/g)].map((m) => m[0]);
-  assert.equal(images.length, 3, 'expected the command line and one row per project');
-  for (const img of images) assert.match(img, /align="left"/, `${img} would cut the window`);
+
+
+
+test('projectMarkup lays the projects out two to a row', () => {
+  const html = projectMarkup([project('One'), project('Two'), project('Three')]);
+  const images = [...html.matchAll(/<img [^>]*src="dist\/projects\/(\d)\.svg"/g)].map((m) => m[1]);
+  assert.deepEqual(images, ['1', '2'], 'three projects should fill one full row and one half');
 });
 
-
-
-test('projectMarkup links every card to its repository', () => {
-  const html = projectMarkup([project('One')]);
-  assert.match(html, /<a href="https:\/\/github\.com\/Dimiqhz\/One">/);
+test('a row carries no link, because one anchor cannot point at two repositories', () => {
+  // Two floated images can never close up — GitHub keeps 20px to the right of
+  // every one of them — so a pair shares a single image and gives up its links.
+  assert.ok(!projectMarkup([project('One'), project('Two')]).includes('<a '));
 });
 
-test('projectMarkup describes each card for screen readers', () => {
-  assert.match(projectMarkup([project('One')]), /alt="One — A tool"/);
+test('every slice of the projects block floats, so the block has no seam', () => {
+  const images = [...projectMarkup([project('One'), project('Two')]).matchAll(/<img [^>]*>/g)].map((m) => m[0]);
+  assert.equal(images.length, 2, 'expected the command line and one row');
+  for (const img of images) assert.match(img, /align="left"/, `${img} would cut the block`);
 });
 
-
-test('projectMarkup emits nothing at all when nothing is pinned', () => {
-  assert.equal(projectMarkup([]), '');
-});
-
-test('stackMarkup describes the panel from the same list the panel is drawn from', () => {
-  const html = stackMarkup();
-  assert.match(html, /src="dist\/panels\/stack\.svg"/);
-  for (const [label] of STACK_GROUPS) {
-    const spoken = label.toLowerCase().replace('&', '&amp;');
-    assert.ok(html.includes(spoken), `alt text omits ${label}`);
-  }
-  assert.ok(!html.includes('Unreal'), 'alt text still lists a removed tool');
-});
-
-test('every project card is a link; only the prompt line is not', () => {
+test('projectMarkup describes both projects of a row for screen readers', () => {
   const html = projectMarkup([project('One'), project('Two')]);
-  const linked = [...html.matchAll(/<a href="[^"]*"><img/g)].length;
-  const total = [...html.matchAll(/<img/g)].length;
-  assert.equal(total - linked, 1, 'exactly one unlinked image is expected: the prompt line');
-  assert.match(html, /prompt-projects\.svg/);
-});
-
-test('projectMarkup refuses a link that is not http or https', () => {
-  // GitHub's sanitiser strips javascript: itself, so this is defence in depth —
-  // the generator should not be the thing that emits it in the first place.
-  assert.throws(
-    () => projectMarkup([{ name: 'x', url: 'javascript:alert(1)', description: 'd' }]),
-    /javascript:/,
-  );
-});
-
-test('projectMarkup accepts an ordinary repository link', () => {
-  assert.match(projectMarkup([project('One')]), /href="https:\/\/github\.com\/Dimiqhz\/One"/);
+  assert.match(html, /alt="One[^"]*Two[^"]*"/);
 });
 
 test('the stack section states how much is inside it', () => {

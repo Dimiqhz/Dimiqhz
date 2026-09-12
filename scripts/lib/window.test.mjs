@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 
 import {
-  GUTTER, renderAbout, renderGraph, renderHeader, renderProjectRow,
+  GUTTER, renderAbout, renderGraph, renderHeader, renderProjectPair,
   renderPromptStrip, renderStack, renderStats,
 } from './assets.mjs';
 import { IMAGE_W, PANEL_W } from './markup.mjs';
@@ -21,7 +21,7 @@ const closesBlock = () => renderStack({ bottom: true });
 const middle = () => ({
   'prompt strip': renderPromptStrip('gh stats'),
   about: renderAbout(),
-  'project row': renderProjectRow(project),
+  'project row': renderProjectPair([project]),
   stats: renderStats(profile),
   graph: renderGraph(calendar),
 });
@@ -109,5 +109,5 @@ test('only the terminal moves; the block is complete the moment it paints', () =
 });
 
 test('a project row spans the block so four of them stack seamlessly', () => {
-  assert.equal(size(renderProjectRow(project)).width, IMAGE_W);
+  assert.equal(size(renderProjectPair([project])).width, IMAGE_W);
 });

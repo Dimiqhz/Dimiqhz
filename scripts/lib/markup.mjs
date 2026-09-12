@@ -11,23 +11,30 @@ export const IMAGE_W = 846;
 
 
 
-const safeUrl = (url) => {
-  if (!/^https?:\/\//i.test(url)) throw new Error(`refusing to link to "${url}"`);
-  return url;
-};
-
 // align="left" floats the image, which is the only way GitHub stacks two images
 // with no gap between them: an inline image sits on a baseline and leaves 5px of
-// page showing, which would cut the window frame at every seam.
+// page showing, which would cut the block open at every seam.
 const floated = (src, alt) => `<img align="left" src="${src}" width="${IMAGE_W}" alt="${escapeAttr(alt)}">`;
 
+export const PAIR_SIZE = 2;
+
+export function projectPairs(projects) {
+  const pairs = [];
+  for (let i = 0; i < projects.length; i += PAIR_SIZE) pairs.push(projects.slice(i, i + PAIR_SIZE));
+  return pairs;
+}
+
+// A pair shares one image, so it cannot carry a link of its own: an anchor
+// covers the whole picture and there are two repositories inside it.
 export function projectMarkup(projects) {
   if (projects.length === 0) return '';
 
-  const rows = projects
-    .map((project, i) => {
-      const alt = project.description ? `${project.name} — ${project.description}` : project.name;
-      return `<a href="${escapeAttr(safeUrl(project.url))}">${floated(`dist/projects/${i + 1}.svg`, alt)}</a>`;
+  const rows = projectPairs(projects)
+    .map((pair, i) => {
+      const alt = pair
+        .map((p) => (p.description ? `${p.name} — ${p.description}` : p.name))
+        .join('. ');
+      return floated(`dist/projects/${i + 1}.svg`, alt);
     })
     .join('\n');
 

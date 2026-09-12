@@ -104,17 +104,19 @@ const cmd = (text) => `<tspan fill="var(--mute)">~</tspan><tspan fill="${C.brand
 const out = `<tspan fill="${C.green}">&#8594;</tspan><tspan fill="var(--dim)"> </tspan>`;
 
 
-export const GUTTER = 28;
+export const GUTTER = 12;
 const HEADER_H = 300;
 
 const HEADER_LINES = [
   { y: 76, w: 120, n: 10, at: 0.15, dur: 0.65, t: cmd('whoami') },
-  { y: 108, w: 650, n: 57, at: 0.90, dur: 0.45, t: `${out}<tspan fill="var(--fg)" font-weight="600">Dimiqhz</tspan><tspan fill="${C.green}"> ${MID} Senior DevOps</tspan><tspan fill="var(--dim)"> ${MID} software developer &amp; designer</tspan>` },
+  { y: 108, w: 650, n: 57, at: 0.90, dur: 0.45, t: `${out}<tspan fill="var(--fg)" font-weight="600">Dimiqhz</tspan><tspan fill="var(--mute)"> ${MID} </tspan><tspan fill="${C.green}">Senior DevOps</tspan><tspan fill="var(--mute)"> ${MID} </tspan><tspan fill="var(--dim)">software developer &amp; designer</tspan>` },
   { y: 140, w: 200, n: 17, at: 1.50, dur: 0.85, t: cmd('cat focus.txt') },
   { y: 172, w: 500, n: 43, at: 2.45, dur: 0.45, t: `${out}<tspan fill="${C.blue}">web</tspan><tspan fill="var(--mute)"> ${MID} </tspan><tspan fill="${C.amber}">applications</tspan><tspan fill="var(--mute)"> ${MID} </tspan><tspan fill="${C.purple}">llm &amp; neural networks</tspan>` },
   { y: 204, w: 120, n: 10, at: 3.00, dur: 0.65, t: cmd('uptime') },
   { y: 236, w: 545, n: 47, at: 3.75, dur: 0.45, t: `${out}<tspan fill="${C.green}">8 years</tspan><tspan fill="var(--dim)"> shipping ${MID} first line of Java at age 6</tspan>` },
-  { y: 268, w: 65, n: 5, at: 4.30, dur: 0.30, t: `<tspan fill="var(--mute)">~</tspan><tspan fill="${C.brand}"> $ </tspan><tspan class="cur" fill="${C.brand}">&#9612;</tspan>` },
+  // The block glyph fills a whole cell, so it hangs 4px under the baseline the
+  // rest of the line sits on. dy puts its foot back on that line.
+  { y: 268, w: 65, n: 5, at: 4.30, dur: 0.30, t: `<tspan fill="var(--mute)">~</tspan><tspan fill="${C.brand}"> $ </tspan><tspan class="cur" dy="-4" fill="${C.brand}">&#9612;</tspan>` },
 ];
 
 export function renderHeader() {
@@ -233,28 +235,40 @@ ${rows}`,
 
 
 
-const ROW_H = 76;
+// Two projects to a row, drawn into one image. Two floated images can never
+// close up — GitHub keeps 20px to the right of every one of them — so a column
+// gap between them would show the page straight through the panel.
+const COL_GAP = 28;
+const COL_W = W / 2 - TEXT_X - COL_GAP / 2;
+const PAIR_H = 126;
 
-// JetBrains Mono advances exactly 0.6em, so a column count follows from the room.
 const columnsIn = (room, size) => Math.floor(room / (size * 0.6));
 
-// The right-hand meta sits on its own column so the rows line up whether or not
-// a repository has stars.
-const LANG_X = W - PAD - 190;
-
-export function renderProjectRow({ name, description, language, languageColor, stars }) {
-  const meta = language
-    ? `<circle cx="${LANG_X + 5}" cy="27" r="5" fill="${escapeAttr(languageColor || C.blue)}"/>
-<text x="${LANG_X + 18}" y="31" font-size="12" fill="var(--dim)">${escapeXml(language)}</text>`
+const projectCell = ({ name, description, language, languageColor, stars }, x) => {
+  const body = clampLines(wrapText(description ?? '', columnsIn(COL_W, 13)), 2)
+    .map((line, i) => `<text x="${x}" y="${56 + i * 20}" font-size="13" fill="var(--dim)">${escapeXml(line)}</text>`)
+    .join('\n');
+  const tag = language
+    ? `<circle cx="${x + 5}" cy="${PAIR_H - 32}" r="5" fill="${escapeAttr(languageColor || C.blue)}"/>
+<text x="${x + 18}" y="${PAIR_H - 27}" font-size="12" fill="var(--dim)">${escapeXml(language)}</text>`
     : '';
   const count = stars
-    ? `<text x="${W - PAD}" y="31" font-size="12" text-anchor="end" fill="var(--mute)">${String.fromCharCode(9733)} ${stars}</text>`
+    ? `<text x="${x + COL_W}" y="${PAIR_H - 27}" font-size="12" text-anchor="end" fill="var(--mute)">${String.fromCharCode(9733)} ${stars}</text>`
     : '';
 
-  return slice(ROW_H, `<text x="${TEXT_X}" y="31" font-size="15" font-weight="600" fill="${C.blue}">${escapeXml(truncate(name, columnsIn(LANG_X - TEXT_X - 8, 15)))}</text>
-${meta}
-${count}
-<text x="${TEXT_X}" y="55" font-size="13" fill="var(--dim)">${escapeXml(truncate(description, columnsIn(W - PAD - TEXT_X, 13)))}</text>`);
+  return `<text x="${x}" y="${32}" font-size="15" font-weight="600" fill="${C.blue}">${escapeXml(truncate(name, columnsIn(COL_W, 15)))}</text>
+${body}
+${tag}
+${count}`;
+};
+
+export function renderProjectPair(pair, opts = {}) {
+  const cells = pair
+    .slice(0, 2)
+    .map((project, i) => projectCell(project, TEXT_X + i * (COL_W + COL_GAP)))
+    .join('\n');
+
+  return slice(PAIR_H, cells, '', opts);
 }
 
 
